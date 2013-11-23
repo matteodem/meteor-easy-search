@@ -9,10 +9,10 @@ Create a search index like that:
 
 ```
 EasySearch.createSearchIndex('cars', {
-    'collection' : Cars,    // instanceof Meteor.Collection
-    'fields' : 'company',   // can also be an array of fields
-    'limit' : 20,           // default: 10
-    'exact' : true          // default: false
+    'collection' : Cars,        // instanceof Meteor.Collection
+    'field'      : 'company',   // can also be an array of fields
+    'limit'      : 20,          // default: 10
+    'exact'      : true         // default: false
 });
 
 EasySearch.search('cars', 'Volvo'); // Returns all cars with a company which equal Volvo
