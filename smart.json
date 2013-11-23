@@ -1,0 +1,8 @@
+{
+  "name": "easy-search",
+  "description": "Searching made simple",
+  "homepage": "https://github.com/matteodem/meteor-easy-search",
+  "author": "Matteo De Micheli",
+  "version": "0.1.2",
+  "git": "https://github.com/matteodem/meteor-easy-search.git"
+}
