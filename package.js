@@ -2,13 +2,20 @@ Package.describe({
     summary : "Easy to use search"
 });
 
+Npm.depends({
+  'elasticsearchclient': '0.5.3'
+});
+
 Package.on_use(function (api) {
-    api.use('underscore');
+    api.use(['underscore', 'livedata', 'mongo-livedata', 'standard-app-packages'], ['client', 'server']);
 
     api.add_files([
-        'lib/easy-search.js'
-    ], 'client'
-    );
+        'lib/easy-search-client.js'
+    ], 'client');
+
+    api.add_files([
+        'lib/easy-search-server.js'
+    ], 'server');
 
     api.export('EasySearch');
 });
