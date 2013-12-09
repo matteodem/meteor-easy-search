@@ -7,13 +7,13 @@ Searching made simple, featuring Elastic Search!
 
 Create a search index like that:
 
-```
+```javascript
 // on Client and Server
 EasySearch.createSearchIndex('cars', {
     'collection'    : Cars,			// instanceof Meteor.Collection
     'field'         : 'company',	// can also be an array of fields
-    'limit'         : 20,          // default: 10
-    'format' 		 : 'raw'		// if nothing set, it returns an array of "mongo styled" docs
+    'limit'         : 20,           // default: 10
+    'format' 		: 'raw'			// if nothing set, it returns an array of "mongo styled" docs
 });
 
 EasySearch.search('cars', 'Volvo', function (data) {
@@ -34,7 +34,7 @@ This package uses Elastic Search as its Search Engine. Get it [here](http://www.
 
 ### Bash
 
-```
+```sh
 cd /path/to/elastic-search && bin/elasticsearch # running at http://localhost:9200/
 cd /path/to/project && mrt add easy-search
 ```
@@ -43,12 +43,12 @@ cd /path/to/project && mrt add easy-search
 
 ### On Server
 
-```
+```javascript
 // Advanced configuration
 EasySearch.config({
-	'host'  : '192.100.10.10', // default: "localhost"
+	'host'  : '192.100.10.10', 	// default: "localhost"
 	'port'  : '9100', 			// default: 9200
-	'safe   : true 				// default: false
+	'safe'  : true,				// default: false
 	'debug' : true 				// no default, See when documents are added or removed
 });
 
@@ -61,7 +61,7 @@ EasySearch.conditions({
 
 ### On Client and Server
 
-```
+```javascript
 EasySearch.changeProperty(name, key, value); // change a property set with createSearchIndex()
 /* 
 	will not validate on the server, but on the client with conditions
