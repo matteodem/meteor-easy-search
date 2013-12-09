@@ -3,10 +3,6 @@ Meteor Easy Search
 
 Searching made simple, featuring Elastic Search!
 
-## Dependencies
-
-This package uses Elastic Search as the Search Engine, get Elastic Search [here](http://www.elasticsearch.org/download/). Install it by running bin/elasticsearch, and you got your search server running at http://localhost:9200/.
-
 ## Quick Intro
 
 Create a search index like that:
@@ -30,6 +26,18 @@ EasySearch.changeProperty('cars', 'limit', 50);
 
 As of now, a [fuzzy like this query](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-flt-query.html) is used. If you have any recommendations, reasons why we shouldn't use this kind of query, open a ticket.
 
+## How to install
+
+### Dependencies
+
+This package uses Elastic Search as its Search Engine. Get it [here](http://www.elasticsearch.org/download/).
+
+### Bash
+
+```
+cd /path/to/elastic-search && bin/elasticsearch # running at http://localhost:9200/
+cd /path/to/project && mrt add easy-search
+```
 
 ## Advanced Usage
 
