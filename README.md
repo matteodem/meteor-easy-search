@@ -13,10 +13,10 @@ EasySearch.createSearchIndex('cars', {
     'collection'    : Cars,			// instanceof Meteor.Collection
     'field'         : 'company',	// can also be an array of fields
     'limit'         : 20,           // default: 10
-    'format' 		: 'raw'			// if nothing set, it returns an array of "mongo styled" docs
+    'format' 		: 'mongo'		// if set to 'raw', sends back a JSON string
 });
 
-EasySearch.search('cars', 'Volvo', function (data) {
+EasySearch.search('cars', 'Volvo', function (error, data) {
 	console.log(data); // data has all cars with a company which fuzzy equal Volvo
 });
 
