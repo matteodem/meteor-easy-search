@@ -1,5 +1,5 @@
 Package.describe({
-    summary : "Easy to use search"
+    summary : "Easy to use search, with Elastic-Search"
 });
 
 Npm.depends({
@@ -7,7 +7,7 @@ Npm.depends({
 });
 
 Package.on_use(function (api) {
-    api.use(['underscore', 'livedata', 'mongo-livedata', 'standard-app-packages'], ['client', 'server']);
+    api.use(['underscore', 'livedata', 'mongo-livedata', 'meteor', 'standard-app-packages'], ['client', 'server']);
 
     api.add_files([
         'lib/easy-search-client.js'
