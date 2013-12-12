@@ -26,6 +26,11 @@ EasySearch.changeProperty('cars', 'limit', 50);
 
 As of now, a [fuzzy like this query](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-flt-query.html) is used. If you have any recommendations, reasons why we shouldn't use this kind of query, open a ticket.
 
+## Features
+* Simple search API
+* Fast(er) Search with Elastic Search
+* Automatic syncing beetween Mongo Collection and Search Indexes (with [observeChanges](http://docs.meteor.com/#observe_changes))
+
 ## How to install
 
 ### Dependencies
@@ -38,6 +43,10 @@ This package uses Elastic Search as its Search Engine. Get it [here](http://www.
 cd /path/to/elastic-search && bin/elasticsearch # running at http://localhost:9200/
 cd /path/to/project && mrt add easy-search
 ```
+
+## Examples
+
+Here's the [leaderboard example](https://github.com/matteodem/easy-search-leaderboard), made searchable.
 
 ## Advanced Usage
 
@@ -52,12 +61,14 @@ EasySearch.config({
 	'debug' : true 				// no default, See when documents are added or removed
 });
 
-// see https://github.com/phillro/node-elasticsearch-client#executing-commands-on-elasticsearch
-
 EasySearch.conditions({
 	'onChangeProperty' : function () {} // when trying to changeProperty() on the client
 });
+
+EasySearch.search(id, searchString[, fields], callback); // fields are mapped over each document
 ```
+
+See [here](https://github.com/phillro/node-elasticsearch-client#executing-commands-on-elasticsearch), for more config() possibilities.
 
 ### On Client and Server
 
@@ -75,7 +86,6 @@ EasySearch.changeProperty('cars', 'limit', 100);
 * Setup conditions which validate the limit to be not bigger than 100, or whatever you think your server can handle
 * Use array in the fields property, to get a easily enhanced searched over all your mongodb fields
 * config() and conditions() return your configuration / conditions, if you need them
-
 
 ## Early Stage
 
