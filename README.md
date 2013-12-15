@@ -13,7 +13,6 @@ EasySearch.createSearchIndex('cars', {
     'collection'    : Cars,			// instanceof Meteor.Collection
     'field'         : 'company',	// can also be an array of fields
     'limit'         : 20,           // default: 10
-    'format' 		: 'mongo'		// if set to 'raw', sends back a JSON string
 });
 
 EasySearch.search('cars', 'Volvo', function (error, data) {
@@ -73,6 +72,13 @@ See [here](https://github.com/phillro/node-elasticsearch-client#executing-comman
 ### On Client and Server
 
 ```javascript
+EasySearch.createSearchIndex('cars', {
+    ...
+    'format' : 'mongo',		                    // the format of the data returned, can also be 'raw'
+    'query'  : function (fields, searchString), // return a query object on the server
+    // More infos [here](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html)
+});
+
 EasySearch.changeProperty(name, key, value); // change a property set with createSearchIndex()
 /* 
 	will not validate on the server, but on the client with conditions
@@ -91,5 +97,4 @@ EasySearch.changeProperty('cars', 'limit', 100);
 
 This package is in an early development stage, features to come:
 
-* Expose existing Elastic Search Features
 * Search Components with the new templating engine
