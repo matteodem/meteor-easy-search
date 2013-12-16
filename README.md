@@ -77,9 +77,9 @@ See [here](https://github.com/phillro/node-elasticsearch-client#executing-comman
 ```javascript
 EasySearch.createSearchIndex('cars', {
     ...
-    'format' : 'mongo',		                    // the format of the data returned, can also be 'raw'
+    'format' : 'raw',		                    // format of returned data, default: mongo
     'query'  : function (fields, searchString), // return a query object on the server
-    // More infos [here](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html)
+    // http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
 });
 
 EasySearch.changeProperty(name, key, value); // change a property set with createSearchIndex()
