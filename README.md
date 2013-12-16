@@ -65,6 +65,9 @@ EasySearch.conditions({
 });
 
 EasySearch.search(id, searchString[, fields], callback); // fields are mapped over each document
+
+EasySearch.getElasticSearchClient(); // returns an ElasticSearchClient
+// see [here](https://github.com/phillro/node-elasticsearch-client)
 ```
 
 See [here](https://github.com/phillro/node-elasticsearch-client#executing-commands-on-elasticsearch), for more config() possibilities.
