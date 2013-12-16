@@ -3,6 +3,6 @@
   "description": "Searching made simple, with elastic search",
   "homepage": "https://github.com/matteodem/meteor-easy-search",
   "author": "Matteo De Micheli",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "git": "https://github.com/matteodem/meteor-easy-search.git"
 }
