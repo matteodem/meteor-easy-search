@@ -90,6 +90,21 @@ EasySearch.changeProperty(name, key, value); // change a property set with creat
 EasySearch.changeProperty('cars', 'limit', 100);
 ```
 
+### Without using Elastic Search
+
+If you don't want to use Elastic Search and profit of the performance, you can use mongodb for searching.
+Simply add a 'use' property when creating the search index.
+
+```javascript
+EasySearch.createSearchIndex('cars', {
+    ...
+    'use' : 'mongo-db'
+});
+
+```
+
+The ```use``` property is elastic-search by default.
+
 ### Tips
 
 * Setup conditions which validate the limit to be not bigger than 100, or whatever you think your server can handle

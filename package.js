@@ -1,5 +1,5 @@
 Package.describe({
-    summary : "Easy to use search, with Elastic-Search"
+    summary : "Easy to use search, usable with Elastic-Search"
 });
 
 Npm.depends({
