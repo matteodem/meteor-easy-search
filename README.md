@@ -32,15 +32,10 @@ As of now, a [fuzzy like this query](http://www.elasticsearch.org/guide/en/elast
 
 ## How to install
 
-### Dependencies
-
-This package uses Elastic Search as its Search Engine. Get it [here](http://www.elasticsearch.org/download/).
-
-### Bash
-
 ```sh
 cd /path/to/elastic-search && bin/elasticsearch # running at http://localhost:9200/
 cd /path/to/project && mrt add easy-search
+meteor
 ```
 
 ## Examples
