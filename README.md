@@ -38,6 +38,12 @@ cd /path/to/project && mrt add easy-search
 meteor
 ```
 
+If you're getting following error, that means that your elastic search instance isn't running at the specified location (default: localhost:9200):
+
+```sh
+Error: connect ECONNREFUSED
+```
+
 ## Examples
 
 Here's the [leaderboard example](https://github.com/matteodem/easy-search-leaderboard), made searchable.
