@@ -63,8 +63,8 @@ more with the provided Components.
 
 ### esInput and esEach
 
-The 2 more important ones are ```esInput``` and ```esEach```. esInput gives you
-a text field and esEach lets you iterate over the found search results.
+esInput provides you with a text field and esEach lets you iterate
+over the found search results for that text input field.
 
 ``esInput`` field has following parameters:
 * index (required, the index name)
