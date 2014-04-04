@@ -101,15 +101,19 @@ Show "no results found" content after the search has been performed.
 * When you specify an id on the search input (esInput), you have to add the id
 parameter also in the ```ifEsHasNoResults``` and ```ifEsSearching```
 
-
 ## How to install
-
-### Bash
 
 ```sh
 # If you use elastic search, start the service
 cd /path/to/elastic-search && bin/elasticsearch # running at http://localhost:9200/
 cd /path/to/project && mrt add easy-search
+meteor
+```
+
+If you're getting following error, that means that your elastic search instance isn't running at the specified location (default: localhost:9200):
+
+```sh
+Error: connect ECONNREFUSED
 ```
 
 ## Advanced Usage
