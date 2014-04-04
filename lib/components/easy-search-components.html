@@ -1,0 +1,31 @@
+<!-- Input field for a search -->
+<template name="esInput">
+    <input type="text" id="{{id}}" placeholder="{{placeholder}}" class="{{classes}}" />
+</template>
+
+<!-- Loop through the search results -->
+<template name="esEach">
+    {{#each elasticSearchDoc}}
+        {{> UI.contentBlock this}}
+    {{/each}}
+</template>
+
+<!-- Is currently being searched -->
+<template name="ifEsIsSearching">
+    {{#if isSearching}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<!-- Has not found any results -->
+<template name="ifEsHasNoResults">
+    {{#if hasNoResults}}
+        {{> UI.contentBlock}}
+    {{/if}}
+</template>
+
+<!--  Input and search results box }} -->
+<template name="esSearchBox"></template>
+
+<!-- Fully self working autosuggest -->
+<template name="esAutosuggest"></template>
