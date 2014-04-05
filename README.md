@@ -120,6 +120,58 @@ If you're getting following error, that means that your elastic search instance 
 Error: connect ECONNREFUSED
 ```
 
+## Add some data to your search
+
+```sh
+# Create an index for your cars.
+curl -XPOST 'http://localhost:9200/cars' -d '{
+    "settings": {
+      "index": {
+        "mapping.allow_type_wrapper": true
+      }
+    }
+  }'
+
+# Index some cars, let's add some Volvos.
+curl -XPUT 'http://localhost:9200/cars/car/1' -d '{
+    "car": {
+      "brand": "Volvo",
+      "name": "Volvo V70",
+      "model": "2.0",
+      "power": "123 hp"
+    }
+  }'
+curl -XPUT 'http://localhost:9200/cars/car/2' -d '{
+    "car": {
+      "brand": "Volvo",
+      "name": "Volvo V40",
+      "model": "2.5",
+      "power": "254 hp"
+    }
+  }'
+curl -XPUT 'http://localhost:9200/cars/car/3' -d '{
+    "car": {
+      "brand": "Volvo",
+      "name": "Volvo S80",
+      "model": "2.4",
+      "power": "138 hp"
+    }
+  }'
+# Audis
+curl -XPUT 'http://localhost:9200/cars/car/4' -d '{
+    "car": {
+      "brand": "Audi",
+      "name": "Audi TT",
+      "model": "1.8",
+      "power": "178 hp"
+    }
+  }'
+```
+### Try searching for a car
+
+Open this URL in the browser, and then change the ```*:*``` to a car name or model...
+```http://localhost:9200/cars/_search?q=*:* ```
+
 ## Advanced Usage
 
 ### On Server
