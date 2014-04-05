@@ -112,8 +112,6 @@ brew install elasticsearch
 elasticsearch -f -D es.config=/usr/local/opt/elasticsearch/config/elasticsearch.yml
 # Add the package to your project.
 mrt add easy-search
-# Start meteor as usual.
-meteor
 ```
 
 If you're getting following error, that means that your elastic search instance isn't running at the specified location (default: localhost:9200):
