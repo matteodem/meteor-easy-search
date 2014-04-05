@@ -105,9 +105,14 @@ parameter also in the ```ifEsHasNoResults``` and ```ifEsSearching```
 ## How to install
 
 ```sh
-# If you use elastic search, start the service
-cd /path/to/elastic-search && bin/elasticsearch # running at http://localhost:9200/
-cd /path/to/project && mrt add easy-search
+
+# Install Elastic Search through brew.
+brew install elasticsearch
+# Start the service, runs on http://localhost:9200.
+elasticsearch -f -D es.config=/usr/local/opt/elasticsearch/config/elasticsearch.yml
+# Add the package to your project.
+mrt add easy-search
+# Start meteor as usual.
 meteor
 ```
 
