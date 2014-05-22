@@ -111,6 +111,7 @@ brew install elasticsearch
 # Start the service, runs on http://localhost:9200.
 elasticsearch -f -D es.config=/usr/local/opt/elasticsearch/config/elasticsearch.yml
 # Add the package to your project.
+cd /path/to/project
 mrt add easy-search
 ```
 
