@@ -185,6 +185,20 @@ EasySearch.createSearchIndex('cars', {
 
 The ```use``` property is elastic-search by default.
 
+### Searching over several collections
+
+There's also the possibility to use ``EasySearch.searchMultiple`` on the client-side
+to perform a search over multiple indexes.
+
+```javascript
+EasySearch.searchMultiple(['cars', 'people'], 'Volvo', function (error, data) {
+    console.log(data);
+}))
+```
+
+If you want to use it with the Blaze Components, you can simply change the index
+parameter to an array and define one ``esEach`` loop for each index defined.
+
 ### Tips
 
 * Setup conditions which validate the limit to be not bigger than 100, or whatever you think your server can handle
