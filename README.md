@@ -193,11 +193,27 @@ to perform a search over multiple indexes.
 ```javascript
 EasySearch.searchMultiple(['cars', 'people'], 'Volvo', function (error, data) {
     console.log(data);
-}))
+});
 ```
 
 If you want to use it with the Blaze Components, you can simply change the index
 parameter to an array and define one ``esEach`` loop for each index defined.
+
+```html
+<div class="search-input">
+     <!-- indexes is a javascript array which holds 'players' and 'cars' -->
+     {{> esInput index=indexes placeholder="Search..." }}
+</div>
+<div class="results-wrapper">
+     {{#esEach index="players"}}
+         {{> player}}
+     {{/esEach}}
+	
+     {{#esEach index="cars"}}
+         {{> car}}
+     {{/esEach}}
+</div>
+```
 
 ### Tips
 
