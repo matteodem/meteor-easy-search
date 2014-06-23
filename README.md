@@ -13,7 +13,7 @@ Create a search index like that:
 EasySearch.createSearchIndex('cars', {
     'collection'    : Cars,			// instanceof Meteor.Collection
     'field'         : 'company',	// can also be an array of fields
-    'limit'         : 20,           // default: 10
+    'limit'         : 20           // default: 10
 });
 
 EasySearch.search('cars', 'Volvo', function (error, data) {
