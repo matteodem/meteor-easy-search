@@ -3,7 +3,7 @@ Package.describe({
 });
 
 Npm.depends({
-  'elasticsearchclient': '0.5.35'
+  'elasticsearchclient': '0.5.3'
 });
 
 Package.on_use(function (api) {

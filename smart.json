@@ -3,6 +3,6 @@
   "description": "Easy-to-use search with Blaze Components (+ Elastic Search support)",
   "homepage": "https://github.com/matteodem/meteor-easy-search",
   "author": "Matteo De Micheli",
-  "version": "0.4.5",
+  "version": "0.4.55",
   "git": "https://github.com/matteodem/meteor-easy-search.git"
 }
