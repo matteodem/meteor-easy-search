@@ -21,6 +21,8 @@ Package.on_use(function (api) {
     api.add_files([
         'lib/easy-search-server.js'
     ], 'server');
+    
+    api.add_files('lib/easy-search-convenience.js');
 
     api.export('EasySearch');
 });

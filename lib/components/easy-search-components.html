@@ -14,6 +14,10 @@
 <template name="ifEsIsSearching">
     {{#if isSearching}}
         {{> UI.contentBlock}}
+    {{else}}
+        {{#if UI.elseBlock}}
+            {{> UI.elseBlock}}
+        {{/if}}
     {{/if}}
 </template>
 
@@ -21,6 +25,17 @@
 <template name="ifEsHasNoResults">
     {{#if hasNoResults}}
         {{> UI.contentBlock}}
+    {{else}}
+        {{#if UI.elseBlock}}
+            {{> UI.elseBlock}}
+        {{/if}}
+    {{/if}}
+</template>
+
+<!-- Load more button -->
+<template name="esLoadMoreButton">
+    {{#if hasMoreResults}}
+        <button id="{{id}}" class="{{classes}}">{{content}}</button>
     {{/if}}
 </template>
 
