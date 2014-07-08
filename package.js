@@ -8,14 +8,15 @@ Npm.depends({
 
 Package.on_use(function (api) {
     api.use(['underscore', 'livedata', 'mongo-livedata', 'meteor',
-        'standard-app-packages'], ['client', 'server']);
+        'standard-app-packages', 'less'], ['client', 'server']);
 
     api.use(['templating', 'ui', 'jquery'], 'client');
 
     api.add_files([
         'lib/easy-search-client.js',
         'lib/components/easy-search-components.html',
-        'lib/components/easy-search-components.js'
+        'lib/components/easy-search-components.js',
+        'lib/components/easy-search-components.less'
     ], 'client');
 
     api.add_files([

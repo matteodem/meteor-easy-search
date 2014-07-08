@@ -1,0 +1,36 @@
+@esGrey: #908888;
+
+.es-autosuggest-wrapper {
+    position: relative;
+
+    .selected.values { position: absolute; }
+
+    .value {
+        display: inline-block;
+        border: 1px solid @esGrey;
+        padding: 0 0.2em;
+        margin: 0.24em 0.1em 0 0;
+        line-height: 1em;
+
+        &:first-child { margin-left: 0.3em; }
+        .remove { font-family: Arial; }
+    }
+
+    .suggestions {
+        border: 1px solid @esGrey;
+        position: absolute;
+        background-color: white;
+        list-style-type: none;
+        color: black;
+        padding: 0.2em;
+        margin: 0;
+
+        a { color: black; }
+        .found { text-decoration: underline; }
+        .selected { background-color: @esGrey; }
+    }
+
+    .hide { display: none; }
+    a { text-decoration: none; }
+    input { font-size: 1em; }
+}

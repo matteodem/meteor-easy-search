@@ -42,29 +42,31 @@
 <!-- Fully self working autosuggest -->
 <template name="esAutosuggest">
     <div class="es-autosuggest-wrapper"> 
-        <!-- TODO: Custom renderer template -->
-        <!-- TODO: Remove inline styles -->
-        <ul>
+        <div class="selected values">
+            {{#each selectedValue}}
+                <span class="value">
+                    <a href="#" class="remove">X</a>
+                    {{value}}
+                </span>
+            {{/each}}
+        </div>
+        {{> esInput index=index id=id placeholder=placeholder timeout=timeout classes=classes }}
+
+        <ul class="suggestions {{isHidden}}">
             {{#ifEsHasNoResults index=index id=id }}
                 <li>No results found!</li>
             {{else}}
                 {{#esEach index=index id=id options=options }}
+                    <!-- TODO: Custom renderer templates -->
                     {{#with snippets .. ../.. }}
                         <li class="{{selected}}">
                             <a href="#" class="suggestion">
-                                {{pre}}<span style="text-decoration: underline;" class="found">{{found}}</span>{{post}}
+                                {{pre}}<span class="found">{{found}}</span>{{post}}
                             </a>
                         </li>
                     {{/with}}
                 {{/esEach}}
             {{/ifEsHasNoResults}}
         </ul>
-
-        <div class="selected values">
-            {{#each selectedValue}}
-                <a href="#" style="color: red;" class="remove">X</a> <span class="value">{{value}}</span>
-            {{/each}}
-        </div>
-        {{> esInput index=index id=id placeholder=placeholder timeout=timeout classes=classes }}
     </div>
 </template>
