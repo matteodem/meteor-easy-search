@@ -27,3 +27,9 @@ Package.on_use(function (api) {
 
     api.export('EasySearch');
 });
+
+Package.on_test(function (api) {
+    api.use(['tinytest', 'easy-search']);
+
+    api.add_files(['tests/easy-search-tests.js']);
+})
