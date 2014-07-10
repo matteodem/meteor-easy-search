@@ -5,10 +5,8 @@ EasySearch Server Methods
 
 **Author:** Matteo De Micheli
 
-This is the Public API on the Server. 
-
 EasySearch.config(newConfig)
-----------------------------
+-----------------
 Override the config for Elastic Search.
 
 **Parameters**
@@ -17,7 +15,7 @@ Override the config for Elastic Search.
 
 
 EasySearch.createSearchIndex(name, options)
--------------------------------------------
+--------------------------------
 Create a search index for use with Elastic Search.
 
 **Parameters**
@@ -28,22 +26,8 @@ Create a search index for use with Elastic Search.
 **options**:  *Object*,  
 
 
-EasySearch.getMongoDocumentObject(data)
----------------------------------------
-Get a fake representation of a mongo document.
-
-**Parameters**
-
-**data**:  *Object*,  
-
-
-**Returns**
-
-*Array*,  
-
-
 EasySearch.search(name, searchString, options, callback)
---------------------------------------------------------
+---------------------------------------------
 Perform a search.
 
 **Parameters**
@@ -57,7 +41,7 @@ Perform a search.
 **callback**:  *function*,  optional callback to be used
 
 EasySearch.getElasticSearchClient()
------------------------------------
+------------------------
 Get the ElasticSearchClient
 
 **Returns**
@@ -65,12 +49,26 @@ Get the ElasticSearchClient
 *ElasticSearchInstance*,  
 
 
+EasySearch.getIndex(name)
+--------------
+Retrieve a specific index configuration.
+
+**Parameters**
+
+**name**:  *String*,  
+
+
+**Returns**
+
+*Object*,  
+
+
 EasySearch.getIndexes()
------------------------
+------------
 Retrieve all index configurations
 
 EasySearch.extendSearch(key, methods)
--------------------------------------
+--------------------------
 Makes it possible to override or extend the different
 types of search to use with EasySearch (the "use" property)
 when using EasySearch.createSearchIndex()
@@ -82,4 +80,16 @@ when using EasySearch.createSearchIndex()
 **methods**:  *Object*,  Methods to be used, only 2 are required:
                          - createSearchIndex (name, options)
                          - search (name, searchString, [options, callback])
+
+(Meteor Method) easySearch(name, searchString)
+------------------------------
+Make search possible on the client.
+
+**Parameters**
+
+**name**:  *String*,  
+
+
+**searchString**:  *String*,  
+
 

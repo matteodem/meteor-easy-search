@@ -1,13 +1,13 @@
 EasySearch Client Methods
 =========================
 
-
-**Overview:** These are all the methods exposed to the client.
+**Overview:** These are all the methods exposed to the Client.
 
 **Author:** Matteo De Micheli
 
+
 EasySearch.createSearchIndex(name, options)
---------------------------------
+-------------------------------------------
 Create a search "index" to search on.
 
 **Parameters**
@@ -19,7 +19,7 @@ Create a search "index" to search on.
 
 
 EasySearch.search(name, searchString, callback)
-------------------------------------
+-----------------------------------------------
 Search over one of the defined indexes.
 
 **Parameters**
@@ -34,7 +34,7 @@ Search over one of the defined indexes.
 
 
 EasySearch.searchMultiple(indexes, searchString, callback)
------------------------------------------------
+----------------------------------------------------------
 Search over multiple indexes.
 
 **Parameters**
@@ -49,7 +49,7 @@ Search over multiple indexes.
 
 
 EasySearch.changeProperty(name, key, value)
---------------------------------
+-------------------------------------------
 Allow easily changing properties (for example the global search fields).
 
 **Parameters**
@@ -64,7 +64,7 @@ Allow easily changing properties (for example the global search fields).
 
 
 EasySearch.getIndex(name)
---------------
+-------------------------
 Retrieve a specific index configuration.
 
 **Parameters**
@@ -78,7 +78,7 @@ Retrieve a specific index configuration.
 
 
 EasySearch.getIndexes()
-------------
+-----------------------
 Retrieve all index configurations
 
 **Returns**
