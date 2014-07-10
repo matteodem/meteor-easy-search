@@ -1,7 +1,32 @@
 {
   "dependencies": {
-    "elasticsearchclient": {
-      "version": "0.5.3"
+    "elasticsearch": {
+      "version": "2.2.0",
+      "dependencies": {
+        "chalk": {
+          "version": "0.4.0",
+          "dependencies": {
+            "has-color": {
+              "version": "0.1.7"
+            },
+            "ansi-styles": {
+              "version": "1.0.0"
+            },
+            "strip-ansi": {
+              "version": "0.1.1"
+            }
+          }
+        },
+        "forever-agent": {
+          "version": "0.5.2"
+        },
+        "lodash-node": {
+          "version": "2.4.1"
+        },
+        "bluebird": {
+          "version": "1.2.4"
+        }
+      }
     }
   }
 }
