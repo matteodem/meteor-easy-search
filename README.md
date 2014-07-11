@@ -34,8 +34,7 @@ This is all that it takes to add a "select2" like input field to your app. Get t
 
 ### Creating a search index
 
-Search Indexes are used to initialize Easy Search and use it conjunction with the Blaze Components / Javascript API. There are 2 ways to create a "search index", the first one is using ``EasySearch.createSearchIndex`` or ``Meteor.Collection.initEasySearch``
-shown in the example above.
+Search Indexes are used to initialize Easy Search and use it conjunction with the Blaze Components / Javascript API. There are 2 ways to create a "search index".
 
 ```javascript
 EasySearch.createSearchIndex('cars', {
