@@ -73,7 +73,7 @@ or / and when performing the search with the Javascript API.
 ```javascript
 EasySearch.search('cars', 'Toyota', function (err, data) {
     // data.total contains a number of all found results
-    // data.results contains all the results with respect to the client side 'limit' property
+    // data.results contains all the limited results
 });
 
 EasySearch.searchMultiple(['cars', 'companies', ...], 'Toyota', function (err, data) {
