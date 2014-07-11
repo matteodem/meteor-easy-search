@@ -41,7 +41,7 @@
 
 <!-- Fully self working autosuggest -->
 <template name="esAutosuggest">
-    <div class="es-autosuggest-wrapper"> 
+    <div class="es-autosuggest-wrapper" data-id="{{id}}" data-index="{{index}}"> 
         <div class="selected values">
             {{#each selectedValue}}
                 <span class="value">
@@ -50,6 +50,7 @@
                 </span>
             {{/each}}
         </div>
+        
         {{> esInput index=index id=id placeholder=placeholder timeout=timeout classes=classes }}
 
         <ul class="suggestions {{isHidden}}">
@@ -57,14 +58,21 @@
                 <li>No results found!</li>
             {{else}}
                 {{#esEach index=index id=id options=options }}
-                    <!-- TODO: Custom renderer templates -->
-                    {{#with snippets .. ../.. }}
-                        <li class="{{selected}}">
-                            <a href="#" class="suggestion">
-                                {{pre}}<span class="found">{{found}}</span>{{post}}
-                            </a>
-                        </li>
-                    {{/with}}
+                    {{#if ../renderSuggestion}}
+                        {{#with snippets .. ../.. }}
+                            <li class="{{selected}}">
+                                {{> ../../../renderSuggestion this }}
+                            </li>
+                        {{/with}}
+                    {{else}}
+                        {{#with snippets .. ../.. }}
+                            <li class="{{selected}}">
+                                <a href="#" class="suggestion">
+                                    {{pre}}<span class="found">{{found}}</span>{{post}}
+                                </a>
+                            </li>
+                        {{/with}}
+                    {{/if}}
                 {{/esEach}}
             {{/ifEsHasNoResults}}
         </ul>

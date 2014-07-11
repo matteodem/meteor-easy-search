@@ -16,7 +16,7 @@ Override the config for Elastic Search.
 
 EasySearch.createSearchIndex(name, options)
 --------------------------------
-Create a search index for use with Elastic Search.
+Create a search index.
 
 **Parameters**
 

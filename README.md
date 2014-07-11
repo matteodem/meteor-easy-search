@@ -30,7 +30,7 @@ Tags.initEasySearch('name');
 {{> esAutosuggest index="tags" placeholder="Add tags"}}
 ```
 
-This is all what it takes to add a "select2" like input field to your app.
+This is all what it takes to add a "select2" like input field to your app. Get the data with the jQuery method ``esAutosuggestData()``.
 
 ### Creating a search index
 
@@ -55,25 +55,14 @@ Cars.initEasySearch(['name', 'price'], {
 ### Searching
 
 Searching can be mostly done with the provided Blaze Components.
+
 ```html
-<template name="searchTpl">
-    <div class="search-input">
-        {{> esInput index="players" placeholder="Search..." }}
-    </div>
+<template name="search">
+    {{> esInput index="players" placeholder="Search..." }}
 
-    {{#ifEsIsSearching index="players"}}
-        <div>Loading...</div>
-    {{else}}
-        <div class="results-wrapper">
-            {{#esEach index="players"}}
-                {{> player}}
-            {{/esEach}}
-        </div>
-    {{/ifEsIsSearching}}
-
-    {{#ifEsHasNoResults index="players"}}
-        <div class="no-results">No results found!</div>
-    {{/ifEsHasNoResults}}
+    {{#esEach index="players"}}
+        {{> player}}
+    {{/esEach}}
 </template>
 ```
 
@@ -98,6 +87,28 @@ before implementing custom solutions!
 
 You can add a text input, the search results view, the loading bar and
 more with the provided Components.
+
+```html
+<template name="searchTpl">
+    <div class="search-input">
+        {{> esInput index="players" placeholder="Search..." }}
+    </div>
+
+    {{#ifEsIsSearching index="players"}}
+        <div>Loading...</div>
+    {{else}}
+        <div class="results-wrapper">
+            {{#esEach index="players"}}
+                {{> player}}
+            {{/esEach}}
+        </div>
+    {{/ifEsIsSearching}}
+
+    {{#ifEsHasNoResults index="players"}}
+        <div class="no-results">No results found!</div>
+    {{/ifEsHasNoResults}}
+</template>
+```
 
 ### esInput
 
@@ -128,6 +139,29 @@ with esEach (the #each for search indexes).
 **Description**
 A way to render each found search item, having the document with all its data.
 
+### esAutosuggest
+
+**Description**
+* index (required, the index name)
+* classes (not required, additional classes)
+* id (not required, id of the input)
+* placeholder (not required, placeholder)
+* event (not required, the event to listen on (only "enter" or "keyup" for now))
+* reactive (default true, make the search not reactive if wished)
+* timeout (not required, when to start the search after keyup)
+* options (not required, the options for the find cursor, [see here](http://docs.meteor.com/#find))
+* renderSuggestion (not required, a string for a ``<template>`` to render each suggestion)
+
+**Description**
+Creates a fully self working autosuggest field, which renders suggestions and lets them add you 
+with arrow-down and up, enter and remove them with backspace.
+
+You can get your selected autosuggest values like this.
+```javascript
+// On Client
+var values = $('.myAutosuggestInput').esAutosuggestData();
+````
+
 ### ifEsIsSearching
 
 **Parameters**
@@ -148,7 +182,7 @@ parameter.
 **Description**
 Show "no results found" content after the search has been performed.
 
-### Blaze with multiple indexes
+### Components with multiple indexes
 
 If you want to search over multiple indexes Blaze Components, you can simply change the index
 parameter to an array and define one ``esEach`` loop for each index defined.
