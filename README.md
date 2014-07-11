@@ -1,9 +1,9 @@
 Easy Search
 =====================
 
-Easy Search is a simple and flexible solution for adding Search Compoenents to your Meteor App. Use the Blaze Components + Javascript API to get quickly started. Since of v1.0 it uses mongo-db for searching by default, but if you want to go fast you can also use Elastic Search. Easy Search takes care of syncing up the Elastic Search data when you decide to use it.
+Easy Search is a simple and flexible solution for adding Search Compoenents to your Meteor App. Use the Blaze Components + Javascript API to get quickly started. Since of v1.0 it uses mongo-db for searching by default, but if you want to go fast you can also use [Elastic Search](#using-elastic-search).
 
-Here's the [leaderboard example](https://github.com/matteodem/easy-search-leaderboard), made searchable.
+Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard).
 
 ## How to install
 
@@ -16,7 +16,7 @@ mrt add easy-search
 
 ### Autosuggest Example
 
-Use following code to add a autosuggest input field, which uses a Meteor.Collection to get it's data from.
+Use following code to add a autosuggest input field, which uses a Meteor.Collection as a data provider.
 
 ```javascript
 // On Client and Server
@@ -30,7 +30,7 @@ Tags.initEasySearch('name');
 {{> esAutosuggest index="tags" placeholder="Add tags"}}
 ```
 
-This is all what it takes to add a "select2" like input field to your app. Get the data with the jQuery method ``esAutosuggestData()``.
+This is all that it takes to add a "select2" like input field to your app. Get the data with the jQuery method ``esAutosuggestData()``.
 
 ### Creating a search index
 
@@ -39,7 +39,7 @@ shown in the example above.
 
 ```javascript
 EasySearch.createSearchIndex('cars', {
-    'field' : ['name', 'price'],  // required, fields to be search over (can also be a string)
+    'field' : ['name', 'price'],  // required, searchable field(s)
     'collection' : Cars,          // required, the Collection containing the data
     'limit' : 20                  // not required, default is 10
 });
@@ -49,12 +49,13 @@ EasySearch.createSearchIndex('cars', {
 Cars.initEasySearch(['name', 'price'], {
     'limit' : 20
 });
-// Does the exact same thing
+
+// Both do the exact same thing
 ```
 
 ### Searching
 
-Searching can be mostly done with the provided Blaze Components.
+Searching is done with the provided Blaze Components.
 
 ```html
 <template name="search">
@@ -209,9 +210,9 @@ All the Components are implemented on top of the Javascript API. You don't have 
 one or the other, you can for example define a custom selector and sort object for a search index and still use
 the Blaze Components with it.
 
-All the methods are called of the global ``EasySearch`` Object.
+All the following methods are called of the global ``EasySearch`` Object.
 
-### EasySearch.createSearchIndex(name, options)
+### createSearchIndex(name, options)
 
 ``name`` is the index name as a string and ``options`` are details to how the search should behave:
 
@@ -236,10 +237,7 @@ EasySearch.createSearchIndex('cars', {
 });
 ```
 
-### (new Meteor.Collection(...)).initEasySearch(field, options)
-
-Is the same as ``createSearchIndex`` but it is more convenient, since it already provides you with 
-the ``name`` and the ``collection`` property through the Collection. The options stay the same as written above.
+You can also call it with ``(new Meteor.Collection(...)).initEasySearch(field, options)`` Is the same as ``createSearchIndex`` but it is more convenient, since it already provides you with the ``name`` and the ``collection`` property through the Collection. The options stay the same as written above.
 
 ```javascript
 // On Client and Server
@@ -249,7 +247,7 @@ TestCollection.initEasySearch(['name', 'price'], {
 });
 ```
 
-### (Server) EasySearch.search(name, searchString, options[, callback])
+### (Server) search(name, searchString, options[, callback])
 
 Search over the defined index, where the name is the same string as defined when creating the Search Index. The
 search String is the part that is being searched for, for example "Toyo" would be the searchString, 
@@ -264,7 +262,7 @@ EasySearch.search('cars,  "Toyo", {
 }[, callback]);
 ```
 
-### (Client) EasySearch.search(name, searchString, callback)
+### (Client) search(name, searchString, callback)
 
 Acts the same as on the server, but the callback is required. The options defined on the client are sent to the server call,
 so using ``changeProperty`` on the Client makes extended / faceted search possible.
@@ -276,7 +274,7 @@ EasySearch.search('cars,  "Toyo", function (err, data) {
 });
 ```
 
-### (Client) EasySearch.searchMultiple(indexes, searchString, callback)
+### (Client) searchMultiple(indexes, searchString, callback)
 
 Exact same behaviour than search but it expects an array of names for ``indexes``. The callback
 gets called for every result returned for each index (if the array has 3 indexes, callback gets called 3 times).
@@ -287,7 +285,7 @@ EasySearch.searchMultiple(['cars', 'people'], 'Volvo', function (error, data) {
 });
 ```
 
-### (Client) EasySearch.changeProperty(name, key, value)
+### (Client) changeProperty(name, key, value)
 
 ``name`` and ``key`` are both strings, the first is the index name and the second the key (for example limit or field).
 ``value`` can be any type of value as long as it's used right when searching.
@@ -297,7 +295,7 @@ EasySearch.searchMultiple(['cars', 'people'], 'Volvo', function (error, data) {
 EasySearch.changeProperty('cars,  'filterTimeRange', '2012-10-10 2014-10-01');
 ```
 
-### (Server) EasySearch.extendSearch(key, methods)
+### (Server) extendSearch(key, methods)
 
 EasySearch internally uses a private ``Searchers`` object, which holds all the engines. As of now there's support for elastic-search
 and mongo-db (default). If you want to add a custom engine do this with this method. ``key`` is the name for the engine, for example:
@@ -305,6 +303,10 @@ and mongo-db (default). If you want to add a custom engine do this with this met
 
 * createSearchIndex (name, options) 
 * search (name, searchString, [options, callback])
+
+### Generated API Doc
+
+There's also generated API Documentation, if you want to see [all the methods available](https://github.com/matteodem/meteor-easy-search/tree/master/docs).
 
 ```javascript
 // Server
