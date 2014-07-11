@@ -126,7 +126,7 @@ with esEach (the #each for search indexes).
 
 **Tips**
 * Only add an id parameter when you have 2 or more search components on the same index
-* Setting "reactive" to true can make the search faster
+* Setting "reactive" to false can make the search faster
 
 ### esEach
 
