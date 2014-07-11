@@ -236,15 +236,15 @@ EasySearch.createSearchIndex('cars', {
 });
 ```
 
-### (new Meteor.Collection(lorem)).initEasySearch(field, options)
+### (new Meteor.Collection(...)).initEasySearch(field, options)
 
 Is the same as ``createSearchIndex`` but it is more convenient, since it already provides you with 
-the ``name`` and the ``collection`` property. The options stay the same as written above.
+the ``name`` and the ``collection`` property through the Collection. The options stay the same as written above.
 
 ```javascript
 // On Client and Server
 TestCollection.initEasySearch(['name', 'price'], {
-    'field' : ['name', 'price'],
+    'limit' : 30,
     ...
 });
 ```
