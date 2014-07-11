@@ -121,7 +121,6 @@ more with the provided Components.
 * reactive (default true, make the search not reactive if wished)
 * timeout (not required, when to start the search after keyup)
 
-**Description**
 esInput provides you with a text input field. It doesn't make a lot of sense unless you use it together
 with esEach (the #each for search indexes).
 
@@ -136,12 +135,11 @@ with esEach (the #each for search indexes).
 * id (only required when also added to the esInput, will not render an HTML id!)
 * options (not required, the options for the find cursor, [see here](http://docs.meteor.com/#find))
 
-**Description**
 A way to render each found search item, having the document with all its data.
 
 ### esAutosuggest
 
-**Description**
+**Parameters**
 * index (required, the index name)
 * classes (not required, additional classes)
 * id (not required, id of the input)
@@ -152,7 +150,6 @@ A way to render each found search item, having the document with all its data.
 * options (not required, the options for the find cursor, [see here](http://docs.meteor.com/#find))
 * renderSuggestion (not required, a string for a ``<template>`` to render each suggestion)
 
-**Description**
 Creates a fully self working autosuggest field, which renders suggestions and lets them add you 
 with arrow-down and up, enter and remove them with backspace.
 
@@ -168,7 +165,6 @@ var values = $('.myAutosuggestInput').esAutosuggestData();
 * index (required, the index name)
 * id (only required when also added to the esInput, will not render an HTML id!)
 
-**Description**
 Show certain content when a search is performed. For example when you got an
 input for a specified ```index``` you would have to specify the same ```index```
 parameter.
@@ -179,7 +175,6 @@ parameter.
 * index (required, the index name)
 * id (not requid, if specified on ```esInput``` add the id)
 
-**Description**
 Show "no results found" content after the search has been performed.
 
 ### Components with multiple indexes
