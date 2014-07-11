@@ -250,7 +250,7 @@ when "Toyota" wants to be found. ``options`` can override ``limit`` or custom fi
 
 ```javascript
 // On Server
-EasySearch.search('cars,  "Toyo", {
+EasySearch.search('cars',  "Toyo", {
     'limit' : 50 // override the 20, defined in createSearchIndex
     'field' : 'name' // also only search for names
 }[, callback]);
@@ -263,7 +263,7 @@ so using ``changeProperty`` on the Client makes extended / faceted search possib
 
 ```javascript
 // On Server
-EasySearch.search('cars,  "Toyo", function (err, data) {
+EasySearch.search('cars',  "Toyo", function (err, data) {
     // use data.results and data.total
 });
 ```
@@ -286,7 +286,7 @@ EasySearch.searchMultiple(['cars', 'people'], 'Volvo', function (error, data) {
 
 ```javascript
 // On Client, for example when implementing a custom filter
-EasySearch.changeProperty('cars,  'filterTimeRange', '2012-10-10 2014-10-01');
+EasySearch.changeProperty('cars',  'filterTimeRange', '2012-10-10 2014-10-01');
 ```
 
 ### (Server) extendSearch(key, methods)
@@ -297,10 +297,6 @@ and mongo-db (default). If you want to add a custom engine do this with this met
 
 * createSearchIndex (name, options) 
 * search (name, searchString, [options, callback])
-
-### Generated API Doc
-
-There's also generated API Documentation, if you want to see [all the methods available](https://github.com/matteodem/meteor-easy-search/tree/master/docs).
 
 ```javascript
 // Server
@@ -335,6 +331,10 @@ EasySearch.createSearchIndex('cars', {
 
 This enables you to add custom implementations easily for different search engines, while still using the provided Blaze Components
 and EasySearch API.
+
+### Generated API Doc
+
+There's also generated API Documentation, if you want to see [all the methods available](https://github.com/matteodem/meteor-easy-search/tree/master/docs).
  
 ## Using Elastic Search
 
