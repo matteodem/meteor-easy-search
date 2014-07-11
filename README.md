@@ -381,6 +381,6 @@ There are some little differences to when using the default Mongo DB implementat
 For ``EasySearch.createSearchIndex``:
 
 * the ``query`` parameter returns an [Elastic Search Query Object](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-request-query.html)
-* the ``sort`` parameter is an [Elastic Search Sort Object](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-request-body.html)
+* the ``sort`` parameter returns an [Elastic Search Sort Object](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-request-body.html)
 
 The default is a [fuzzy like this](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-flt-query.html) query. You can still override it with the ``query`` parameter if you want to.
