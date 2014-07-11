@@ -1,20 +1,21 @@
 var collection1 = new Meteor.Collection('estestCollection');
 
 collection1.allow({
-    'insert' : function () { return true; }
+    'insert' : function () { return true; },
+    'remove' : function () { return true; }
 });
 
 if (Meteor.isServer) {
     collection1.remove({ });
 
-    Meteor.publish('testCollection', function () { return collection1.find(); });
-} else if (Meteor.isClient) {
-    Meteor.subscribe('testCollection');
-
     // fixture data
     collection1.insert({ 'name' : 'Super Pomodoro' });
     collection1.insert({ 'name' : 'Awesome Testsauce' });
     collection1.insert({ 'name' : 'David Rails' });
+
+    Meteor.publish('testCollection', function () { return collection1.find(); });
+} else if (Meteor.isClient) {
+    Meteor.subscribe('testCollection');
 }
 
 collection1.initEasySearch('name');
@@ -68,7 +69,6 @@ if (Meteor.isClient) {
 
     Tinytest.addAsync('EasySearch - Client - search #2', function (test, completed) {
         EasySearch.searchMultiple(['estestCollection'], 'id R', function (err, data) {
-            debugger;
             test.equal(data.total, 1);
             test.equal(data.results[0].name, "David Rails");
             completed();
