@@ -76,8 +76,6 @@ if (Meteor.isClient) {
     });
 } else if (Meteor.isServer) {
     Tinytest.add('EasySearch - Server - config', function (test) {
-        test.equal(EasySearch.config().host, 'localhost:9200');
-
         EasySearch.config({
             'host' : 'localhost:8000'
         });

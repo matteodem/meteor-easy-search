@@ -162,8 +162,9 @@ var values = $('.myAutosuggestInput').esAutosuggestData();
 ### ifEsIsSearching
 
 **Parameters**
-* index (required, the index name)
+* index (required, the index name(s))
 * id (only required when also added to the esInput, will not render an HTML id!)
+* logic (combine more than one indexes by "OR" or "AND")
 
 Show certain content when a search is performed. For example when you got an
 input for a specified ```index``` you would have to specify the same ```index```
@@ -172,8 +173,9 @@ parameter.
 ### ifEsHasNoResults
 
 **Parameters**
-* index (required, the index name)
+* index (required, the index name(s))
 * id (not requid, if specified on ```esInput``` add the id)
+* logic (combine more than one indexes by "OR" or "AND")
 
 Show "no results found" content after the search has been performed.
 
