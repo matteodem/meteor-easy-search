@@ -1,7 +1,7 @@
 Easy Search
 =====================
 
-Easy Search is a simple and flexible solution for adding Search Compoenents to your Meteor App. Use the Blaze Components + Javascript API to get quickly started. Since of v1.0 it uses mongo-db for searching by default, but if you want to go fast you can also use [Elastic Search](#using-elastic-search).
+Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Use the Blaze Components + Javascript API to get started. Since v1.0 it uses MongoDB for searching by default, but if you want to go for a mature search engine you can use [Elastic Search](#using-elastic-search).
 
 Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard).
 
@@ -126,7 +126,7 @@ with esEach (the #each for search indexes).
 
 **Tips**
 * Only add an id parameter when you have 2 or more search components on the same index
-* Setting "reactive" to true can make the search faster
+* Setting "reactive" to false can make the search faster
 
 ### esEach
 
@@ -382,6 +382,6 @@ There are some little differences to when using the default Mongo DB implementat
 For ``EasySearch.createSearchIndex``:
 
 * the ``query`` parameter returns an [Elastic Search Query Object](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-request-query.html)
-* the ``sort`` parameter is an [Elastic Search Sort Object](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-request-body.html)
+* the ``sort`` parameter returns an [Elastic Search Sort Object](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-request-body.html)
 
 The default is a [fuzzy like this](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-flt-query.html) query. You can still override it with the ``query`` parameter if you want to.
