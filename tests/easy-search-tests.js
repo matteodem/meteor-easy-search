@@ -18,7 +18,11 @@ if (Meteor.isServer) {
     Meteor.subscribe('testCollection');
 }
 
-collection1.initEasySearch('name');
+collection1.initEasySearch('name', {
+    'permission' : function (string) {
+        return string !== 'Testsauce';
+    }
+});
 
 // Tests
 Tinytest.add('EasySearch - createSearchIndex, getIndex, getIndexes', function (test) {
@@ -92,6 +96,11 @@ if (Meteor.isClient) {
         var data = EasySearch.search('estestCollection', 'Super duper', { });
         test.equal(data.results.length, 0);
     });
+    
+    Tinytest.add('EasySearch - Server - search #3 (no permission to search)', function (test) {
+        var data = EasySearch.search('estestCollection', 'Testsauce', { });
+        test.equal(data.results.length, 0);
+    })
 
     Tinytest.add('EasySearch - Server - extendSearch', function (test) {
         // No solr implementation

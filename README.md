@@ -219,6 +219,7 @@ All the following methods are called of the global ``EasySearch`` Object.
 * **sort**: Defined a custom sort function which returns a [sort specifier](http://docs.meteor.com/#sortspecifiers)
 * **use** (default: 'mongo-db'): Which engine to use for searching ('elastic-search' or use extendSearch for custom enginges)
 * **convertNumbers** (default: false) Strings only containing digits will be converted to a Javascript number
+* **permission** Optional function(searchString) which can be used to check for permission
 
 ```javascript
 // On Client and Server
