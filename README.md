@@ -227,9 +227,12 @@ EasySearch.createSearchIndex('cars', {
     'field' : ['name', 'price'],
     'collection' : Cars,
     'limit' : 20,
-    'customSearchFilter' : true,
+    'onlyShowDiscounts' : true, // demo purpose configuration, can be used in query
     'query' : function (searchString) {
         // this contains all the configuration specified above
+        if (this.onlyShowDiscounts) {
+        	return { 'discount' : true, 'name' : searchString }; 
+        }
         return { 'name' : searchString };
     }
 });
