@@ -338,10 +338,6 @@ EasySearch.createSearchIndex('cars', {
 
 This enables you to add custom implementations easily for different search engines, while still using the provided Blaze Components
 and EasySearch API.
-
-### Generated API Doc
-
-There's also generated API Documentation, if you want to see [all the methods available](https://github.com/matteodem/meteor-easy-search/tree/master/docs).
  
 ## Using Elastic Search
 
