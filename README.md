@@ -229,11 +229,15 @@ EasySearch.createSearchIndex('cars', {
     'limit' : 20,
     'onlyShowDiscounts' : true, // demo purpose configuration, can be used in query
     'query' : function (searchString) {
+    	// Default query that will be used for searching
+    	var query = EasySearch.getSearcher('mongo-db').defaultQuery(this, searchString);
+
         // this contains all the configuration specified above
         if (this.onlyShowDiscounts) {
-        	return { 'discount' : true, 'name' : searchString }; 
+        	query.discount = true;
         }
-        return { 'name' : searchString };
+
+        return query;
     }
 });
 ```
