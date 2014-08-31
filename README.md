@@ -170,6 +170,14 @@ Show certain content when a search is performed. For example when you got an
 input for a specified ```index``` you would have to specify the same ```index```
 parameter.
 
+### ifEsInputIsEmpty
+
+**Parameters**
+* index (required, the index name)
+* id (only required when also added to the esInput, will not render an HTML id!)
+
+Show certain content when an ```esAutosuggest``` field is empty.
+
 ### ifEsHasNoResults
 
 **Parameters**

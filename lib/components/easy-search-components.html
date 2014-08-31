@@ -32,6 +32,17 @@
     {{/if}}
 </template>
 
+<!-- The input field is empty -->
+<template name="ifEsInputIsEmpty">
+    {{#if inputIsEmpty}}
+        {{> UI.contentBlock}}
+    {{else}}
+        {{#if UI.elseBlock}}
+            {{> UI.elseBlock}}
+        {{/if}}
+    {{/if}}
+</template>
+
 <!-- Load more button -->
 <template name="esLoadMoreButton">
     {{#if hasMoreResults}}
