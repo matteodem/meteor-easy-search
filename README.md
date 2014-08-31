@@ -94,6 +94,10 @@ more with the provided Components.
         {{> esInput index="players" placeholder="Search..." }}
     </div>
 
+    {{#ifEsInputIsEmpty index="players"}}
+        <div>Search for players</div>
+    {{/ifEsInputIsEmpty}}
+
     {{#ifEsIsSearching index="players"}}
         <div>Loading...</div>
     {{else}}
