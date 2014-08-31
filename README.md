@@ -9,7 +9,7 @@ Check out the [searchable leaderboard example](https://github.com/matteodem/easy
 
 ```sh
 cd /path/to/project
-mrt add easy-search
+meteor add matteodem:easy-search
 ```
 
 ## Get started
