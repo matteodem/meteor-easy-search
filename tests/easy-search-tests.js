@@ -87,42 +87,29 @@ if (Meteor.isClient) {
     test.equal(EasySearch.config().host, 'localhost:8000');
   });
 
-  Tinytest.add('EasySearch - Server - search #1', function (test) {
-    var data = EasySearch.search('estestCollection', 'sauCE', { 'limit' : 10 });
-    test.equal(data.results[0].name, "Awesome Testsauce");
-  });
-
-  Tinytest.add('EasySearch - Server - search #2', function (test) {
-    var data = EasySearch.search('estestCollection', 'Super duper', { });
-    test.equal(data.results.length, 0);
-  });
-
-  Tinytest.add('EasySearch - Server - search #3 (no permission to search)', function (test) {
-    var data = EasySearch.search('estestCollection', 'Testsauce', { });
-    test.equal(data.results.length, 0);
-  })
-
-  Tinytest.add('EasySearch - Server - extendSearch', function (test) {
+  Tinytest.add('EasySearch - Server - createSearcher', function (test) {
     // No solr implementation
     test.expect_fail(function () { EasySearch.createSearchIndex('test', { 'field' : 'a', 'use' : 'solr' }); });
 
-    EasySearch.extendSearch('solr', {
+    EasySearch.createSearcher('solr', {
       'createSearchIndex' : function () {},
-      'search' : function () {}
+      'search' : function () {},
+      'defaultQuery' : function () {},
+      'defaultSort' : function () {}
     });
 
     // Now it has one
     test.isUndefined(EasySearch.createSearchIndex('test', { 'field' : 'a', 'use' : 'solr' }));
 
     test.expect_fail(function () {
-      EasySearch.extendSearch(10, {
+      EasySearch.createSearcher(10, {
         'createSearchIndex' : function () {},
         'search' : function () {}
       });
     });
 
     test.expect_fail(function () {
-      EasySearch.extendSearch('lucene', {});
+      EasySearch.createSearcher('lucene', {});
     });
   });
 }

@@ -11,35 +11,29 @@ Npm.depends({
 
 Package.on_use(function (api) {
   if (api.versionsFrom) {
-    api.use('underscore@1.0.0');
-    api.use('livedata@1.0.0');
-    api.use('mongo-livedata@1.0.0');
-    api.use('meteor@1.0.0');
-    api.use('standard-app-packages@1.0.0');
-    api.use('less@1.0.0');
-
-    api.use('templating@1.0.0', 'client');
-    api.use('ui@1.0.0', 'client');
-    api.use('jquery@1.0.0', 'client');
-  } else {
-    api.use(['underscore', 'livedata', 'mongo-livedata', 'meteor',
-      'standard-app-packages', 'less'], ['client', 'server']);
-
-    api.use(['templating', 'ui', 'jquery'], 'client');
+    api.versionsFrom('METEOR@0.9.1');
   }
+
+  api.use(['underscore', 'livedata', 'mongo-livedata', 'meteor',
+    'standard-app-packages', 'less'], ['client', 'server']);
+
+  api.use(['templating', 'ui', 'jquery'], 'client');
+
+  api.add_files(['lib/easy-search-common.js', 'lib/easy-search-convenience.js']);
 
   api.add_files([
     'lib/easy-search-client.js',
+    'lib/searchers/mongo.js',
     'lib/components/easy-search-components.html',
     'lib/components/easy-search-components.js',
     'lib/components/easy-search-components.less'
   ], 'client');
 
   api.add_files([
-    'lib/easy-search-server.js'
+    'lib/easy-search-server.js',
+    'lib/searchers/mongo.js',
+    'lib/searchers/elastic-search.js'
   ], 'server');
-
-  api.add_files('lib/easy-search-convenience.js');
 
   api.export('EasySearch');
 });
