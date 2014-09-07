@@ -34,14 +34,10 @@ This is all that it takes to add a "select2" like input field to your app. Get t
 
 ### Searching
 
-With Easy Search, you create "Search Indexes" for searching your MongoDB documents. You can use the Blaze Components or
-/ Javascript API to implement the frontend then. There are 2 ways to create a "search index".
+With Easy Search, you create "Search Indexes" to search your MongoDB documents. You can use the Blaze Components or
+Javascript API to implement the frontend. There are 2 ways to create a "search index".
 
 ```javascript
-var Cars = new Meteor.Collection();
-
-// ... (subscriptions, publications and so on)
-
 EasySearch.createSearchIndex('cars', {
     'field' : ['name', 'price'],  // required, searchable field(s)
     'collection' : Cars,          // required, the Collection containing the data
@@ -72,8 +68,8 @@ or / and when performing the search with the Javascript API.
 
 ### Search Engines
 
-You can set a ```use``` parameter when creating a Search Index, which is the Search Engine you are using right now. Per default it is "minimongo",
-which allows you to stay reactive but you can change easily change it like this:
+You can set a ```use``` parameter when creating a Search Index, which is the Search Engine you want to use.
+Per default it is "minimongo", which allows you to stay reactive but you can easily change it:
 
 ```javascript
 EasySearch.createSearchIndex('cars', {
@@ -85,20 +81,20 @@ EasySearch.createSearchIndex('cars', {
 
 You can choose beetween following search engines:
 
-* minimongo (default)
-* * reactive
-* * only docs that the client has available are searchable (permissions)
-* * good for searches with a small amount of documents
+__minimongo (default)__
+* reactive
+* only docs that the client has available are searchable (permissions)
+* good for searches with a small amount of documents
 
-* mongo-db
-* * Same as minimongo but on the server
-* * All documents in the DB are searchable!
-* * not reactive
+__mongo-db__
+* Same as minimongo but on the server
+* All documents in the DB are searchable!
+* not reactive
 
-* elastic-search
-* * Mature approach for bigger searches
-* * Also all documents are searchable
-* * not reactvive
+__elastic-search__
+* Mature approach for bigger searches
+* Also all documents are searchable
+* not reactvive
 
 The ```search``` method is reactive when using "minimongo", otherwise it just returns the data set found on the server.
 
