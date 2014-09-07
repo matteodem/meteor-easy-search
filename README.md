@@ -32,29 +32,30 @@ Tags.initEasySearch('name');
 
 This is all that it takes to add a "select2" like input field to your app. Get the data with the jQuery method ``esAutosuggestData()``.
 
-### Creating a search index
+### Searching
 
-Search Indexes are used to initialize Easy Search and use it conjunction with the Blaze Components / Javascript API. There are 2 ways to create a "search index".
+With Easy Search, you create "Search Indexes" for searching your MongoDB documents. You can use the Blaze Components or
+/ Javascript API to implement the frontend then. There are 2 ways to create a "search index".
 
 ```javascript
+var Cars = new Meteor.Collection();
+
+// ... (subscriptions, publications and so on)
+
 EasySearch.createSearchIndex('cars', {
     'field' : ['name', 'price'],  // required, searchable field(s)
     'collection' : Cars,          // required, the Collection containing the data
     'limit' : 20                  // not required, default is 10
 });
 
-// OR
+// OR (Both do the exact same thing)
 
 Cars.initEasySearch(['name', 'price'], {
     'limit' : 20
 });
-
-// Both do the exact same thing
 ```
 
-### Searching
-
-Searching is done with the provided Blaze Components.
+The Blaze Components should be sufficient for most cases.
 
 ```html
 <template name="search">
@@ -68,6 +69,40 @@ Searching is done with the provided Blaze Components.
 
 There are a variety of parameters that can be changed when using the Components, when creating the search index
 or / and when performing the search with the Javascript API.
+
+### Search Engines
+
+You can set a ```use``` parameter when creating a Search Index, which is the Search Engine you are using right now. Per default it is "minimongo",
+which allows you to stay reactive but you can change easily change it like this:
+
+```javascript
+EasySearch.createSearchIndex('cars', {
+    ...
+    "use" : "elastic-search",
+    ...
+});
+```
+
+You can choose beetween following search engines:
+
+* minimongo (default)
+* * reactive
+* * only docs that the client has available are searchable (permissions)
+* * good for searches with a small amount of documents
+
+* mongo-db
+* * Same as minimongo but on the server
+* * All documents in the DB are searchable!
+* * not reactive
+
+* elastic-search
+* * Mature approach for bigger searches
+* * Also all documents are searchable
+* * not reactvive
+
+The ```search``` method is reactive when using "minimongo", otherwise it just returns the data set found on the server.
+
+### Using Javascript
 
 ```javascript
 EasySearch.search('cars', 'Toyota', function (err, data) {
