@@ -80,11 +80,8 @@ if (Meteor.isClient) {
   });
 } else if (Meteor.isServer) {
   Tinytest.add('EasySearch - Server - config', function (test) {
-    EasySearch.config({
-      'host' : 'localhost:8000'
-    });
-
-    test.equal(EasySearch.config().host, 'localhost:8000');
+    test.equal(EasySearch.config(), undefined);
+    // no need to actually set it up, since it's a straight call to the elastic search client
   });
 
   Tinytest.add('EasySearch - Server - createSearcher', function (test) {
