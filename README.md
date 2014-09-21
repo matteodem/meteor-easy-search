@@ -86,7 +86,14 @@ Template.searchbar.rendered = function () {
 };
 ```
 
-This sets up an autorun, which is re-run everytime the value of the "event" changes.
+This sets up an autorun, which is re-run everytime the value of the "event" changes. Following events can be reacted on. There's always a corresponding value which is changed and passed to the callback function.
+
+* searching (true when a search is being performed)
+* searchingDone (true when the search is done)
+* currentValue (current search value as a string)
+* searchResults (found results as an array for "currentValue")
+* total (total amount of search results)
+* currentLimit (the current limitation of search results)
 
 ### Search Engines
 
