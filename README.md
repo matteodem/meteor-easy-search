@@ -32,7 +32,7 @@ Tags.initEasySearch('name');
 
 This is all that it takes to add a "select2" like input field to your app. Get the data with the jQuery method ``esAutosuggestData()``.
 
-### Searching
+### Basic Searching
 
 With Easy Search, you create "Search Indexes" to search your MongoDB documents. You can use the Blaze Components or
 Javascript API to implement the frontend. There are 2 ways to create a "search index".
@@ -65,6 +65,28 @@ The Blaze Components should be sufficient for most cases.
 
 There are a variety of parameters that can be changed when using the Components, when creating the search index
 or / and when performing the search with the Javascript API.
+
+### Component Events
+
+There's a Component API, which is built with the client side ```Session``` API. If you have a search input defined like this ```{{> esInput id="main" index="sites"}}```, then you could do following to react upon certain events.
+
+```javascript
+Template.searchbar.rendered = function () {
+    var instance = EasySearch.getComponentInstance(
+    	{ id : 'main', index : 'sites' }
+    );
+
+    instance.on('searchingDone', function (searchingIsDone) {
+    	searchingIsDone && console.log('I am done!');
+    });
+
+    instance.on('currentValue', function (val) {
+    	console.log('The user searches for ' + value);
+    });
+};
+```
+
+This sets up an autorun, which is re-run everytime the value of the "event" changes.
 
 ### Search Engines
 
