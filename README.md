@@ -81,7 +81,7 @@ Template.searchbar.rendered = function () {
     });
 
     instance.on('currentValue', function (val) {
-    	console.log('The user searches for ' + value);
+    	console.log('The user searches for ' + val);
     });
 };
 ```
