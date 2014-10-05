@@ -13,7 +13,6 @@ meteor add matteodem:easy-search
 ```
 
 ## Get started
-
 ### Autosuggest Example
 
 Use following code to add a autosuggest input field, which uses a Meteor.Collection as a data provider.
@@ -105,6 +104,8 @@ more with the provided Components.
                 {{> player}}
             {{/esEach}}
         </div>
+        
+        {{> esLoadMoreButton index="players"}}
     {{/ifEsIsSearching}}
 
     {{#ifEsHasNoResults index="players"}}
@@ -149,7 +150,7 @@ A way to render each found search item, having the document with all its data.
 * content (not required, the content of the load more button)
 * classes (not required, additional classes)
 
-A way to render each found search item, having the document with all its data.
+Making it possible to load more documents with a load more button.
 
 ### esAutosuggest
 
@@ -242,6 +243,7 @@ All the following methods are called of the global ``EasySearch`` Object.
 * **use** (default: 'minimongo'): Which engine to use for searching ('elastic-search' or use createSearcher for custom enginges)
 * **convertNumbers** (default: false) Strings only containing digits will be converted to a Javascript number
 * **permission** Optional function(searchString) which can be used to check for permission
+* **returnFields** Define an array of document fields to return
 
 ```javascript
 // On Client and Server
