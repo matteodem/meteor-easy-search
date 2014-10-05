@@ -242,6 +242,7 @@ All the following methods are called of the global ``EasySearch`` Object.
 * **use** (default: 'minimongo'): Which engine to use for searching ('elastic-search' or use createSearcher for custom enginges)
 * **convertNumbers** (default: false) Strings only containing digits will be converted to a Javascript number
 * **permission** Optional function(searchString) which can be used to check for permission
+* **returnFields** Define an array of document fields to return
 
 ```javascript
 // On Client and Server
