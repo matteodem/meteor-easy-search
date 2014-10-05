@@ -15,24 +15,32 @@ Tinytest.add('EasySearch - Components - get', function (test) {
   Session.set('esVariables_fakeIndex_searching', false);
   Session.set('esVariables_fakeIndex_searchingDone', true);
   Session.set('esVariables_fakeIndex_currentValue', 'how do I do this');
+  Session.set('esVariables_fakeIndex_randomProperty', 'random value');
 
   test.equal(EasySearch.getComponentInstance(fakeConf).get('searching'), false);
   test.equal(EasySearch.getComponentInstance(fakeConf).get('searchingDone'), true);
   test.equal(EasySearch.getComponentInstance(fakeConf).get('currentValue'), 'how do I do this');
+  test.equal(EasySearch.getComponentInstance(fakeConf).get('randomProperty'), 'random value');
 });
 
-Tinytest.addAsync('EasySearch - Components - on', function (test, completed) {
-  var values = ['how do I do this again', 'how do I write a test?'];
+Tinytest.add('EasySearch - Components - clear', function (test) {
+  Session.set('esVariables_fakeIndex_searching', true);
+  Session.set('esVariables_fakeIndex_searchingDone', true);
+  Session.set('esVariables_fakeIndex_total', 200);
+  Session.set('esVariables_fakeIndex_currentValue', 'beer');
+  Session.set('esVariables_fakeIndex_searchResults', [{}, {}, {}]);
 
-  Session.set('esVariables_fakeIndex_currentValue', 'how do I do this again');
+  var instance = EasySearch.getComponentInstance(fakeConf);
 
-  EasySearch.getComponentInstance(fakeConf).on('currentValue', function (val) {
-    test.equal(val, values.shift());
+  instance.clear();
 
-    if (values.length === 0) {
-      completed();
-    }
-  });
-
-  Session.set('esVariables_fakeIndex_currentValue', 'how do I write a test?');
+  test.equal(instance.get('searching'), false);
+  test.equal(instance.get('searchingDone'), false);
+  test.equal(instance.get('total'), 0);
+  test.equal(instance.get('currentValue'), '');
+  test.equal(instance.get('searchResults'), []);
 });
+
+// TODO: re-introduce fields
+// TODO: add getProperty method
+// TODO: README.md (API reference + examples + loadMoreButton)
