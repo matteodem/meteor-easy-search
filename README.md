@@ -148,7 +148,7 @@ A way to render each found search item, having the document with all its data.
 * howMany (not required, how many docs should be loaded)
 * content (not required, the content of the load more button)
 * classes (not required, additional classes)
-* id (not required, id of the input)
+* id (not required, id of the button)
 
 A way to render each found search item, having the document with all its data.
 
