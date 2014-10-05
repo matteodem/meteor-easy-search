@@ -66,67 +66,6 @@ The Blaze Components should be sufficient for most cases.
 There are a variety of parameters that can be changed when using the Components, when creating the search index
 or / and when performing the search with the Javascript API.
 
-### Component Events
-
-There's a Component API, which is built with the client side ```Session``` API. If you have a search input defined like this ```{{> esInput id="main" index="sites"}}```, then you could do following to react upon certain events.
-
-```javascript
-Template.searchbar.rendered = function () {
-    var instance = EasySearch.getComponentInstance(
-    	{ id : 'main', index : 'sites' }
-    );
-
-    instance.on('searchingDone', function (searchingIsDone) {
-    	searchingIsDone && console.log('I am done!');
-    });
-
-    instance.on('currentValue', function (val) {
-    	console.log('The user searches for ' + val);
-    });
-};
-```
-
-This sets up an autorun, which is re-run everytime the value of the "event" changes. Following events can be reacted on. There's always a corresponding value which is changed and passed to the callback function.
-
-* searching (true when a search is being performed)
-* searchingDone (true when the search is done)
-* currentValue (current search value as a string)
-* searchResults (found results as an array for "currentValue")
-* total (total amount of search results)
-* currentLimit (the current limitation of search results)
-
-### Search Engines
-
-You can set a ```use``` parameter when creating a Search Index, which is the Search Engine you want to use.
-Per default it is "minimongo", which allows you to stay reactive but you can easily change it:
-
-```javascript
-EasySearch.createSearchIndex('cars', {
-    ...
-    "use" : "elastic-search",
-    ...
-});
-```
-
-You can choose beetween following search engines:
-
-__minimongo (default)__
-* reactive
-* only docs that the client has available are searchable (permissions)
-* good for searches with a small amount of documents
-
-__mongo-db__
-* Same as minimongo but on the server
-* All documents in the DB are searchable!
-* not reactive
-
-__elastic-search__
-* Mature approach for bigger searches
-* Also all documents are searchable
-* not reactvive
-
-The ```search``` method is reactive when using "minimongo", otherwise it just returns the data set found on the server.
-
 ### Using Javascript
 
 ```javascript
@@ -198,6 +137,17 @@ with esEach (the #each for search indexes).
 * index (required, the index name)
 * id (only required when also added to the esInput, will not render an HTML id!)
 * options (not required, the options for the find cursor, [see here](http://docs.meteor.com/#find))
+
+A way to render each found search item, having the document with all its data.
+
+### esLoadMoreButton
+
+**Parameters**
+* index (required, the index name)
+* id (only required when also added to the esInput)
+* howMany (not required, how many docs should be loaded)
+* content (not required, the content of the load more button)
+* classes (not required, additional classes)
 
 A way to render each found search item, having the document with all its data.
 
@@ -414,7 +364,70 @@ EasySearch.createSearchIndex('cars', {
 
 This enables you to add custom implementations easily for different search engines, while still using the provided Blaze Components
 and EasySearch API.
- 
+
+## Advanced Usage
+
+### Component Events
+
+There's a Component API, which is built with the client side ```Session``` API. If you have a search input defined like this ```{{> esInput id="main" index="sites"}}```, then you could do following to react upon certain events.
+
+```javascript
+Template.searchbar.rendered = function () {
+    var instance = EasySearch.getComponentInstance(
+    	{ id : 'main', index : 'sites' }
+    );
+
+    instance.on('searchingDone', function (searchingIsDone) {
+    	searchingIsDone && console.log('I am done!');
+    });
+
+    instance.on('currentValue', function (val) {
+    	console.log('The user searches for ' + val);
+    });
+};
+```
+
+This sets up an autorun, which is re-run everytime the value of the "event" changes. Following events can be reacted on. There's always a corresponding value which is changed and passed to the callback function.
+
+* searching (true when a search is being performed)
+* searchingDone (true when the search is done)
+* currentValue (current search value as a string)
+* searchResults (found results as an array for "currentValue")
+* total (total amount of search results)
+* currentLimit (the current limitation of search results)
+
+### Search Engines
+
+You can set a ```use``` parameter when creating a Search Index, which is the Search Engine you want to use.
+Per default it is "minimongo", which allows you to stay reactive but you can easily change it:
+
+```javascript
+EasySearch.createSearchIndex('cars', {
+    ...
+    "use" : "elastic-search",
+    ...
+});
+```
+
+You can choose beetween following search engines:
+
+__minimongo (default)__
+* reactive
+* only docs that the client has available are searchable (permissions)
+* good for searches with a small amount of documents
+
+__mongo-db__
+* Same as minimongo but on the server
+* All documents in the DB are searchable!
+* not reactive
+
+__elastic-search__
+* Mature approach for bigger searches
+* Also all documents are searchable
+* not reactvive
+
+The ```search``` method is reactive when using "minimongo", otherwise it just returns the data set found on the server.
+
 ## Using Elastic Search
 
 Before v1.0.0 Elastic-Search was the default. It's still here, but since it takes a bit more to setup than without it, it's not the 
