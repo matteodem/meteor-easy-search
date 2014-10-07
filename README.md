@@ -11,24 +11,16 @@ Players.initEasySearch('name');
 ```
 
 ```html
-<template name="home">
-    ...
-    <div class="search-input">
-        {{> esInput index="players" placeholder="Search..." }}
-    </div>
+<template name="searchBox">
+    {{> esInput index="players" placeholder="Search..." }}
 
-    <div class="results-wrapper">
     {{#esEach index="players"}}
         {{> player}}
     {{/esEach}}
-    </div>
-    ...
 </template>
 ```
 
-Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard).
-
-Have a look at the [Documentation](https://github.com/matteodem/meteor-easy-search/wiki) for detailed information.
+Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have a look at the [Documentation](https://github.com/matteodem/meteor-easy-search/wiki) for more information.
 
 ## How to install
 
