@@ -6,17 +6,17 @@
 <!-- Loop through the search results -->
 <template name="esEach">
     {{#each elasticSearchDoc}}
-        {{> UI.contentBlock this }}
+        {{> Template.contentBlock this }}
     {{/each}}
 </template>
 
 <!-- Is currently being searched -->
 <template name="ifEsIsSearching">
     {{#if isSearching}}
-        {{> UI.contentBlock}}
+        {{> Template.contentBlock}}
     {{else}}
-        {{#if UI.elseBlock}}
-            {{> UI.elseBlock}}
+        {{#if Template.elseBlock}}
+            {{> Template.elseBlock}}
         {{/if}}
     {{/if}}
 </template>
@@ -24,10 +24,10 @@
 <!-- Has not found any results -->
 <template name="ifEsHasNoResults">
     {{#if hasNoResults}}
-        {{> UI.contentBlock}}
+        {{> Template.contentBlock}}
     {{else}}
-        {{#if UI.elseBlock}}
-            {{> UI.elseBlock}}
+        {{#if Template.elseBlock}}
+            {{> Template.elseBlock}}
         {{/if}}
     {{/if}}
 </template>
@@ -35,10 +35,10 @@
 <!-- The input field is empty -->
 <template name="ifEsInputIsEmpty">
     {{#if inputIsEmpty}}
-        {{> UI.contentBlock}}
+        {{> Template.contentBlock}}
     {{else}}
-        {{#if UI.elseBlock}}
-            {{> UI.elseBlock}}
+        {{#if Template.elseBlock}}
+            {{> Template.elseBlock}}
         {{/if}}
     {{/if}}
 </template>
