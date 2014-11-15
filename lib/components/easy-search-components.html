@@ -61,8 +61,8 @@
                 </span>
             {{/each}}
         </div>
-        
-        {{> esInput index=index id=id placeholder=placeholder timeout=timeout classes=classes }}
+
+        {{> esInput index=index id=id placeholder=placeholder reactive=reactive timeout=timeout classes=classes }}
 
         <ul class="suggestions {{isHidden}}">
             {{#ifEsHasNoResults index=index id=id }}
