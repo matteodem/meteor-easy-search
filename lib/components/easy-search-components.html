@@ -1,6 +1,6 @@
 <!-- Input field for a search -->
 <template name="esInput">
-    <input type="text" id="{{id}}" placeholder="{{placeholder}}" class="{{classes}}" />
+    <input type="text" id="{{id}}" placeholder="{{placeholder}}" class="{{class}}" />
 </template>
 
 <!-- Loop through the search results -->
@@ -46,7 +46,7 @@
 <!-- Load more button -->
 <template name="esLoadMoreButton">
     {{#if hasMoreResults}}
-        <button class="{{classes}}">{{content}}</button>
+        <button class="{{class}}">{{content}}</button>
     {{/if}}
 </template>
 
@@ -62,7 +62,7 @@
             {{/each}}
         </div>
 
-        {{> esInput index=index id=id placeholder=placeholder reactive=reactive timeout=timeout classes=classes }}
+        {{> esInput index=index id=id placeholder=placeholder reactive=reactive timeout=timeout class=class }}
 
         <ul class="suggestions {{isHidden}}">
             {{#ifEsHasNoResults index=index id=id }}
