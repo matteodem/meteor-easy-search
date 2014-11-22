@@ -23,15 +23,14 @@ Package.on_use(function (api) {
 
   api.add_files([
     'lib/easy-search-client.js',
-    'lib/searchers/mongo.js',
     'lib/components/easy-search-components.html',
     'lib/components/easy-search-components.js',
     'lib/components/easy-search-components.less'
   ], 'client');
 
   api.add_files([
-    'lib/easy-search-server.js',
     'lib/searchers/mongo.js',
+    'lib/easy-search-server.js',
     'lib/searchers/elastic-search.js'
   ], 'server');
 
