@@ -52,7 +52,7 @@ if (Meteor.isClient) {
   Tinytest.add('EasySearch - Client - changeProperty', function (test) {
     EasySearch.createSearchIndex('testIndex2', {
       'field' : 'testField',
-      'params' : {
+      'props' : {
         'customField' : 'isAString'
       }
     });
@@ -60,9 +60,9 @@ if (Meteor.isClient) {
     test.throws(function () { EasySearch.changeProperty('testIndex2', {}, {}); });
     test.throws(function () { EasySearch.changeProperty({}, 'validKey', {}); });
 
-    test.equal(EasySearch.getIndex('testIndex2').params.customField, 'isAString');
+    test.equal(EasySearch.getIndex('testIndex2').props.customField, 'isAString');
     EasySearch.changeProperty('testIndex2', 'customField', 'isAnotherString');
-    test.equal(EasySearch.getIndex('testIndex2').params.customField, 'isAnotherString');
+    test.equal(EasySearch.getIndex('testIndex2').props.customField, 'isAnotherString');
   });
 
   Tinytest.addAsync('EasySearch - Client - search #1', function (test, completed) {
@@ -92,9 +92,7 @@ if (Meteor.isClient) {
 
     EasySearch.createSearcher('solr', {
       'createSearchIndex' : function () {},
-      'search' : function () {},
-      'defaultQuery' : function () {},
-      'defaultSort' : function () {}
+      'search' : function () {}
     });
 
     // Now it has one
@@ -102,8 +100,7 @@ if (Meteor.isClient) {
 
     test.expect_fail(function () {
       EasySearch.createSearcher(10, {
-        'createSearchIndex' : function () {},
-        'search' : function () {}
+        'createSearchIndex' : function () {}
       });
     });
 
