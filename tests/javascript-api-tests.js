@@ -52,15 +52,17 @@ if (Meteor.isClient) {
   Tinytest.add('EasySearch - Client - changeProperty', function (test) {
     EasySearch.createSearchIndex('testIndex2', {
       'field' : 'testField',
-      'customField' : 'isAString'
+      'params' : {
+        'customField' : 'isAString'
+      }
     });
 
     test.throws(function () { EasySearch.changeProperty('testIndex2', {}, {}); });
     test.throws(function () { EasySearch.changeProperty({}, 'validKey', {}); });
 
-    test.equal(EasySearch.getIndex('testIndex2').customField, 'isAString');
+    test.equal(EasySearch.getIndex('testIndex2').params.customField, 'isAString');
     EasySearch.changeProperty('testIndex2', 'customField', 'isAnotherString');
-    test.equal(EasySearch.getIndex('testIndex2').customField, 'isAnotherString');
+    test.equal(EasySearch.getIndex('testIndex2').params.customField, 'isAnotherString');
   });
 
   Tinytest.addAsync('EasySearch - Client - search #1', function (test, completed) {
