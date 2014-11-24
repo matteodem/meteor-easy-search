@@ -1,7 +1,7 @@
 Package.describe({
   name: 'matteodem:easy-search',
   summary: "Easy-to-use search with Blaze Components (+ Elastic Search support)",
-  version: "1.3.0",
+  version: "1.3.1",
   git: "https://github.com/matteodem/meteor-easy-search.git"
 });
 
@@ -22,6 +22,7 @@ Package.on_use(function (api) {
   api.add_files(['lib/easy-search-common.js', 'lib/easy-search-convenience.js']);
 
   api.add_files([
+    'lib/searchers/mongo.js',
     'lib/easy-search-client.js',
     'lib/components/easy-search-components.html',
     'lib/components/easy-search-components.js',
