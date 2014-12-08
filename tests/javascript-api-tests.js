@@ -70,6 +70,38 @@ Tinytest.add('EasySearch - eachIndex', function (test) {
   });
 });
 
+Tinytest.add('EasySearch - usesSubscriptions', function (test) {
+  EasySearch.createSearchIndex('default', {
+    field: 'super',
+    collection: collection1
+  });
+
+  EasySearch.createSearchIndex('notReactive', {
+    field: 'super',
+    reactive: false,
+    use: 'mongo-db',
+    collection: collection1
+  });
+
+  EasySearch.createSearchIndex('mongo-db', {
+    field: 'super',
+    use: 'mongo-db',
+    collection: collection1
+  });
+
+  EasySearch.createSearchIndex('elastic-search', {
+    field: 'super',
+    use: 'elastic-search',
+    collection: collection1
+  });
+
+  test.isFalse(EasySearch._usesSubscriptions('default'));
+  test.isFalse(EasySearch._usesSubscriptions('notReactive'));
+  test.isTrue(EasySearch._usesSubscriptions('mongo-db'));
+  test.isTrue(EasySearch._usesSubscriptions('elastic-search'));
+
+});
+
 if (Meteor.isClient) {
   Tinytest.add('EasySearch - Client - changeProperty', function (test) {
     EasySearch.createSearchIndex('testIndex2', {
