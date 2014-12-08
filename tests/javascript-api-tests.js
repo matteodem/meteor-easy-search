@@ -48,6 +48,28 @@ Tinytest.add('EasySearch - createSearchIndex, getIndex, getIndexes', function (t
   test.isUndefined(EasySearch.getIndexes()['indexThatDoesntExist']);
 });
 
+Tinytest.add('EasySearch - eachIndex', function (test) {
+  EasySearch.createSearchIndex('eachIndexTestOne', {
+    'field' : 'testFieldOne',
+    'collection' : collection1
+  });
+
+  EasySearch.createSearchIndex('eachIndexTestTwo', {
+    'field' : 'testFieldTwo',
+    'collection' : collection1
+  });
+
+  EasySearch.eachIndex('eachIndexTestOne', function (index, opts) {
+    test.equal(index, 'eachIndexTestOne');
+    test.equal(opts.field, ['testFieldOne']);
+  });
+
+  EasySearch.eachIndex(['eachIndexTestTwo'], function (index, opts) {
+    test.equal(index, 'eachIndexTestTwo');
+    test.equal(opts.field, ['testFieldTwo']);
+  });
+});
+
 if (Meteor.isClient) {
   Tinytest.add('EasySearch - Client - changeProperty', function (test) {
     EasySearch.createSearchIndex('testIndex2', {
@@ -79,6 +101,24 @@ if (Meteor.isClient) {
       test.equal(data.results[0].name, "David Rails");
       completed();
     });
+  });
+
+  Tinytest.add('EasySearch - Components - mapIndexesWithLogic', function (test) {
+    var simpleConf = { index: 'testIndex' },
+      confWithLogic = { index: 'testIndex2', logic: 'OR' },
+      confWithInvalidLogic = { index: 'testIndex2', logic: 'WHAT'};
+
+    test.isTrue(EasySearch._mapIndexesWithLogic(simpleConf, function (index) {
+      return index === simpleConf.index;
+    }));
+
+    test.isTrue(EasySearch._mapIndexesWithLogic(confWithLogic, function (index) {
+      return index === confWithLogic.index;
+    }));
+
+    test.isFalse(EasySearch._mapIndexesWithLogic(confWithInvalidLogic, function (index) {
+      return index === simpleConf.index;
+    }));
   });
 } else if (Meteor.isServer) {
   Tinytest.add('EasySearch - Server - config', function (test) {
