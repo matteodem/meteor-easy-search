@@ -1,2 +1,4 @@
-.build*
+.build*/
 .idea/
+.npm*/
+.build*

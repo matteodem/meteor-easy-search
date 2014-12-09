@@ -41,6 +41,3 @@ Tinytest.add('EasySearch - Components - clear', function (test) {
   test.equal(instance.get('searchResults'), []);
 });
 
-// TODO: re-introduce fields
-// TODO: add getProperty method
-// TODO: README.md (API reference + examples + loadMoreButton)
