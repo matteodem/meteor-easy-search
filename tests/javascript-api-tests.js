@@ -19,8 +19,12 @@ if (Meteor.isServer) {
 }
 
 collection1.initEasySearch('name', {
-  'permission' : function (string) {
-    return string !== 'Testsauce';
+  'query' : function (searchString) {
+    if (searchString === 'Testsauce') {
+      return false;
+    }
+
+    return EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
   }
 });
 
@@ -91,7 +95,7 @@ Tinytest.add('EasySearch - usesSubscriptions', function (test) {
 
   EasySearch.createSearchIndex('elastic-search', {
     field: 'super',
-    use: 'elastic-search',
+    use: 'elastic-search-test',
     collection: collection1
   });
 
@@ -131,6 +135,22 @@ if (Meteor.isClient) {
     EasySearch.searchMultiple(['estestCollection'], 'id R', function (err, data) {
       test.equal(data.total, 1);
       test.equal(data.results[0].name, "David Rails");
+      completed();
+    });
+  });
+
+  Tinytest.addAsync('EasySearch - Client - search #3', function (test, completed) {
+    EasySearch.search('estestCollection', 'Testsauce', function (err, data) {
+      test.equal(data.total, 0);
+      test.equal(data.results.length, 0);
+      completed();
+    });
+  });
+
+  Tinytest.addAsync('EasySearch - Client - search #4', function (test, completed) {
+    EasySearch.search('estestCollection', 'estsauce', function (err, data) {
+      test.equal(data.total, 1);
+      test.equal(data.results[0].name, 'Awesome Testsauce');
       completed();
     });
   });
