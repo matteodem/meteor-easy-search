@@ -142,6 +142,28 @@ if (Meteor.isClient) {
 
   });
 
+  Tinytest.add('EasySearch - Client - filterFunctions', function (test) {
+    var filteredConf = EasySearch._filterFunctions({
+      'func1' : function () {},
+      'awesomeNumber' : 10,
+      'awesomeString' : 'test',
+      'awesomeObject' : {},
+      'func2' : function () {},
+      'awesomeArray': ['a', 'b'],
+      'awesomeBoolean' : true,
+      'collection' : collection1
+    });
+
+    test.isUndefined(filteredConf.func1);
+    test.isUndefined(filteredConf.func2);
+    test.isUndefined(filteredConf.collection);
+    test.equal(filteredConf.awesomeNumber, 10);
+    test.equal(filteredConf.awesomeString, 'test');
+    test.equal(filteredConf.awesomeObject, {});
+    test.equal(filteredConf.awesomeArray, ['a', 'b']);
+    test.equal(filteredConf.awesomeBoolean, true);
+  });
+
   Tinytest.addAsync('EasySearch - Client - search #1', function (test, completed) {
     EasySearch.search('estestCollection', 'er Po', function (err, data) {
       test.equal(data.total, 1);
