@@ -41,3 +41,23 @@ Tinytest.add('EasySearch - Components - clear', function (test) {
   test.equal(instance.get('searchResults'), []);
 });
 
+Tinytest.add('EasySearch - Components - filterFunctions', function (test) {
+  var filteredConf = EasySearch._filterFunctions({
+    'func1' : function () {},
+    'awesomeNumber' : 10,
+    'awesomeString' : 'test',
+    'awesomeObject' : {},
+    'func2' : function () {},
+    'awesomeArray': ['a', 'b'],
+    'awesomeBoolean' : true
+  });
+
+  test.isUndefined(filteredConf.func1);
+  test.isUndefined(filteredConf.func2);
+  test.equal(filteredConf.awesomeNumber, 10);
+  test.equal(filteredConf.awesomeString, 'test');
+  test.equal(filteredConf.awesomeObject, {});
+  test.equal(filteredConf.awesomeArray, ['a', 'b']);
+  test.equal(filteredConf.awesomeBoolean, true);
+});
+

@@ -52,6 +52,12 @@ Tinytest.add('EasySearch - createSearchIndex, getIndex, getIndexes', function (t
   test.isUndefined(EasySearch.getIndexes()['indexThatDoesntExist']);
 });
 
+Tinytest.add('EasySearch - initEasySearch', function (test) {
+  test.equal(EasySearch.getIndex('estestCollection').name, 'estestCollection');
+  test.equal(EasySearch.getIndex('estestCollection').field, ['name']);
+  test.isFalse(EasySearch.getIndex('estestCollection').query('Testsauce'));
+});
+
 Tinytest.add('EasySearch - eachIndex', function (test) {
   EasySearch.createSearchIndex('eachIndexTestOne', {
     'field' : 'testFieldOne',
@@ -121,6 +127,19 @@ if (Meteor.isClient) {
     test.equal(EasySearch.getIndex('testIndex2').props.customField, 'isAString');
     EasySearch.changeProperty('testIndex2', 'customField', 'isAnotherString');
     test.equal(EasySearch.getIndex('testIndex2').props.customField, 'isAnotherString');
+  });
+
+  Tinytest.add('EasySearch - Client - changeLimit', function (test) {
+    EasySearch.createSearchIndex('testIndex100', {
+      'field' : 'testField',
+      'limit' : 30
+    });
+
+    test.throws(function () { EasySearch.changeLimit('testIndex100', function () {}); });
+    test.equal(EasySearch.getIndex('testIndex100').limit, 30);
+    EasySearch.changeLimit('testIndex100', 50);
+    test.equal(EasySearch.getIndex('testIndex100').limit, 50);
+
   });
 
   Tinytest.addAsync('EasySearch - Client - search #1', function (test, completed) {
