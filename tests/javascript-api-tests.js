@@ -109,7 +109,6 @@ Tinytest.add('EasySearch - usesSubscriptions', function (test) {
   test.isFalse(EasySearch._usesSubscriptions('notReactive'));
   test.isTrue(EasySearch._usesSubscriptions('mongo-db'));
   test.isTrue(EasySearch._usesSubscriptions('elastic-search'));
-
 });
 
 if (Meteor.isClient) {
@@ -139,7 +138,39 @@ if (Meteor.isClient) {
     test.equal(EasySearch.getIndex('testIndex100').limit, 30);
     EasySearch.changeLimit('testIndex100', 50);
     test.equal(EasySearch.getIndex('testIndex100').limit, 50);
+  });
 
+  Tinytest.add('EasySearch - pagination', function (test) {
+    var data;
+
+    EasySearch.createSearchIndex('testPagination', {
+      field: 'super',
+      collection: collection1,
+      limit: 20
+    });
+
+    test.equal(EasySearch.pagination('testPagination', 1).skip, 0);
+    test.equal(EasySearch.pagination('testPagination', 1).limit, 20);
+    test.equal(EasySearch.pagination('testPagination', 3).skip, 40);
+    test.equal(EasySearch.pagination('testPagination', 3).limit, 20);
+
+    EasySearch.pagination('testPagination', 2);
+    data = EasySearch.pagination('testPagination', EasySearch.PAGINATION_NEXT);
+    test.equal(data.skip, 40);
+    test.equal(data.step, 3);
+    data = EasySearch.pagination('testPagination', EasySearch.PAGINATION_NEXT);
+    test.equal(data.skip, 60);
+    test.equal(data.step, 4);
+    EasySearch.pagination('testPagination', 3);
+    data = EasySearch.pagination('testPagination', EasySearch.PAGINATION_PREV);
+    test.equal(data.skip, 20);
+    test.equal(data.step, 2);
+    data = EasySearch.pagination('testPagination', EasySearch.PAGINATION_PREV);
+    test.equal(data.skip, 0);
+    test.equal(data.step, 1);
+    data = EasySearch.pagination('testPagination', EasySearch.PAGINATION_PREV);
+    test.equal(data.skip, 0);
+    test.equal(data.step, 1);
   });
 
   Tinytest.add('EasySearch - Client - filterFunctions', function (test) {
