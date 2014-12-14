@@ -50,6 +50,23 @@
     {{/if}}
 </template>
 
+<!-- Pagination controls -->
+<template name="esPagination">
+    {{#if hasResults}}
+        <ul class="es-pagination">
+            {{#each control}}
+                <li class="control {{selectedClass}} {{state}}">
+                    {{#if ../renderControl}}
+                        {{> ../renderControl}}
+                    {{else}}
+                        {{text}}
+                    {{/if}}
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+</template>
+
 <!-- Fully self working autosuggest -->
 <template name="esAutosuggest">
     <div class="es-autosuggest-wrapper" data-id="{{id}}" data-index="{{index}}"> 

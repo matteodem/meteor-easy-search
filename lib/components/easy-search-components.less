@@ -32,3 +32,14 @@
     a { text-decoration: none; }
     input { font-size: 1em; }
 }
+
+.es-pagination {
+    list-style-type: none;
+
+    .control {
+        display: inline-block;
+
+        &.selected { font-weight: bold; }
+        &.disabled { color: @esGrey; }
+    }
+}
