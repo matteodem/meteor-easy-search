@@ -75,11 +75,15 @@ html {
   color: #fff;
 }
 
+.sidebar a:hover {
+  text-decoration: none;
+}
+
 /* About section */
 .sidebar-about h1 {
   color: #fff;
   margin-top: 0;
-  font-family: "Abril Fatface", serif;
+  font-family: "Oswald", serif;
   font-size: 3.25rem;
 }
 
