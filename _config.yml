@@ -11,7 +11,7 @@ title:            'Meteor Easy-Search'
 tagline:          'Search package for Meteor'
 description:      'Easy-to-use search with Blaze Components and Elastic Search Support'
 url:              http://matteodem.github.io
-baseurl:          /meteor-easy-search/
+baseurl:          /meteor-easy-search
 
 author:
   name:           'Matteo De Micheli'
