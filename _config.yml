@@ -10,7 +10,7 @@ relative_permalinks: true
 title:            'Meteor Easy-Search'
 tagline:          'Search package for Meteor'
 description:      'Easy-to-use search with Blaze Components and Elastic Search Support'
-url:              http://hyde.getpoole.com
+url:              http://matteodem.github.io/meteor-easy-search
 baseurl:          /
 
 author:
