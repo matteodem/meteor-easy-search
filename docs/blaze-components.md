@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: doc
 title: Blaze Components
 ---
 
@@ -40,6 +40,7 @@ more with the provided Components.
 ### esInput
 
 **Parameters**
+
 * index (required, the index name)
 * class (not required, additional classes)
 * id (not required, id of the input)
@@ -52,12 +53,14 @@ esInput provides you with a text input field. It doesn't make a lot of sense unl
 with esEach (the #each for search indexes).
 
 **Tips**
+
 * Only add an id parameter when you have 2 or more search components on the same index
 * Setting "reactive" to false can make the search faster
 
 ### esEach
 
 **Parameters**
+
 * index (required, the index name)
 * id (only required when also added to the esInput, will not render an HTML id!)
 * options (not required, the options for the find cursor, [see here](http://docs.meteor.com/#find))
@@ -67,6 +70,7 @@ A way to render each found search item, having the document with all its data.
 ### esLoadMoreButton
 
 **Parameters**
+
 * index (required, the index name)
 * id (only required when also added to the esInput)
 * howMany (not required, how many docs should be loaded)
@@ -78,6 +82,7 @@ Making it possible to load more documents with a load more button.
 ### esAutosuggest
 
 **Parameters**
+
 * index (required, the index name)
 * class (not required, additional classes)
 * id (not required, id of the input)
@@ -100,6 +105,7 @@ var values = $('.myAutosuggestInput').esAutosuggestData();
 ### ifEsIsSearching
 
 **Parameters**
+
 * index (required, the index name(s))
 * id (only required when also added to the esInput, will not render an HTML id!)
 * logic (not required, combine more than one indexes by "OR" or "AND")
@@ -111,6 +117,7 @@ parameter.
 ### ifEsInputIsEmpty
 
 **Parameters**
+
 * index (required, the index name)
 * id (only required when also added to the esInput, will not render an HTML id!)
 
@@ -119,6 +126,7 @@ Show certain content when an ```esAutosuggest``` field is empty.
 ### ifEsHasNoResults
 
 **Parameters**
+
 * index (required, the index name(s))
 * id (only required when also added to the esInput, will not render an HTML id!)
 * logic (not required, combine more than one indexes by "OR" or "AND")

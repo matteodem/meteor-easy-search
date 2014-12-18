@@ -84,7 +84,7 @@ html {
   color: #fff;
   margin-top: 0;
   font-family: "Oswald", serif;
-  font-size: 3.25rem;
+  font-size: 2.75rem;
 }
 
 /* Sidebar nav */
@@ -101,6 +101,10 @@ a.sidebar-nav-item:focus {
 }
 .sidebar-nav-item.active {
   font-weight: bold;
+}
+
+.sidebar-nav-item.docs  {
+    padding-left: 25px;
 }
 
 /* Sticky sidebar
