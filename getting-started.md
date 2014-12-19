@@ -24,7 +24,8 @@ Cars.initEasySearch(['name', 'price'], {
 });
 ```
 
-The default [search engine](https://github.com/matteodem/meteor-easy-search/wiki/Search-Engines) is "minimongo", which let's you filter through your existing subscription of documents. If you want to search all the documents in the collection, use __mongo-db__ as your [engine](https://github.com/matteodem/meteor-easy-search/wiki/Search-Engines). The Blaze Components should be sufficient for almost all cases.
+The default [search engine]({{ site.baseurl }}/docs/search-engines) is "minimongo", which let's you filter through your existing subscription of documents. If you want to search all the documents in the collection,
+use __mongo-db__ as your engine. The Blaze Components should be sufficient for almost all cases.
 
 
 ```html
@@ -43,7 +44,7 @@ The default [search engine](https://github.com/matteodem/meteor-easy-search/wiki
 {% endraw %}
 ```
 
-Have a look at the different [components](https://github.com/matteodem/meteor-easy-search/wiki/Blaze-Components). There are a variety of parameters that can be changed when using the Components, when creating the search index
+Have a look at the different [components]({{ site.baseurl }}/docs/blaze-components). There are a variety of parameters that can be changed when using the Components, when creating the search index
 or / and when performing the search with the Javascript API.
 
 ### Simple Autosuggest Input
@@ -64,7 +65,7 @@ Tags.initEasySearch('name');
 {% endraw %}
 ```
 
-This is all that it takes to add a "select2" like input field to your app. Get the data with the jQuery method ``esAutosuggestData()``. Have a look [here](https://github.com/matteodem/meteor-easy-search/wiki/Autosuggest-Field) for an advanced example.
+This is all that it takes to add a "select2" like input field to your app. Get the data with the jQuery method ``esAutosuggestData()``. Have a look [here]({{ site.baseurl }}/docs/autosuggest-field) for an advanced example.
 
 
 ### Using Javascript

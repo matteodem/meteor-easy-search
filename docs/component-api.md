@@ -5,7 +5,8 @@ title: Component API
 
 ### Handling Events
 
-There are Component Events, which are built with the client side ```Session``` API. If you have a search input defined like this ```{{> esInput id="main" index="sites"}}```, then you could do following to react upon certain events.
+There are Component Events, which are built with the client side ```Session``` API. If you have a search input defined like this
+```{% raw %}{{> esInput id="main" index="sites"}}{% endraw %}```, then you could do following to react upon certain events.
 
 ```javascript
 Template.searchbar.created = function () {
@@ -23,7 +24,8 @@ Template.searchbar.created = function () {
 };
 ```
 
-This sets up an autorun, which is re-run everytime the value of the "event" changes. Events that can be reacted on are stated under ___Available Values__. There's always a corresponding value which is changed and passed to the callback function.
+This sets up an autorun, which is re-run everytime the value of the "event" changes. Events that can be reacted on are stated under ___Available Values__.
+There's always a corresponding value which is changed and passed to the callback function.
 
 ### Retrieve Component Values
 
@@ -59,7 +61,7 @@ instance.clear();
 
 ### Triggering search
 
-You can manually trigger search, useful for [faceted search](https://github.com/matteodem/meteor-easy-search/wiki/Faceted-Search), for example when trying to filter or sort.
+You can manually trigger search, useful for [faceted search]({{ site.baseurl }}/docs/faceted-search), for example when trying to filter or sort.
 
 
 ```javascript

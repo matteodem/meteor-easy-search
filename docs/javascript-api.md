@@ -49,7 +49,8 @@ EasySearch.createSearchIndex('cars', {
 });
 ```
 
-You can also call it with ``(new Meteor.Collection(...)).initEasySearch(field, options)`` Is the same as ``createSearchIndex`` but it is more convenient, since it already provides you with the ``name`` and the ``collection`` property through the Collection. The options stay the same as written above.
+You can also call it with ``(new Meteor.Collection(...)).initEasySearch(field, options)`` Is the same as ``createSearchIndex`` but it is more convenient,
+since it already provides you with the ``name`` and the ``collection`` property through the Collection. The options stay the same as written above.
 
 ```javascript
 // On Client and Server
@@ -59,7 +60,8 @@ TestCollection.initEasySearch(['name', 'price'], {
 });
 ```
 
-If you have a reactive search index (by default it is), then you have access to the publication scope inside the query method, under ```this.publicationScope```, if you want to access user information for example.
+If you have a reactive search index (by default it is), then you have access to the publication scope inside the query method, under ```this.publicationScope```,
+if you want to access user information for example.
 
 ```javascript
 EasySearch.createSearchIndex('players', {

@@ -61,6 +61,7 @@ if (Meteor.isClient) {
 }
 ```
 
-With the help of ```changeProperty``` you can change the configuration values set in ```createSearchIndex``` and then re-trigger the search with ```triggerSearch``` on the component instance. This will run through the custom query defined and since it has an if statement that covers filters, it'll only return results where the products are in one of the selected cateogries.
+With the help of ```changeProperty``` you can change the configuration values set in ```createSearchIndex``` and then re-trigger the search with ```triggerSearch``` on the component instance. 
+This will run through the custom query defined and since it has an if statement that covers filters, it'll only return results where the products are in one of the selected cateogries.
 
 See the [Easy-Search Leaderboard](https://github.com/matteodem/easy-search-leaderboard) for a working example of this.

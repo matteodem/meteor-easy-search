@@ -51,4 +51,4 @@ Template.playersOverview.helpers({
 });
 ```
 
-Have a look at [Component API](https://github.com/matteodem/meteor-easy-search/wiki/Component-API) for more information about the "instance.on" method.
+Have a look at [Component API]({{ site.baseurl }}/docs/component-api) for more information about the "instance.on" method.

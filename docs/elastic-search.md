@@ -47,4 +47,5 @@ For ``EasySearch.createSearchIndex``:
 * the ``sort`` parameter returns an [Elastic Search Sort Object](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-request-body.html)
 * there's a ``body`` parameter which lets you allow to add additional options to the body of your request
 
-The default is a [fuzzy like this](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-flt-query.html) query. You can still override it with the ``query`` parameter if you want to.
+The default is a [fuzzy like this](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-flt-query.html) query. You can still
+override it with the ``query`` parameter if you want to.

@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 
-Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Use the Blaze Components + Javascript API to [get started](getting-started). 
+Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Use the Blaze Components + Javascript API to [get started]({{ site.baseurl }}/getting-started). 
 
 ```javascript
 // On Client and Server
