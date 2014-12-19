@@ -2,7 +2,7 @@ Easy Search
 =====================
 
 Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Use the Blaze Components + Javascript API to
-[get started](http://matteodem.github.io/meteor-easy-search). Since v1.0 it uses MongoDB for searching by default, but if you
+[get started](http://matteodem.github.io/meteor-easy-search/getting-started). Since v1.0 it uses MongoDB for searching by default, but if you
 want to go for a mature search engine you can use [Elastic Search](http://matteodem.github.io/meteor-easy-search/docs/elastic-search/).
 
 ```javascript
