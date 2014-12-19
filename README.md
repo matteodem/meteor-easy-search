@@ -1,7 +1,9 @@
 Easy Search
 =====================
 
-Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Use the Blaze Components + Javascript API to [get started](https://github.com/matteodem/meteor-easy-search/wiki/Getting-started). Since v1.0 it uses MongoDB for searching by default, but if you want to go for a mature search engine you can use [Elastic Search](https://github.com/matteodem/meteor-easy-search/wiki/Using-Elastic-Search).
+Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Use the Blaze Components + Javascript API to
+[get started](matteodem.github.io/meteor-easy-search). Since v1.0 it uses MongoDB for searching by default, but if you
+want to go for a mature search engine you can use [Elastic Search](http://matteodem.github.io/meteor-easy-search/docs/elastic-search/).
 
 ```javascript
 // On Client and Server
@@ -20,7 +22,8 @@ Players.initEasySearch('name');
 </template>
 ```
 
-Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have a look at the [Documentation](https://github.com/matteodem/meteor-easy-search/wiki) for more information.
+Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have a look at the
+[Documentation](http://matteodem.github.io/meteor-easy-search/) for more information.
 
 ## How to install
 
