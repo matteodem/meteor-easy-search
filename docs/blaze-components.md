@@ -67,6 +67,16 @@ with esEach (the #each for search indexes).
 
 A way to render each found search item, having the document with all its data.
 
+### esPagination
+
+**Parameters**
+
+* index (required, the index name)
+* id (only required when also added to the esInput)
+* renderControl (not required, custom render template for each pagination step)
+
+Load more documents through pagination.
+
 ### esLoadMoreButton
 
 **Parameters**
@@ -77,7 +87,7 @@ A way to render each found search item, having the document with all its data.
 * content (not required, the content of the load more button)
 * class (not required, additional classes)
 
-Making it possible to load more documents with a load more button.
+Makes it possible to load more documents with a load more button.
 
 ### esAutosuggest
 
@@ -91,7 +101,7 @@ Making it possible to load more documents with a load more button.
 * reactive (default true, make the search not reactive if wished)
 * timeout (not required, when to start the search after keyup)
 * options (not required, the options for the find cursor, [see here](http://docs.meteor.com/#find))
-* renderSuggestion (not required, a string for a ``<template>`` to render each suggestion)
+* renderSuggestion (not required, custom render template for each suggestion)
 
 Creates a fully self working autosuggest field, which renders suggestions and lets them add you 
 with arrow-down and up, enter and remove them with backspace.

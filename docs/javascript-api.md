@@ -116,12 +116,34 @@ EasySearch.searchMultiple(['cars', 'people'], 'Volvo', function (error, data) {
 
 ### (Client) changeProperty(name, key, value)
 
-``name`` and ``key`` are both strings, the first is the index name and the second the key (for example limit or field).
+``name`` and ``key`` are both strings, the first is the index name and the second the key (custom defined fields useful for sorting / filtering).
 ``value`` can be any type of value as long as it's used right when searching.
 
 ```javascript
 // On Client, for example when implementing a custom filter
 EasySearch.changeProperty('cars',  'filterTimeRange', '2012-10-10 2014-10-01');
+```
+
+### (Client) changeLimit(name, howMany)
+
+``name`` is the index name as a string. ``howMany`` is a number that defines the limit of search results being returned. On the next search / subscription
+this limit will be used for returning the results.
+
+
+```javascript
+EasySearch.changeLimit('cars', 10,);
+```
+
+### (Client) pagination(name, step)
+
+``name`` is the index name as a string. ``step`` is a number or string that defines the current step in the pagination. If you're on step "1",for 
+example you would call it with step being a number of 1. A string is only useable if it's a defined constant.
+On the next search / subscription the skip value that this method changes will be used for returning the results.
+
+
+```javascript
+EasySearch.pagination('cars', 1); // go to the first step
+EasySearch.pagination('cars', EasySearch.PAGINATION_NEXT); // Go to the second step
 ```
 
 ### (Server) createSearcher(key, methods)

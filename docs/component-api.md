@@ -49,7 +49,7 @@ Template.searchbar.helpers({
 
 ### Clear the current search (reset)
 
-You can reset all the values by using clear on the component.
+You can reset all the values by using __clear__ on the component.
 
 ```javascript
 var instance = EasySearch.getComponentInstance(
@@ -72,6 +72,23 @@ var instance = EasySearch.getComponentInstance(
 // change filter with changeProperty on the client
 
 instance.triggerSearch();
+```
+
+
+### Paginating search results
+
+You can paginate search results by calling a component method called __paginate__. It will update the UI of your esPagination component and after calling
+triggerSearch also update your search results.
+ 
+```javascript
+var instance = EasySearch.getComponentInstance(
+  { id : 'main', index : 'sites' }
+);
+
+instance.paginate(2); // Go to step 2
+instance.paginate(EasySearch.PAGINATION_PREV) // go to step 1, the previous step
+
+instance.triggerSearhc // update search results
 ```
 
 ### Available Values

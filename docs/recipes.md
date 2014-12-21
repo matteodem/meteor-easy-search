@@ -1,7 +1,27 @@
 ---
 layout: doc
-title: Faceted Search
+title: Recipes
 ---
+
+Here you can find instructions on different search features you might want to add to your app.
+
+### Loading more content
+
+You can easily load more content by using either ```esLoadMoreButton``` or ```esPagination```. The advantage of using the load more buton is that
+it's easy to navigate, but it loads a lot more documents and uses more disk space than the paginatable solution. Simply use them like this:
+
+
+```html
+{% raw %}
+<div class="search-controls">
+    {{> esLoadMoreButton index="players"}}
+    <!-- or -->
+    {{> esPagination index="players"}}
+</div>
+{% endraw %}
+```
+
+### Filters / Faceted Search
 
 You can easily implement filters and faceted search with Easy-Search. Let's say you want to filter for different categories, you would probably do it like this.
 

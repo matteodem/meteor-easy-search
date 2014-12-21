@@ -18,18 +18,22 @@ EasySearch.createSearchIndex('cars', {
 You can choose beetween following search engines:
 
 __minimongo (default)__
+
 * Good for filtering over existing subscriptions
 * better for small amount of documents
 
 __mongo-db (default)__
+
 * lets you search all the docs in your collection
 * no publications / subscriptions needed
 
 __elastic-search__
+
 * Mature approach for bigger searches
 * Also all documents are searchable
 
-The search is always reactive, as long as you don't set ```reactive``` to be false (createSearchIndex).
+The search is always reactive, as long as you don't set ```reactive``` to be false (createSearchIndex). Also you can filter the range of "searchable"
+documents by adding a custom ```query``` parameter, see [here]({{ site.baseurl }}/docs/javascript-api).
 
 ### Adding your own search engine
 
