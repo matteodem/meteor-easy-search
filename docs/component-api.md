@@ -86,9 +86,9 @@ var instance = EasySearch.getComponentInstance(
 );
 
 instance.paginate(2); // Go to step 2
-instance.paginate(EasySearch.PAGINATION_PREV) // go to step 1, the previous step
+instance.paginate(EasySearch.PAGINATION_PREV); // go to step 1, the previous step
 
-instance.triggerSearhc // update search results
+instance.triggerSearch(); // update search results
 ```
 
 ### Available Values
