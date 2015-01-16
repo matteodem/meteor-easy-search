@@ -47,6 +47,24 @@ Template.searchbar.helpers({
 }); 
 ```
 
+### Searching with Components
+
+You can __search__ on the component level, if you don't need an esInput for your search. It also makes it possible to have
+general filter functionality for your app.
+
+```javascript
+
+Template.players.events({
+  'click .last-matches' : function () {
+     EasySearch
+       .getComponentInstance({ index: 'players' })
+       .search(Session.get('playerId'))
+     ;
+  }
+});
+
+```
+
 ### Clear the current search (reset)
 
 You can reset all the values by using __clear__ on the component.
@@ -61,7 +79,7 @@ instance.clear();
 
 ### Triggering search
 
-You can manually trigger search, useful for [faceted search]({{ site.baseurl }}/docs/faceted-search), for example when trying to filter or sort.
+You can manually __trigger search__, useful for [faceted search]({{ site.baseurl }}/docs/faceted-search), for example when trying to filter or sort.
 
 
 ```javascript

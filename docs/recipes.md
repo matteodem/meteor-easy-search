@@ -21,6 +21,48 @@ it's easy to navigate, but it loads a lot more documents and uses more disk spac
 {% endraw %}
 ```
 
+### Searching on custom events
+
+If you want to have the functionality of all the Blaze Components, without searching inside an input, you can use the
+search method on the [component instance]({{ site.baseurl }}/docs/component-api). This allows you to react on any custom
+Javascript Event, for example clicking on a picture of a player to load all his latest matches with an EasySearch Index.
+
+
+```javascript
+
+Template.players.events({
+  'click .playerBox': function () {
+    EasySearch
+      .getComponentInstance({ index: 'players' })
+      .search(this._id)
+    ;
+  }
+});
+
+```
+
+This let's you use all the functionality of EasySearch but without the need of only searching through an input. 
+
+### Enhancing document fields
+
+With Elastic-Search and other Search Indexes you generally try to have as much information in a document than possible.
+This means you have to let go of normalization and instead focus on fields you would want for a better search experience.
+If you for example have a __firstName__ and __lastName__ field in your Mongo docs, but you want users to search over their
+full name, you could do it with ```transform```
+
+```javascript
+EasySearch.createSearchIndex('employees', {
+   field: 'fullName',
+   transform: function (doc) {
+     doc.fullName = doc.firstName + ' ' + doc.lastName;
+   }
+});
+```
+
+This creates a new property called __fullName__, which is only used for indexing and searching. It is also a good idea
+to add new fields for sorting. If you want to have the same functionality with mongo-db, you need to add those
+fields to your docs.
+
 ### Filters / Faceted Search
 
 You can easily implement filters and faceted search with Easy-Search. Let's say you want to filter for different categories, you would probably do it like this.
