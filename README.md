@@ -8,7 +8,7 @@ want to go for a mature search engine you can use [Elastic Search](http://matteo
 ```javascript
 // On Client and Server
 Players = new Meteor.Collection('players');
-// name is the field to search over
+// name is the field of the documents to search over
 Players.initEasySearch('name');
 ```
 
@@ -16,9 +16,11 @@ Players.initEasySearch('name');
 <template name="searchBox">
     {{> esInput index="players" placeholder="Search..." }}
 
+    <ul>
     {{#esEach index="players"}}
-        {{> player}}
+        <li>Name of the player: {{name}}</li>
     {{/esEach}}
+    </ul>
 </template>
 ```
 
