@@ -52,6 +52,7 @@ full name, you could do it with ```transform```
 
 ```javascript
 EasySearch.createSearchIndex('employees', {
+   use: 'elastic-search', // mongo-db and minimongo won't work
    field: 'fullName',
    transform: function (doc) {
      doc.fullName = doc.firstName + ' ' + doc.lastName;
