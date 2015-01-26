@@ -20,7 +20,7 @@ Players.initEasySearch(['name', 'price'], {
 });
 ```
 
-As you see, we have an array of searchable fields, name and price. We also defined a default limit of 20
+As you see we now have an array of searchable fields: Name and price. We also defined a default limit of 20
 documents and we told EasySearch to use [mongo-db]({{ site.baseurl }}/docs/search-engines). The ```initEasySearch``` call sets up the
 environment to make searching with the Blaze Components possible. The following html snippet allows you to search through the whole Collection.
 
