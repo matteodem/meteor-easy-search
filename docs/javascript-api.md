@@ -23,7 +23,7 @@ All the following methods are called on the global ``EasySearch`` Object.
 * **convertNumbers** (default: false) Strings only containing digits will be converted to a Javascript number
 * **transform** Optional function(document) which can be used to transform documents before indexing (does not work with mongo based search)
 * **returnFields** Define an array of document fields to return
-* **changeResults** Return an array of results enhanced with custom changes
+* **changeResults** Optional function(reults) to make custom changes before using them
 * **props** Object that holds custom configuration, for sorting, filtering on the client (use changeProperty)
 
 ```javascript

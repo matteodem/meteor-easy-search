@@ -131,7 +131,7 @@ parameter.
 * index (required, the index name)
 * id (only required when also added to the esInput, will not render an HTML id!)
 
-Show certain content when an ```esAutosuggest``` field is empty.
+Show certain content when an ```esAutosuggest``` field or ```esInput``` is empty.
 
 ### ifEsHasNoResults
 

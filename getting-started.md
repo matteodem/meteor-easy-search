@@ -6,27 +6,23 @@ title: Getting started
 ### Basic Searching
 
 With Easy Search, you create "Search Indexes" to search your MongoDB documents. You can use the Blaze Components or
-Javascript API to implement the frontend. There are 2 ways to create a "search index".
+Javascript API to implement the frontend. There are different ways to create a "search index". In our easiest example we use the
+convenience method ```initEasySearch``` on the collection to create it. Add following code for a basic example.
 
 ```javascript
-Cars = new Meteor.Collection('cars');
+// On Client and Server
+Players = new Meteor.Collection('players');
 
-EasySearch.createSearchIndex('cars', {
-    'field' : ['name', 'price'],  // required, searchable field(s)
-    'collection' : Cars,          // required, Mongo Collection
-    'limit' : 20                  // not required, default is 10
-});
-
-// OR (Both do the exact same thing)
-
-Cars.initEasySearch(['name', 'price'], {
-    'limit' : 20
+// Extended configuration
+Players.initEasySearch(['name', 'price'], {
+    'limit' : 20,
+    'use' : 'mongo-db'
 });
 ```
 
-The default [search engine]({{ site.baseurl }}/docs/search-engines) is "minimongo", which let's you filter through your existing subscription of documents. If you want to search all the documents in the collection,
-use __mongo-db__ as your engine. The Blaze Components should be sufficient for almost all cases.
-
+As you see, we have an array of searchable fields, name and price. We also defined a default limit of 20
+documents and we told EasySearch to use [mongo-db]({{ site.baseurl }}/docs/search-engines). The ```initEasySearch``` call sets up the
+environment to make searching with the Blaze Components possible. The following html snippet allows you to search through the whole Collection.
 
 ```html
 {% raw %}
@@ -37,15 +33,30 @@ use __mongo-db__ as your engine. The Blaze Components should be sufficient for a
         {{> player}}
     {{/esEach}}
 
+    {{> esLoadMoreButton index="players"}}
+
     {{#ifEsHasNoResults index="players"}}
         <div class="no-results">No results found!</div>
     {{/ifEsHasNoResults}}
+
+    {{#ifEsIsSearching index="players"}}
+            <div>Loading...</div>
+    {{/ifEsIsSearching}}
 </template>
 {% endraw %}
 ```
 
-Have a look at the different [components]({{ site.baseurl }}/docs/blaze-components). There are a variety of parameters that can be changed when using the Components, when creating the search index
-or / and when performing the search with the Javascript API.
+_How does this work without any additional configuration?_ 
+
+EasySearch adds all the logic (e.g. events for the ```esInput```) when you use the Blaze Components.
+If you want to customize your search, have a look at the [recipes]({{ site.baseurl }}/docs/recipes) and the available API's.
+
+The only thing you need to do to start searching is add documents to the ```Players``` collection with a name and a score field in them.
+The default [search engine]({{ site.baseurl }}/docs/search-engines) is "minimongo", which let's you filter through your existing subscription of documents. 
+If you want to search all the documents in the collection, use __mongo-db__ as your engine.
+The Blaze Components should be sufficient for almost all cases. Feel free to have a look at the different [components]({{ site.baseurl }}/docs/blaze-components).
+There are a variety of parameters that can be changed when using the Components, when creating the search index or / and when performing the 
+search with the Javascript API.
 
 ### Simple Autosuggest Input
 
@@ -68,7 +79,7 @@ Tags.initEasySearch('name');
 This is all that it takes to add a "select2" like input field to your app. Get the data with the jQuery method ``esAutosuggestData()``. Have a look [here]({{ site.baseurl }}/docs/autosuggest-field) for an advanced example.
 
 
-### Using Javascript
+### Only Using Javascript
 
 ```javascript
 EasySearch.search('cars', 'Toyota', function (err, data) {
@@ -81,4 +92,5 @@ EasySearch.searchMultiple(['cars', 'companies', ...], 'Toyota', function (err, d
 });
 ```
 
-It is recommended to have a look at the detailed API parameters for createSearchIndex (initEasySearch) and the Blaze Components, before implementing custom solutions!
+The Blaze Components use the Javascript API and custom publish / subscribe methods to implement the search. It is recommended to have a look at
+the detailed API parameters for createSearchIndex (same as initEasySearch) and the Blaze Components, before implementing custom solutions!
