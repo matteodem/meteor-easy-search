@@ -14,13 +14,13 @@ convenience method ```initEasySearch``` on the collection to create it. Add foll
 Players = new Meteor.Collection('players');
 
 // Extended configuration
-Players.initEasySearch(['name', 'price'], {
+Players.initEasySearch(['name', 'score'], {
     'limit' : 20,
     'use' : 'mongo-db'
 });
 ```
 
-As you see we now have an array of searchable fields: Name and price. We also defined a default limit of 20
+As you see we now have an array of searchable fields: Name and score. We also defined a default limit of 20
 documents and we told EasySearch to use [mongo-db]({{ site.baseurl }}/docs/search-engines). The ```initEasySearch``` call sets up the
 environment to make searching with the Blaze Components possible. The following html snippet allows you to search through the whole Collection.
 
