@@ -1,6 +1,6 @@
 <!-- Input field for a search -->
 <template name="esInput">
-    <input type="text" id="{{id}}" placeholder="{{placeholder}}" class="{{class}}" />
+    <input type="text" id="{{id}}" placeholder="{{placeholder}}" class="{{class}} es-input" />
 </template>
 
 <!-- Loop through the search results -->
@@ -69,7 +69,7 @@
 
 <!-- Fully self working autosuggest -->
 <template name="esAutosuggest">
-    <div class="es-autosuggest-wrapper" data-id="{{id}}" data-index="{{index}}"> 
+    <div class="es-autosuggest-wrapper" data-id="{{id}}" data-index="{{index}}">
         <div class="selected values">
             {{#each selectedValue}}
                 <span class="value">
