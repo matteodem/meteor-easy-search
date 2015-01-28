@@ -13,6 +13,7 @@ Players.initEasySearch('name');
 ```
 
 ```html
+{% raw %}
 <template name="searchBox">
     {{> esInput index="players" placeholder="Search..." }}
 
@@ -22,6 +23,7 @@ Players.initEasySearch('name');
         {{/esEach}}
     </ul>
 </template>
+{% endraw %}
 ```
 
 Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have at the sidebar for more information.
