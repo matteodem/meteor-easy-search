@@ -29,9 +29,11 @@ environment to make searching with the Blaze Components possible. The following 
 <template name="search">
     {{> esInput index="players" placeholder="Search..." }}
 
+    <ul>
     {{#esEach index="players"}}
-        {{> player}}
+        <li>Name of the player: {{name}} ({{score}})</li>
     {{/esEach}}
+    </ul>
 
     {{> esLoadMoreButton index="players"}}
 
