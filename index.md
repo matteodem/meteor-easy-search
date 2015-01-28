@@ -8,20 +8,20 @@ Easy Search is a simple and flexible solution for adding Search Components to yo
 ```javascript
 // On Client and Server
 Players = new Meteor.Collection('players');
-// name is the field to search over
+// name is the field of the documents to search over
 Players.initEasySearch('name');
 ```
 
 ```html
-{% raw %}
 <template name="searchBox">
     {{> esInput index="players" placeholder="Search..." }}
 
-    {{#esEach index="players"}}
-        {{> player}}
-    {{/esEach}}
+    <ul>
+        {{#esEach index="players"}}
+            <li>Name of the player: {{name}}</li>
+        {{/esEach}}
+    </ul>
 </template>
-{% endraw %}
 ```
 
 Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have at the sidebar for more information.
