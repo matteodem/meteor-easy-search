@@ -17,9 +17,9 @@ Players.initEasySearch('name');
     {{> esInput index="players" placeholder="Search..." }}
 
     <ul>
-    {{#esEach index="players"}}
-        <li>Name of the player: {{name}}</li>
-    {{/esEach}}
+        {{#esEach index="players"}}
+            <li>Name of the player: {{name}}</li>
+        {{/esEach}}
     </ul>
 </template>
 ```
