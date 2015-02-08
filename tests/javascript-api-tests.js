@@ -111,6 +111,33 @@ Tinytest.add('EasySearch - usesSubscriptions', function (test) {
   test.isTrue(EasySearch._usesSubscriptions('elastic-search'));
 });
 
+
+Tinytest.add('EasySearch - transformToFieldSpecifiers', function (test) {
+  test.equal(EasySearch._transformToFieldSpecifiers(['name', 'score']), { 'name' : 1, 'score' : 1 });
+  test.equal(EasySearch._transformToFieldSpecifiers([]), {});
+  test.equal(EasySearch._transformToFieldSpecifiers(), {});
+});
+
+Tinytest.add('EasySearch - log', function (test) {
+  var originalLog = console.log,
+      originalWarn = console.warn;
+
+  console.log = function (msg) {
+    return 'I logged: ' + msg;
+  };
+
+  console.warn = function (msg) {
+    return 'I warned: ' + msg;
+  };
+
+  test.equal(EasySearch.log('test'), 'I logged: test');
+  test.equal(EasySearch.log('test', 'warn'), 'I warned: test');
+  test.equal(EasySearch.log('test2', 'doesNotExist'), 'I logged: test2');
+
+  console.log = originalLog;
+  console.warn = originalWarn;
+});
+
 if (Meteor.isClient) {
   Tinytest.add('EasySearch - Client - changeProperty', function (test) {
     EasySearch.createSearchIndex('testIndex2', {
@@ -244,6 +271,14 @@ if (Meteor.isClient) {
       return index === simpleConf.index;
     }));
   });
+  
+  Tinytest.add('EasySearch - Client - getSearcher, getSearchers', function (test) {
+    test.instanceOf(EasySearch.getSearcher('minimongo').createSearchIndex, Function);
+    test.instanceOf(EasySearch.getSearchers()['minimongo'], Object);
+    test.instanceOf(EasySearch.getSearcher('minimongo').search, Function);
+    test.equal(typeof EasySearch.getSearcher('mongo-db'), "undefined");
+  });
+
 } else if (Meteor.isServer) {
   Tinytest.add('EasySearch - Server - config', function (test) {
     test.equal(EasySearch.config(), undefined);
@@ -271,5 +306,17 @@ if (Meteor.isClient) {
     test.expect_fail(function () {
       EasySearch.createSearcher('lucene', {});
     });
+  });
+
+  Tinytest.add('EasySearch - Server - getSearcher, getSearchers', function (test) {
+    test.instanceOf(EasySearch.getSearcher('mongo-db').createSearchIndex, Function);
+    test.instanceOf(EasySearch.getSearcher('mongo-db').search, Function);
+
+    test.instanceOf(EasySearch.getSearcher('elastic-search').createSearchIndex, Function);
+    test.instanceOf(EasySearch.getSearcher('elastic-search').search, Function);
+
+    test.instanceOf(EasySearch.getSearchers()['mongo-db'], Object);
+    test.instanceOf(EasySearch.getSearchers()['elastic-search'], Object);
+    test.equal(typeof EasySearch.getSearcher('minimongo'), "undefined");
   });
 }
