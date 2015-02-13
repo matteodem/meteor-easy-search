@@ -48,6 +48,7 @@ more with the provided Components.
 * event (not required, the event to listen on (only "enter" or "keyup" for now))
 * reactive (default true, make the search not reactive if wished)
 * timeout (not required, when to start the search after keyup)
+* allDocsOnEmpty (not required, define if all docs should be returned if the input field is emtpy)
 
 esInput provides you with a text input field. It doesn't make a lot of sense unless you use it together
 with esEach (the #each for search indexes).
