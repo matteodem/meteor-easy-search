@@ -50,7 +50,7 @@ Template.searchbar.helpers({
 ### Searching with Components
 
 You can __search__ on the component level, if you don't need an esInput for your search. It also makes it possible to have
-general filter functionality for your app.
+general filter functionality for your app. You can only search with strings, as the logic with esInput works.
 
 ```javascript
 
