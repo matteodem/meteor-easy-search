@@ -47,5 +47,5 @@ Package.on_test(function (api) {
   }
 
   api.add_files(['tests/javascript-api-tests.js']);
-  api.add_files('tests/components-tests.js', 'client');
+  api.add_files(['tests/component-api-tests.js', 'tests/components-tests.js'], 'client');
 });

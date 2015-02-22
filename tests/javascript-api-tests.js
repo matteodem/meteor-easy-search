@@ -253,24 +253,6 @@ if (Meteor.isClient) {
       completed();
     });
   });
-
-  Tinytest.add('EasySearch - Components - mapIndexesWithLogic', function (test) {
-    var simpleConf = { index: 'testIndex' },
-      confWithLogic = { index: 'testIndex2', logic: 'OR' },
-      confWithInvalidLogic = { index: 'testIndex2', logic: 'WHAT'};
-
-    test.isTrue(EasySearch._mapIndexesWithLogic(simpleConf, function (index) {
-      return index === simpleConf.index;
-    }));
-
-    test.isTrue(EasySearch._mapIndexesWithLogic(confWithLogic, function (index) {
-      return index === confWithLogic.index;
-    }));
-
-    test.isFalse(EasySearch._mapIndexesWithLogic(confWithInvalidLogic, function (index) {
-      return index === simpleConf.index;
-    }));
-  });
   
   Tinytest.add('EasySearch - Client - getSearcher, getSearchers', function (test) {
     test.instanceOf(EasySearch.getSearcher('minimongo').createSearchIndex, Function);

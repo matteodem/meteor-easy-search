@@ -1,213 +1,72 @@
-var fakeConf = { 'index' : 'fakeIndex' };
+Tinytest.add('EasySearch - Components - ifEsIsSearching', function (test) {
+  var func = Template.ifEsIsSearching.__helpers.get('isSearching');
 
-Tinytest.add('EasySearch - Components - generateId', function (test) {
-  var conf = { 'index' : 'players'},
-    confWithId = { id : 'mainsearch', 'index' : 'players' }
-  ;
+  Session.set('esVariables_notSearchingIndex_searching', false);
+  Session.set('esVariables_searchingIndex_search_searching', true);
 
-  test.equal(EasySearch.getComponentInstance(conf).generateId(), 'players');
-  test.equal(EasySearch.getComponentInstance(confWithId).generateId(), 'players_mainsearch');
-  test.throws(function () { EasySearch.getComponentInstance({}).generateId() });
-  test.throws(function () { EasySearch.getComponentInstance().generateId() });
+  test.equal(func.apply({
+    index: 'notSearchingIndex'
+  }), false);
+
+  test.equal(func.apply({
+    index: 'searchingIndex',
+    id: 'search'
+  }), true);
 });
 
-Tinytest.add('EasySearch - Components - get', function (test) {
-  Session.set('esVariables_fakeIndex_searching', false);
-  Session.set('esVariables_fakeIndex_searchingDone', true);
-  Session.set('esVariables_fakeIndex_currentValue', 'how do I do this');
-  Session.set('esVariables_fakeIndex_randomProperty', 'random value');
+Tinytest.add('EasySearch - Components - ifEsHasNoResults', function (test) {
+  var func = Template.ifEsHasNoResults.__helpers.get('hasNoResults'),
+    defaultValues = [{ _id: '111' }];
 
-  test.equal(EasySearch.getComponentInstance(fakeConf).get('searching'), false);
-  test.equal(EasySearch.getComponentInstance(fakeConf).get('searchingDone'), true);
-  test.equal(EasySearch.getComponentInstance(fakeConf).get('currentValue'), 'how do I do this');
-  test.equal(EasySearch.getComponentInstance(fakeConf).get('randomProperty'), 'random value');
-});
-
-Tinytest.add('EasySearch - Components - clear', function (test) {
-  Session.set('esVariables_fakeIndex_searching', true);
-  Session.set('esVariables_fakeIndex_searchingDone', true);
-  Session.set('esVariables_fakeIndex_total', 200);
-  Session.set('esVariables_fakeIndex_currentValue', 'beer');
-  Session.set('esVariables_fakeIndex_searchResults', [{}, {}, {}]);
-
-  var instance = EasySearch.getComponentInstance(fakeConf);
-
-  instance.clear();
-
-  test.equal(instance.get('searching'), false);
-  test.equal(instance.get('searchingDone'), false);
-  test.equal(instance.get('total'), 0);
-  test.equal(instance.get('currentValue'), '');
-  test.equal(instance.get('searchResults'), []);
-});
-
-Tinytest.add('EasySearch - Components - paginate', function (test) {
-  var originalGetIndex = EasySearch.getIndex;
-
-  Session.set('esVariables_fakeIndex_paginationSkip', -1);
-  Session.set('esVariables_fakeIndex_currentControl', -1);
-
-  EasySearch.getIndex = function () {
-    return { reactive: false, limit: 20, name: 'fakeIndex' };
-  };
-
-  EasySearch.getComponentInstance(fakeConf).paginate(1);
-
-  test.equal(EasySearch.getComponentInstance(fakeConf).get('paginationSkip'), 0);
-  test.equal(EasySearch.getComponentInstance(fakeConf).get('currentControl'), 1);
+  Session.set('esVariables_resultsIndex_searchResults', defaultValues);
+  Session.set('esVariables_resultsIndex_currentValue', 'test search');
   
-  EasySearch.getComponentInstance(fakeConf).paginate(2);
-
-  test.equal(EasySearch.getComponentInstance(fakeConf).get('paginationSkip'), 20);
-  test.equal(EasySearch.getComponentInstance(fakeConf).get('currentControl'), 2);
+  Session.set('esVariables_resultsIndex_searching', true);
   
-  EasySearch.getIndex = originalGetIndex;
+  test.equal(func.apply({
+    index: 'resultsIndex'
+  }), false);
+
+  Session.set('esVariables_resultsIndex_searchResults', defaultValues);
+  Session.set('esVariables_resultsIndex_currentValue', '');
+
+  test.equal(func.apply({
+    index: 'resultsIndex'
+  }), false);
+
+  Session.set('esVariables_resultsIndex_searchResults', 'notValid');
+
+  test.equal(func.apply({
+    index: 'resultsIndex'
+  }), false);
+
+  Session.set('esVariables_resultsIndex_searching', false);
+  Session.set('esVariables_resultsIndex_currentValue', 'not empty');
+  Session.set('esVariables_resultsIndex_searchResults', []);
+
+  test.equal(func.apply({
+    index: 'resultsIndex'
+  }), true);
 });
 
-Tinytest.addAsync('EasySearch - Components - search', function (test, done) {
-  var originalGetIndex = EasySearch.getIndex,
-    originalSearch = EasySearch.search,
-    instance = EasySearch.getComponentInstance(fakeConf);
+Tinytest.add('EasySearch - Components - ifEsInputIsEmpty', function (test) {
+  var func = Template.ifEsInputIsEmpty.__helpers.get('inputIsEmpty');
 
-  EasySearch.getIndex = function () {
-    return { reactive: false };
-  };
+  Session.set('esVariables_inputIndex_currentValue', '');
 
-  EasySearch.search = function (index, searchValue, cb) {};
+  test.equal(func.apply({
+    index: 'inputIndex'
+  }), true);
 
-  Session.set('esVariables_fakeIndex_searching', true);
-  Session.set('esVariables_fakeIndex_searchingDone', true);
-  Session.set('esVariables_fakeIndex_currentValue', 'notSomething');
+  Session.set('esVariables_inputIndex_currentValue', null);
 
-  instance.search('something');
+  test.equal(func.apply({
+    index: 'inputIndex'
+  }), true);
 
-  test.equal(instance.get('currentValue'), 'something');
+  Session.set('esVariables_inputIndex_currentValue', 'not empty');
 
-  instance.search('');
-
-  test.equal(instance.get('searching'), false);
-  test.equal(instance.get('searchingDone'), false);
-  
-  setTimeout(function () {
-    EasySearch.getIndex = originalGetIndex;
-    EasySearch.search = originalSearch;
-    
-    done();
-  }, 100);
-});
-
-Tinytest.addAsync('EasySearch - Components - triggerSearch (not reactive)', function (test, done) {
-  var originalGetIndex = EasySearch.getIndex,
-    originalSearch = EasySearch.search,
-    instance = EasySearch.getComponentInstance(fakeConf);
-
-  EasySearch.getIndex = function () {
-    return { reactive: false };
-  };
-
-  EasySearch.search = function (index, searchValue, cb) {
-    var results = [{ _id: 10, value: 100 }, { _id: 2, value: 200 }];
-
-    test.equal(index, 'fakeIndex');
-    test.equal(searchValue, 'something');
-
-    cb(null, {
-      total: results.length,
-      results: results
-    });
-
-    test.equal(instance.get('searching'), false);
-    test.equal(instance.get('total'), results.length);
-    test.equal(instance.get('searchingDone'), true);
-    test.equal(instance.get('searchResults'), results);
-
-    EasySearch.getIndex = originalGetIndex;
-    EasySearch.search = originalSearch;
-
-    done();
-  };
-
-  Session.set('esVariables_fakeIndex_currentValue', 'something');
-  instance.triggerSearch();
-});
-
-Tinytest.addAsync('EasySearch - Components - triggerSearch (reactive)', function (test, done) {
-  var originalGetIndex = EasySearch.getIndex,
-    originalSubscribe = Meteor.subscribe,
-    instance = EasySearch.getComponentInstance(fakeConf);
-  
-  EasySearch.getIndex = function () {
-    return { name: 'fakeIndex', reactive: true, use: 'mongo-db' };
-  };
-
-  Meteor.subscribe = function (subscriptionName, config, cb) {
-    test.equal(subscriptionName, 'fakeIndex/easySearch');
-
-    test.instanceOf(config, Object);
-    
-    cb();
-
-    test.equal(instance.get('searching'), false);
-    test.equal(instance.get('searchingDone'), true);
-
-    EasySearch.getIndex = originalGetIndex;
-    Meteor.subscribe = originalSubscribe;
-
-    done();
-  };
-
-  instance.triggerSearch();
-});
-
-// Autosuggest
-
-Tinytest.add('EasySearch - Components - resetAutosuggest', function (test) {
-  var instance = EasySearch.getComponentInstance(fakeConf),
-    called = false;
-
-  Session.set('esVariables_fakeIndex_autosuggestSelected', [{ id: 'testId', value: 'testValue' }]);
-
-  instance.clear = function () {
-    called = true;
-  };
-
-  instance.resetAutosuggest({
-    val: function (emptyString) {
-      test.equal(emptyString, '');
-    }
-  });
-
-  test.equal(called, true);
-  test.equal(instance.get('autosuggestSelected'), []);
-});
-
-Tinytest.add('EasySearch - Components - manageAutosuggestValues', function (test) {
-  var instance = EasySearch.getComponentInstance(fakeConf),
-    beforeValues = [{ id: 'testId', value: 'testValue'}],
-    afterValues = [{ id: 'testId2', value: 'testValue2'}],
-    called = false;
-
-  Session.set('esVariables_fakeIndex_autosuggestSelected', beforeValues);
-
-  test.throws(function () {
-    instance.manageAutosuggestValues()
-  });
-
-  test.equal(instance.get('autosuggestSelected'), beforeValues);
-
-  test.throws(function () {
-    instance.manageAutosuggestValues(function (current) {
-      return { invalid: 'format' };
-    });
-  });
-
-  test.equal(instance.get('autosuggestSelected'), beforeValues);
-  
-  instance.manageAutosuggestValues(function (current) {
-    called = true;
-    return afterValues;
-  });
-
-  test.equal(called, true);
-  test.equal(instance.get('autosuggestSelected'), afterValues);
+  test.equal(func.apply({
+    index: 'inputIndex'
+  }), false);
 });
