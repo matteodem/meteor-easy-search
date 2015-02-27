@@ -5,6 +5,35 @@ title: Recipes
 
 Here you can find instructions on different search features you might want to add to your app.
 
+### Search the Users Collection
+
+If you want to search through the Meteor.users collection you have to make use of the query method property. You can
+further specify the selector as you do for faceting, filtering your search. Since you have to handle nested objects,
+we use the __$elemMatch__ selector.
+
+```javascript
+EasySearch.createSearchIndex('users', {
+  field: 'username',
+  collection: Meteor.users,
+  use: 'mongo-db',
+  query: function (searchString, opts) {
+    // Default query that is used for searching
+    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
+
+    // Make the emails searchable
+    query.$or.push({
+      emails: {
+        $elemMatch: {
+          address: { '$regex' : '.*' + searchString + '.*', '$options' : 'i' }
+        }
+      }
+    });
+
+    return query;
+  }
+});
+```
+
 ### Loading more content
 
 You can easily load more content by using either ```esLoadMoreButton``` or ```esPagination```. The advantage of using the load more buton is that
