@@ -70,3 +70,61 @@ Tinytest.add('EasySearch - Components - ifEsInputIsEmpty', function (test) {
     index: 'inputIndex'
   }), false);
 });
+
+Tinytest.add('EasySearch - Components - esEach', function (test) {
+  var func = Template.esEach.__helpers.get('elasticSearchDoc'),
+    originalUsesSubscriptions = EasySearch._usesSubscriptions,
+    originalGetIndex = EasySearch.getIndex,
+    searchResults = [
+      { _id: 'wow', name: 'super' },
+      { _id: 'wow2', name: 'super2' }
+    ];
+
+  Session.set('esVariables_eachIndex_searchResults', false);
+
+  test.equal(func.apply({
+    index: 'eachIndex'
+  }), []);
+
+  Session.set('esVariables_eachIndex_searchResults', []);
+
+  test.equal(func.apply({
+    index: 'eachIndex'
+  }), []);
+
+  Session.set('esVariables_eachIndex_searchResults', searchResults);
+
+  Session.set('esVariables_eachIndex_searching', true);
+
+  test.equal(func.apply({
+    index: 'eachIndex'
+  }), []);
+
+  Session.set('esVariables_eachIndex_searching', false);
+
+  test.equal(func.apply({
+    index: 'eachIndex'
+  }), searchResults);
+
+  EasySearch._usesSubscriptions = function () {
+    return true;
+  };
+
+  EasySearch.getIndex = function () {
+    return {
+      find: function () {
+        return { fake: 'cursor' };
+      },
+      reactiveSort: function () {
+        return { sort: ['_id'] };
+      }
+    }
+  };
+  
+  test.equal(func.apply({
+    index: 'eachIndex'
+  }), { fake: 'cursor' });
+
+  EasySearch._usesSubscriptions = originalUsesSubscriptions;
+  EasySearch.getIndex = originalGetIndex;
+});
