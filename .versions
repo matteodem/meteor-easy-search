@@ -20,9 +20,9 @@ json@1.0.3
 launch-screen@1.0.2
 less@1.0.13
 livedata@1.0.13
-local-test:matteodem:easy-search@1.5.1
+local-test:matteodem:easy-search@1.5.2
 logging@1.0.7
-matteodem:easy-search@1.5.1
+matteodem:easy-search@1.5.2
 meteor@1.1.5
 meteor-platform@1.2.2
 minifiers@1.1.4
