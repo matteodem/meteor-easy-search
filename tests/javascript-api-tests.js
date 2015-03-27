@@ -301,4 +301,10 @@ if (Meteor.isClient) {
     test.instanceOf(EasySearch.getSearchers()['elastic-search'], Object);
     test.equal(typeof EasySearch.getSearcher('minimongo'), "undefined");
   });
+  
+  Tinytest.add('EasySearch - Server - _transformFieldsToIndexDocument', function (test) {
+    test.equal(EasySearch._transformFieldsToIndexDocument([]), {});
+    test.equal(EasySearch._transformFieldsToIndexDocument(['name']), { name: 'text' });
+    test.equal(EasySearch._transformFieldsToIndexDocument(['name', 'score']), { name: 'text', score: 'text' });
+  });
 }
