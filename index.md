@@ -26,7 +26,7 @@ Players.initEasySearch('name');
 {% endraw %}
 ```
 
-Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have at the sidebar for more information.
+Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have a look at the sidebar for more information.
 
 ## How to install
 
