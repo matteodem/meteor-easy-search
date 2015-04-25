@@ -19,8 +19,9 @@ All the following methods are called on the global ``EasySearch`` Object.
 * **limit** (default: 10): Return an array with a maxium length of this defined number
 * **query**: Define a custom query function which returns a [selector object](http://docs.meteor.com/#selectors)
 * **sort**: Defined a custom sort function which returns a [sort specifier](http://docs.meteor.com/#sortspecifiers)
-* **use** (default: 'minimongo'): Which engine to use for searching ('elastic-search' or use createSearcher for custom enginges)
+* **use** (default: 'minimongo'): Which engine to use for searching (`elastic-search` or use createSearcher for custom enginges)
 * **convertNumbers** (default: false) Strings only containing digits will be converted to a Javascript number
+* **useTextIndexes** (default: false) Use text indexes for searching, with `mongo-db` as the engine
 * **transform** Optional function(document) which can be used to transform documents before indexing (does not work with mongo based search)
 * **returnFields** Define an array of document fields to return
 * **changeResults** Optional function(reults) to make custom changes before using them
