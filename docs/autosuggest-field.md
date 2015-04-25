@@ -32,7 +32,7 @@ Set up the client javascript code like following to react upon every selection c
 
 ```javascript
 // Only client
-Template.playersOverview.created = function () {
+Template.playersOverview.onCreated(function () {
   // set up reactive computation
   this.autorun(function () {
     var instance = EasySearch.getComponentInstance(

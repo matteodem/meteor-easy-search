@@ -102,6 +102,7 @@ Makes it possible to load more documents with a load more button.
 * reactive (default true, make the search not reactive if wished)
 * timeout (not required, when to start the search after keyup)
 * options (not required, the options for the find cursor, [see here](http://docs.meteor.com/#find))
+* renderValue (not required, custom render template for each selected value)
 * renderSuggestion (not required, custom render template for each suggestion)
 
 Creates a fully self working autosuggest field, which renders suggestions and lets them add you 
