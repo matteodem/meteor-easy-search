@@ -110,10 +110,13 @@ Creates a fully self working autosuggest field, which renders suggestions and le
 with arrow-down and up, enter and remove them with backspace.
 
 You can get your selected autosuggest values like this.
+
 ```javascript
+{% raw %}
 // On Client
 var values = $('.myAutosuggestInput').esAutosuggestData();
-````
+{% endraw %}
+```
 
 ### ifEsIsSearching
 
