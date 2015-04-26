@@ -26,7 +26,7 @@ All the following methods are called on the global ``EasySearch`` Object.
 * **returnFields** Define an array of document fields to return
 * **changeResults** Optional function(reults) to make custom changes before using them
 * **props** Optional Object that holds custom configuration, for sorting, filtering on the client (use changeProperty)
-* **weights** Optioanl function() which holds weights configuration for MongoDB text indexes
+* **weights** Optional function() which should return the weights for MongoDB text indexes
 
 ```javascript
 // On Client and Server
