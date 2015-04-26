@@ -45,6 +45,7 @@ more with the provided Components.
 * class (not required, additional classes)
 * id (not required, id of the input)
 * placeholder (not required, placeholder)
+* type (not required, type of the input)
 * event (not required, the event to listen on (only "enter" or "keyup" for now))
 * reactive (default true, make the search not reactive if wished)
 * timeout (not required, when to start the search after keyup)

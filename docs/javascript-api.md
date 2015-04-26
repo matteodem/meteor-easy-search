@@ -25,7 +25,8 @@ All the following methods are called on the global ``EasySearch`` Object.
 * **transform** Optional function(document) which can be used to transform documents before indexing (does not work with mongo based search)
 * **returnFields** Define an array of document fields to return
 * **changeResults** Optional function(reults) to make custom changes before using them
-* **props** Object that holds custom configuration, for sorting, filtering on the client (use changeProperty)
+* **props** Optional Object that holds custom configuration, for sorting, filtering on the client (use changeProperty)
+* **weights** Optioanl function() which holds weights configuration for MongoDB text indexes
 
 ```javascript
 // On Client and Server
