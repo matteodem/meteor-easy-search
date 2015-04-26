@@ -1,3 +1,17 @@
+Tinytest.add('EasySearch - Components - esInput', function (test) {
+  var func = Template.esInput.__helpers.get('type');
+
+  test.equal(func.apply({
+    type: 'number'
+  }), 'number');
+
+  test.equal(func.apply({}), 'text');
+
+  test.equal(func.apply({
+    type: 'custom'
+  }), 'custom');
+});
+
 Tinytest.add('EasySearch - Components - ifEsIsSearching', function (test) {
   var func = Template.ifEsIsSearching.__helpers.get('isSearching');
 
