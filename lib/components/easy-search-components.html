@@ -53,13 +53,15 @@
 <!-- Pagination controls -->
 <template name="esPagination">
     {{#if hasResults}}
-        <ul class="es-pagination">
+        <ul class="es-pagination pagination">
             {{#each control}}
                 <li class="control {{selectedClass}} {{state}}">
                     {{#if ../renderControl}}
                         {{> ../renderControl}}
                     {{else}}
-                        {{text}}
+                         <a href="#">
+                            {{text}}
+                        </a>
                     {{/if}}
                 </li>
             {{/each}}
