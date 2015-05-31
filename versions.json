@@ -203,6 +203,10 @@
     [
       "webapp-hashing",
       "1.0.1"
+    ],
+    [
+      "meteorhacks:aggregate",
+      "1.2.1"
     ]
   ],
   "pluginDependencies": [],
