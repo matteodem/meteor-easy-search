@@ -46,8 +46,6 @@ Package.on_test(function (api) {
     api.use(['tinytest', 'easy-search']);
   }
 
-  api.use('meteorhacks:aggregate@1.2.1');
-
   api.add_files(['tests/javascript-api-tests.js']);
   api.add_files(['tests/component-api-tests.js', 'tests/components-tests.js'], 'client');
 });
