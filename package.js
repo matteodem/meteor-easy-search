@@ -15,7 +15,7 @@ Package.on_use(function (api) {
   }
 
   api.use(['underscore', 'livedata', 'mongo-livedata', 'meteor',
-    'meteor-platform', 'less'], ['client', 'server']);
+    'meteor-platform', 'less', 'meteorhacks:aggregate@1.2.1'], ['client', 'server']);
 
   api.use(['templating', 'ui', 'jquery'], 'client');
 
