@@ -20,11 +20,13 @@ json@1.0.3
 launch-screen@1.0.2
 less@1.0.14
 livedata@1.0.13
-local-test:matteodem:easy-search@1.5.5
+local-test:matteodem:easy-search@1.5.7
 logging@1.0.7
-matteodem:easy-search@1.5.5
+matteodem:easy-search@1.5.7
 meteor@1.1.6
 meteor-platform@1.2.2
+meteorhacks:aggregate@1.2.1
+meteorhacks:collection-utils@1.2.0
 minifiers@1.1.5
 minimongo@1.0.8
 mobile-status-bar@1.0.3
@@ -49,4 +51,3 @@ underscore@1.0.3
 url@1.0.4
 webapp@1.2.0
 webapp-hashing@1.0.3
-meteorhacks:aggregate@1.2.1
