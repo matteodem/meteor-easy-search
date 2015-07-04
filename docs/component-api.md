@@ -9,9 +9,12 @@ There are Component Events, which are built with the client side ```Session``` A
 ```{% raw %}{{> esInput id="main" index="sites"}}{% endraw %}```, then you could do following to react upon certain events.
 
 ```javascript
-Template.searchbar.created = function () {
-  var instance = EasySearch.getComponentInstance(
-    { id : 'main', index : 'sites' }
+Template.searchbar.onCreated(function () {
+  var self = this,
+    instance;
+
+  instance = EasySearch.getComponentInstance(
+    { id: 'main', index: 'sites', autorun: self.autorun }
   );
 
   instance.on('searchingDone', function (searchingIsDone) {
@@ -21,10 +24,10 @@ Template.searchbar.created = function () {
   instance.on('currentValue', function (val) {
     console.log('The user searches for ' + val);
   });
-};
+});
 ```
 
-This sets up an autorun, which is re-run everytime the value of the "event" changes. Events that can be reacted on are stated under ___Available Values__.
+This sets up an autorun, which is re-run everytime the value of the "event" changes. Events that can be reacted on are stated under ___Available Values__. Notice how we add the autorun that should be used when calling `getComponentInstance`.
 There's always a corresponding value which is changed and passed to the callback function.
 
 ### Retrieve Component Values
@@ -34,11 +37,11 @@ You can retrieve component values like following to work with them in your app.
 ```javascript
 var instance;
 
-Template.searchbar.rendered = function () {
+Template.searchbar.onRendered(function () {
   instance = EasySearch.getComponentInstance(
-    { id : 'main', index : 'sites' }
+    { id: 'main', index: 'sites' }
   );
-};
+});
 
 Template.searchbar.helpers({
   isSearching: function () {
@@ -71,7 +74,7 @@ You can reset all the values by using __clear__ on the component.
 
 ```javascript
 var instance = EasySearch.getComponentInstance(
-  { id : 'main', index : 'sites' }
+  { id: 'main', index: 'sites' }
 );
 
 instance.clear();
@@ -84,7 +87,7 @@ You can manually __trigger search__, useful for [faceted search]({{ site.baseurl
 
 ```javascript
 var instance = EasySearch.getComponentInstance(
-  { id : 'main', index : 'sites' }
+  { id: 'main', index: 'sites' }
 );
 
 // change filter with changeProperty on the client
@@ -100,7 +103,7 @@ triggerSearch also update your search results.
  
 ```javascript
 var instance = EasySearch.getComponentInstance(
-  { id : 'main', index : 'sites' }
+  { id: 'main', index: 'sites' }
 );
 
 instance.paginate(2); // Go to step 2
