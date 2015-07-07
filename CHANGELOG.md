@@ -1,9 +1,11 @@
 1.6.0
 =====
 
+* Added #183: Support for sorting by textScore when mongo text indexes are used
 * Merged #235 from [@TPXP](https://github.com/TPXP): Allow to set default values on esInput
 * Fixed #222: Set isSearching to true if esInput is empty
-* Added #183: Support for sorting by textScore when mongo text indexes are used
+* Fixed #198: Also subscribe to documents count if esInput is not used
+
 
 1.5.7
 ======
