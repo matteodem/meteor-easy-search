@@ -1,7 +1,7 @@
 Package.describe({
   name: 'matteodem:easy-search',
   summary: "Easy-to-use search with Blaze Components (+ Elastic Search support)",
-  version: "1.5.6",
+  version: "1.5.7",
   git: "https://github.com/matteodem/meteor-easy-search.git"
 });
 
@@ -15,7 +15,7 @@ Package.on_use(function (api) {
   }
 
   api.use(['underscore', 'livedata', 'mongo-livedata', 'meteor',
-    'meteor-platform', 'less'], ['client', 'server']);
+    'meteor-platform', 'less', 'meteorhacks:aggregate@1.2.1'], ['client', 'server']);
 
   api.use(['templating', 'ui', 'jquery'], 'client');
 
