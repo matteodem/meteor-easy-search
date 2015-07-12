@@ -26,7 +26,7 @@ more with the provided Components.
                 {{> player}}
             {{/esEach}}
         </div>
-        
+
         {{> esLoadMoreButton index="players"}}
     {{/ifEsIsSearching}}
 
@@ -47,7 +47,6 @@ more with the provided Components.
 * placeholder (not required, placeholder)
 * type (not required, type of the input)
 * event (not required, the event to listen on (only "enter" or "keyup" for now))
-* reactive (default true, make the search not reactive if wished)
 * timeout (not required, when to start the search after keyup)
 * allDocsOnEmpty (not required, define if all docs should be returned if the input field is emtpy)
 
@@ -57,7 +56,6 @@ with esEach (the #each for search indexes).
 **Tips**
 
 * Only add an id parameter when you have 2 or more search components on the same index
-* Setting "reactive" to false can make the search faster
 
 ### esEach
 
@@ -100,13 +98,12 @@ Makes it possible to load more documents with a load more button.
 * id (not required, id of the input)
 * placeholder (not required, placeholder)
 * event (not required, the event to listen on (only "enter" or "keyup" for now))
-* reactive (default true, make the search not reactive if wished)
 * timeout (not required, when to start the search after keyup)
 * options (not required, the options for the find cursor, [see here](http://docs.meteor.com/#find))
 * renderValue (not required, custom render template for each selected value)
 * renderSuggestion (not required, custom render template for each suggestion)
 
-Creates a fully self working autosuggest field, which renders suggestions and lets them add you 
+Creates a fully self working autosuggest field, which renders suggestions and lets them add you
 with arrow-down and up, enter and remove them with backspace.
 
 You can get your selected autosuggest values like this.
@@ -164,7 +161,7 @@ parameter to an array and define one ``esEach`` loop for each index defined.
      {{#esEach index="players"}}
          {{> player}}
      {{/esEach}}
-	
+
      {{#esEach index="cars"}}
          {{> car}}
      {{/esEach}}
