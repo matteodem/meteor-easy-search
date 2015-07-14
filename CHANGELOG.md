@@ -6,7 +6,7 @@
 * Fixed #222: Set isSearching to true if esInput is empty
 * Fixed #198: Also subscribe to documents count if esInput is not used
 * Fixed #214: Enable Previous button in pagination after more than 0 documents are skipped
-
+* Merged #240 from [@TPXP](https://github.com/TPXP): Allow permission handling per index
 
 1.5.7
 ======
