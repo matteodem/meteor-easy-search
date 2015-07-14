@@ -70,7 +70,7 @@ Template.players.events({
 
 ```
 
-This let's you use all the functionality of EasySearch but without the need of only searching through an input. 
+This let's you use all the functionality of EasySearch but without the need of only searching through an input.
 
 ### Enhancing document fields
 
@@ -92,6 +92,25 @@ EasySearch.createSearchIndex('employees', {
 This creates a new property called __fullName__, which is only used for indexing and searching. It is also a good idea
 to add new fields for sorting. If you want to have the same functionality with mongo-db, you need to add those
 fields to your docs.
+
+### Searching with Mongo Text Indexes
+
+If you want to stay true to MongoDB you can use text indexes to get enhanced search functionality. It is a good idea to sort by
+`textScore`, which is the most relevant document that matches your search.
+
+
+```javascript
+EasySearch.createSearchIndex('employees', {
+   use: 'mongo-db',
+   useTextIndexes: true, // use mongo text indexes
+   field: 'fullName', // field to use text indexes for
+   sort: function () {
+    return {
+      score: { $meta: 'textScore' } // sort by relevance
+    };
+   }
+});
+```
 
 ### Filters / Faceted Search
 
@@ -153,7 +172,7 @@ if (Meteor.isClient) {
 }
 ```
 
-With the help of ```changeProperty``` you can change the configuration values set in ```createSearchIndex``` and then re-trigger the search with ```triggerSearch``` on the component instance. 
+With the help of ```changeProperty``` you can change the configuration values set in ```createSearchIndex``` and then re-trigger the search with ```triggerSearch``` on the component instance.
 This will run through the custom query defined and since it has an if statement that covers filters, it'll only return results where the products are in one of the selected cateogries.
 
 See the [Easy-Search Leaderboard](https://github.com/matteodem/easy-search-leaderboard) for a working example of this.

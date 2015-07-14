@@ -4,7 +4,7 @@ title: Javascript API
 ---
 
 
-All the Components are implemented on top of the Javascript API. You don't have to decide for 
+All the Components are implemented on top of the Javascript API. You don't have to decide for
 one or the other, you can for example define a custom selector and sort object for a search index and still use
 the Blaze Components with it.
 
@@ -26,7 +26,8 @@ All the following methods are called on the global ``EasySearch`` Object.
 * **returnFields** Define an array of document fields to return
 * **changeResults** Optional function(reults) to make custom changes before using them
 * **props** Optional Object that holds custom configuration, for sorting, filtering on the client (use changeProperty)
-* **weights** Optional function() which should return the weights for MongoDB text indexes
+* **weights** Optional function() which returns the weights for MongoDB text indexes
+* **permission** Optional function() which returns true when the user has permission to search through the index
 
 ```javascript
 // On Client and Server
@@ -35,7 +36,7 @@ EasySearch.createSearchIndex('cars', {
   'collection' : Cars,
   'limit' : 20,
   'props' : {
-    'onlyShowDiscounts' : true // demo purpose configuration, can be used in query  
+    'onlyShowDiscounts' : true // demo purpose configuration, can be used in query
   },
   'query' : function (searchString, opts) {
     // Default query that is used for searching
@@ -81,7 +82,7 @@ EasySearch.createSearchIndex('players', {
 ### (Server) search(name, searchString, options[, callback])
 
 Search over the defined index, where the name is the same string as defined when creating the Search Index. The
-search String is the part that is being searched for, for example "Toyo" would be the searchString, 
+search String is the part that is being searched for, for example "Toyo" would be the searchString,
 when "Toyota" wants to be found. ``options`` can override ``limit`` or custom fields which can be used in the ``query`` or
 ``sort``.
 
@@ -138,7 +139,7 @@ EasySearch.changeLimit('cars', 10,);
 
 ### (Client) pagination(name, step)
 
-``name`` is the index name as a string. ``step`` is a number or string that defines the current step in the pagination. If you're on step "1",for 
+``name`` is the index name as a string. ``step`` is a number or string that defines the current step in the pagination. If you're on step "1",for
 example you would call it with step being a number of 1. A string is only useable if it's a defined constant.
 On the next search / subscription the skip value that this method changes will be used for returning the results.
 
@@ -154,7 +155,7 @@ EasySearch internally uses a private ``Searchers`` object, which holds all the e
 minimongo (default). If you want to add a custom engine do this with this method. ``key`` is the name for the engine, for example:
 ``lucene``. ``methods`` is an object which expects following two methods to be defined:
 
-* createSearchIndex (name, options) 
+* createSearchIndex (name, options)
 * search (name, searchString, [options, callback])
 
 ```javascript
@@ -164,7 +165,7 @@ EasySearch.createSearcher('lucene', {
     // Setup lucene index, care about the options defined
   },
   'search' : function (name, searchString, options, callback) {
-    /* 
+    /*
      Perform a search and return, call the callback
      The return object has to look like this:
 
