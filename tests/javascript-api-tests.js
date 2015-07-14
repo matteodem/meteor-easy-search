@@ -138,6 +138,16 @@ Tinytest.add('EasySearch - log', function (test) {
   console.warn = originalWarn;
 });
 
+Tinytest.add('EasySearch - permission', function (test) {
+  EasySearch.createSearchIndex('permissionIndex', {
+    permission: function () {
+      return false;
+    }
+  });
+
+  test.throws(function () { EasySearch.search('permissionIndex', 'test'); });
+});
+
 if (Meteor.isClient) {
   Tinytest.add('EasySearch - Client - changeProperty', function (test) {
     EasySearch.createSearchIndex('testIndex2', {
@@ -198,6 +208,19 @@ if (Meteor.isClient) {
     data = EasySearch.pagination('testPagination', EasySearch.PAGINATION_PREV);
     test.equal(data.skip, 0);
     test.equal(data.step, 1);
+
+
+    EasySearch.createSearchIndex('testPaginationOneLimit', {
+      field: 'super',
+      collection: collection1,
+      limit: 1
+    });
+
+    test.equal(EasySearch.pagination('testPaginationOneLimit', 1).skip, 0);
+    test.equal(EasySearch.pagination('testPaginationOneLimit', 1).limit, 1);
+
+    test.equal(EasySearch.pagination('testPaginationOneLimit', 2).skip, 1);
+    test.equal(EasySearch.pagination('testPaginationOneLimit', 2).limit, 1);
   });
 
   Tinytest.add('EasySearch - Client - filterFunctions', function (test) {
@@ -253,7 +276,7 @@ if (Meteor.isClient) {
       completed();
     });
   });
-  
+
   Tinytest.add('EasySearch - Client - getSearcher, getSearchers', function (test) {
     test.instanceOf(EasySearch.getSearcher('minimongo').createSearchIndex, Function);
     test.instanceOf(EasySearch.getSearchers()['minimongo'], Object);
@@ -301,7 +324,7 @@ if (Meteor.isClient) {
     test.instanceOf(EasySearch.getSearchers()['elastic-search'], Object);
     test.equal(typeof EasySearch.getSearcher('minimongo'), "undefined");
   });
-  
+
   Tinytest.add('EasySearch - Server - _transformFieldsToIndexDocument', function (test) {
     test.equal(EasySearch._transformFieldsToIndexDocument([]), {});
     test.equal(EasySearch._transformFieldsToIndexDocument(['name']), { name: 'text' });
