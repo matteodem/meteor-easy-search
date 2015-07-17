@@ -1,12 +1,12 @@
 Package.describe({
   name: 'matteodem:easy-search',
   summary: "Easy-to-use search with Blaze Components (+ Elastic Search support)",
-  version: "1.6.0",
+  version: "1.6.1",
   git: "https://github.com/matteodem/meteor-easy-search.git"
 });
 
 Npm.depends({
-  'elasticsearch': '2.2.0'
+  'elasticsearch': '5.0.0'
 });
 
 Package.on_use(function (api) {
