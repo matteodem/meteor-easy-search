@@ -164,7 +164,7 @@ if (Meteor.isClient) {
       ...
 
       // Change the currently filteredCategories like this
-      EasySearch.changeProperty('products', 'filteredCategories', categories);
+      EasySearch.changeProperty('cars', 'filteredCategories', categories);
       // Trigger the search again, to reload the new products
       instance.triggerSearch();
     }
