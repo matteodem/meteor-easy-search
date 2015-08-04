@@ -57,7 +57,7 @@
             {{#each control}}
                 <li class="control {{selectedClass}} {{state}}">
                     {{#if ../renderControl}}
-                        {{> ../renderControl}}
+                        {{> Template.dynamic template=../renderControl}}
                     {{else}}
                         {{text}}
                     {{/if}}
