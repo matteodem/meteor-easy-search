@@ -3,12 +3,12 @@ class InputComponent extends BaseComponent {
   onCreated() {
     super.onCreated(...arguments);
 
-    this.options = Object.assign({}, this.defaultOptions, this.getData().options);
     this.search('');
   }
 
   events() {
-    let debouncedSearch = _.debounce((searchString) => {
+    // TODO: put this somewhere else
+    this.debouncedSearch = _.debounce((searchString) => {
       this.search(searchString);
     }, this.options.timeout);
 
@@ -17,8 +17,9 @@ class InputComponent extends BaseComponent {
         let currentSearchString = $(e.target).val().trim();
 
         if (this.searchString !== currentSearchString) {
+          this.dict.set('searching', true);
           this.searchString = currentSearchString;
-          debouncedSearch(currentSearchString);
+          this.debouncedSearch(currentSearchString);
         }
       },
       'keydown input' : function (e) {

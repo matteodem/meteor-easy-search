@@ -12,20 +12,29 @@ BaseComponent = class BaseComponent extends BlazeComponent {
     }
 
     this.index = index;
+    this.options = Object.assign({}, this.defaultOptions, this.getData().options);
 
-    if (!this.index.getComponentDict(this.name)) {
+    if (!this.dict) {
       this.index.registerComponent(this.name);
     }
   }
 
+  get defaultOptions () {
+    return {};
+  }
+
   search(searchString) {
-    this.index
-      .getComponentDict(this.name)
+    this
+      .dict
       .set('searchString', searchString)
     ;
   }
 
   getData() {
     return (this.data() || {});
+  }
+
+  get dict() {
+    return this.index.getComponentDict(this.name);
   }
 };
