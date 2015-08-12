@@ -1,50 +1,72 @@
-class InputComponent extends BaseComponent {
-
+/**
+ * The InputComponent lets you search through configured indexes.
+ *
+ * @type {InputComponent}
+ */
+EasySearch.InputComponent = class InputComponent extends BaseComponent {
+  /**
+   * Setup input onCreated
+   */
   onCreated() {
     super.onCreated(...arguments);
 
     this.search('');
+
+    this.debouncedSearch = _.debounce((searchString) => {
+      searchString = searchString.trim();
+
+      if (this.searchString !== searchString) {
+        this.dict.set('searching', true);
+        this.searchString = searchString;
+        this.search(searchString);
+      }
+
+    }, this.options.timeout);
   }
 
+  /**
+   * Event map
+   *
+   * @returns {Object}
+   */
   events() {
-    // TODO: put this somewhere else
-    this.debouncedSearch = _.debounce((searchString) => {
-      this.search(searchString);
-    }, this.options.timeout);
-
     return [{
       'keyup input' : function (e) {
-        let currentSearchString = $(e.target).val().trim();
-
-        if (this.searchString !== currentSearchString) {
-          this.dict.set('searching', true);
-          this.searchString = currentSearchString;
-          this.debouncedSearch(currentSearchString);
-        }
-      },
-      'keydown input' : function (e) {
-        if ($(e.target).val().trim().length === 0) {
-          // TODO: call stop() on cursor
-        }
+        this.debouncedSearch($(e.target).val());
       }
-    }]
+    }];
   }
 
+  /**
+   * Return the attributes to set on the input (class, id)
+   *
+   * @returns {Object}
+   */
   inputAttributes() {
     return Object.assign({}, InputComponent.defaultAttributes, this.getData().attributes);
   }
 
+  /**
+   * Return the default attributes.
+   *
+   * @returns {Object}
+   */
   static get defaultAttributes() {
     return {
       type: 'text'
     };
   }
 
+  /**
+   * Return the default options.
+   *
+   * @returns {Object}
+   */
   get defaultOptions() {
     return {
       timeout: (this.index.config.engine instanceof EasySearch.Minimongo) ? 20 : 200
     };
   }
-}
+};
 
-InputComponent.register('EasySearch.Input');
+EasySearch.InputComponent.register('EasySearch.Input');
