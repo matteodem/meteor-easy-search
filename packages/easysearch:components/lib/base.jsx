@@ -5,6 +5,9 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   }
 
   onCreated() {
+    // TODO: write tests that ensure that current logic works
+    // TODO: add docs for components
+    // TODO: support for several indexes (indexes=*)
     let index = this.getData().index;
 
     if (!(index instanceof EasySearch.Index)) {
@@ -24,10 +27,7 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   }
 
   search(searchString) {
-    this
-      .dict
-      .set('searchString', searchString)
-    ;
+    this.dict.set('searchString', searchString);
   }
 
   getData() {

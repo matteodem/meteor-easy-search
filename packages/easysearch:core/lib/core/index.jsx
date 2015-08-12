@@ -1,5 +1,4 @@
-// TODO: add a stop() method to Cursor for associated subscription handle
-// TODO: support indexes for input 
+// TODO: support indexes for input
 // TODO: Check for es6features again
 // TODO: test if components can re-use same index for multiple search components (on the same page)
 

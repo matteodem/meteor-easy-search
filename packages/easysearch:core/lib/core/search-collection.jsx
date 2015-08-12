@@ -64,7 +64,7 @@ SearchCollection = class SearchCollection {
       throw new Error('find can only be used on client');
     }
 
-    Meteor.subscribe(this.name, searchString, options);
+    this._publishHandle = Meteor.subscribe(this.name, searchString, options);
 
     let count = this._getCount();
     let mongoCursor = this._getMongoCursor(searchString, options);

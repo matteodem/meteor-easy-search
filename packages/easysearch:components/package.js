@@ -18,7 +18,7 @@ Package.onUse(function(api) {
   api.use(['grigio:babel', 'peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
 
   // Base Component
-  api.addFiles(['lib/base.jsx', 'lib/component-registry.jsx']);
+  api.addFiles(['lib/base.jsx', 'lib/component-registry.jsx'], 'client');
 
   // Input and Each
   api.addFiles(['lib/input/input.html', 'lib/input/input.jsx'], 'client');
@@ -28,9 +28,17 @@ Package.onUse(function(api) {
   api.addFiles(['lib/if-input-empty/if-input-empty.html', 'lib/if-input-empty/if-input-empty.jsx'], 'client');
   api.addFiles(['lib/if-no-results/if-no-results.html', 'lib/if-no-results/if-no-results.jsx'], 'client');
   api.addFiles(['lib/if-searching/if-searching.html', 'lib/if-searching/if-searching.jsx'], 'client');
+
+  api.export('EasySearch');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('easysearch:components');
+
+  // Test Helpers
+  api.addFiles(['tests/helpers.js']);
+
+  // Unit tests
+  api.addFiles(['tests/unit/input-tests.js'], 'client');
 });
