@@ -1,4 +1,5 @@
 // TODO: support indexes for input
+// TODO: throw error if indexes=* is used in each
 // TODO: Check for es6features again
 // TODO: test if components can re-use same index for multiple search components (on the same page)
 
@@ -18,7 +19,6 @@
  * @type {Index}
  */
 Index = class Index {
-
   /**
    * Constructor
    *

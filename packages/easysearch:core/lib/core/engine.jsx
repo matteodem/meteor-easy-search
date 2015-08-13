@@ -5,7 +5,6 @@
  * @type {Engine}
  */
 Engine = class Engine {
-
   /**
    * Constructor
    *
