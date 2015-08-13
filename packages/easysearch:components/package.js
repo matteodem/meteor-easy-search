@@ -40,5 +40,5 @@ Package.onTest(function(api) {
   api.addFiles(['tests/helpers.js']);
 
   // Unit tests
-  api.addFiles(['tests/unit/input-tests.js'], 'client');
+  api.addFiles(['tests/unit/input-tests.js', 'tests/unit/each-tests.js', 'tests/unit/if-tests.js', 'tests/unit/base-tests.js'], 'client');
 });
