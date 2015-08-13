@@ -5,9 +5,8 @@
  * @type {ReactiveEngine}
  */
 ReactiveEngine = class ReactiveEngine extends Engine {
-
   /**
-   * Constructor
+   * Constructor.
    *
    * @param {Object} config Configuration
    *

@@ -1,5 +1,14 @@
-class EachComponent extends BaseComponent {
-  // TODO: throw error if indexes=* is used
+/**
+ * The EachComponent allows to loop through the search results found with the InputComponent.
+ *
+ * @type {EachComponent}
+ */
+EasySearch.EachComponent = class EachComponent extends BaseComponent {
+  /**
+   * Return the mongo cursor for the search.
+   *
+   * @returns {Mongo.Cursor}
+   */
   doc() {
     let searchString = this.dict.get('searchString') || '',
       searchOptions = this.dict.get('searchOptions') || {};
@@ -13,6 +22,6 @@ class EachComponent extends BaseComponent {
       return cursor.mongoCursor;
     }
   }
-}
+};
 
-EachComponent.register('EasySearch.Each');
+EasySearch.EachComponent.register('EasySearch.Each');

@@ -5,7 +5,6 @@
  * @type {Cursor}
  */
 Cursor = class Cursor {
-
   /**
    * Constructor
    *

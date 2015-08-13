@@ -5,7 +5,7 @@
  */
 EasySearch.InputComponent = class InputComponent extends BaseComponent {
   /**
-   * Setup input onCreated
+   * Setup input onCreated.
    */
   onCreated() {
     super.onCreated(...arguments);
@@ -25,7 +25,7 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
   }
 
   /**
-   * Event map
+   * Event map.
    *
    * @returns {Object}
    */
@@ -38,7 +38,7 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
   }
 
   /**
-   * Return the attributes to set on the input (class, id)
+   * Return the attributes to set on the input (class, id).
    *
    * @returns {Object}
    */

@@ -5,7 +5,6 @@
  * @type {SearchCollection}
  */
 SearchCollection = class SearchCollection {
-
   /**
    * Constructor
    *
