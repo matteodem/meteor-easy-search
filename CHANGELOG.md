@@ -1,3 +1,13 @@
+1.6.2
+=====
+* Fixed #257: Optional `pos` field for autosuggest
+* Fixed #217 from [@renato0307](https://github.com/renato0307): Custom renderControl template for pagination
+
+1.6.1
+=====
+
+* Changed #249: Update elasticsearch npm dependency 
+
 1.6.0
 =====
 
