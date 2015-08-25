@@ -1,3 +1,7 @@
+1.6.3
+=====
+* Change less dependency to accept 1.* and 2.* 
+
 1.6.2
 =====
 * Fixed #257: Optional `pos` field for autosuggest
