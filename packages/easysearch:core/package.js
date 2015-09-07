@@ -14,8 +14,8 @@ Package.onUse(function(api) {
   api.versionsFrom('1.1.0.3');
 
   // Dependencies
-  api.use(['check', 'underscore']);
-  api.use(['grigio:babel']);
+  api.use(['check']);
+  api.use(['grigio:babel', 'stevezhu:lodash']);
 
   // Core packages
   api.addFiles([
@@ -29,7 +29,8 @@ Package.onUse(function(api) {
   // Engines
   api.addFiles([
     'lib/engines/mongo-db.jsx',
-    'lib/engines/minimongo.jsx'
+    'lib/engines/minimongo.jsx',
+    'lib/engines/mongo-text-index.jsx'
   ]);
 
   // Global

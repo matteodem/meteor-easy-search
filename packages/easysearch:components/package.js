@@ -29,6 +29,9 @@ Package.onUse(function(api) {
   api.addFiles(['lib/if-no-results/if-no-results.html', 'lib/if-no-results/if-no-results.jsx'], 'client');
   api.addFiles(['lib/if-searching/if-searching.html', 'lib/if-searching/if-searching.jsx'], 'client');
 
+  // Loading More Components
+  api.addFiles(['lib/load-more/load-more.html', 'lib/load-more/load-more.jsx'], 'client');
+
   api.export('EasySearch');
 });
 

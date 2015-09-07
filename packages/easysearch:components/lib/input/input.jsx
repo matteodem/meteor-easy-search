@@ -16,7 +16,11 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
       searchString = searchString.trim();
 
       if (this.searchString !== searchString) {
-        this.dict.set('searching', true);
+        this.eachIndex(function () {
+          this.dict.set('searching', true);
+          this.dict.set('searchOptions', {});
+        });
+
         this.searchString = searchString;
         this.search(searchString);
       }
@@ -64,7 +68,7 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
    */
   get defaultOptions() {
     return {
-      timeout: (this.index.config.engine instanceof EasySearch.Minimongo) ? 20 : 200
+      timeout: 50
     };
   }
 };

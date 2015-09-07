@@ -6,5 +6,8 @@ EasySearch = {
   Cursor,
   // Engines
   MongoDB: MongoDBEngine,
-  Minimongo: MinimongoEngine
+  Minimongo: MinimongoEngine,
+  MongoTextIndex: MongoTextIndexEngine
 };
+
+_ = lodash;

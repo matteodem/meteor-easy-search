@@ -14,7 +14,6 @@ Tinytest.add('EasySearch Components - Unit - Base', function (test) {
   component.onCreated();
   component.search('testString');
 
-
   test.throws(function () {
     component.search({ tryto: 'hack' });
   });
@@ -22,8 +21,8 @@ Tinytest.add('EasySearch Components - Unit - Base', function (test) {
   test.equal(component.name, 'customName');
   test.equal(component.options, { fooTest: 'barTest' });
   test.equal(component.defaultOptions, {});
-  test.instanceOf(component.index, EasySearch.Index);
-  test.equal(component.dict.get('searchString'), 'testString');
+  test.instanceOf(_.first(component.indexes), EasySearch.Index);
+  test.equal(_.first(component.dicts).get('searchString'), 'testString');
 });
 
 Tinytest.add('EasySearch Components - Unit - Base without index', function (test) {

@@ -4,20 +4,31 @@
  * @type {EachComponent}
  */
 EasySearch.EachComponent = class EachComponent extends BaseComponent {
+
+  onCreated() {
+    if (!_.isEmpty(this.getData().indexes)) {
+      throw new Meteor.Error('only-single-index', 'Can only specify one index');
+    }
+
+    super.onCreated();
+  }
+
   /**
    * Return the mongo cursor for the search.
    *
    * @returns {Mongo.Cursor}
    */
   doc() {
-    let searchString = this.dict.get('searchString') || '',
-      searchOptions = this.dict.get('searchOptions') || {};
+    let dict = _.first(this.dicts),
+      searchString = dict.get('searchString') || '',
+      searchOptions = dict.get('searchOptions') || {};
 
     if (_.isString(searchString)) {
-      let cursor = this.index.search(searchString, searchOptions);
+      let cursor = _.first(this.indexes).search(searchString, searchOptions);
 
-      this.dict.set('count', cursor.count());
-      this.dict.set('searching', !cursor.isReady());
+      dict.set('count', cursor.count());
+      dict.set('searching', !cursor.isReady());
+      dict.set('currentCount', cursor.mongoCursor.count());
 
       return cursor.mongoCursor;
     }
