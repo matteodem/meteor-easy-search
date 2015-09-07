@@ -9,16 +9,16 @@ Tinytest.add('EasySearch Components - Unit - IfInputEmpty', function (test) {
 
   component.onCreated();
 
-  component.dict.set('searchString', null);
+  _.first(component.dicts).set('searchString', null);
   test.isTrue(component.inputEmpty());
 
-  component.dict.set('searchString', '');
+  _.first(component.dicts).set('searchString', '');
   test.isTrue(component.inputEmpty());
 
-  component.dict.set('searchString', '   ');
+  _.first(component.dicts).set('searchString', '   ');
   test.isTrue(component.inputEmpty());
 
-  component.dict.set('searchString', 'test');
+  _.first(component.dicts).set('searchString', 'test');
   test.isFalse(component.inputEmpty());
 });
 
@@ -33,16 +33,16 @@ Tinytest.add('EasySearch Components - Unit - IfNoResults', function (test) {
 
   component.onCreated();
 
-  component.dict.set('count', null);
+  _.first(component.dicts).set('count', null);
   test.isTrue(component.noResults());
 
-  component.dict.set('count', 0);
+  _.first(component.dicts).set('count', 0);
   test.isTrue(component.noResults());
 
-  component.dict.set('count', 1);
+  _.first(component.dicts).set('count', 1);
   test.isFalse(component.noResults());
 
-  component.dict.set('count', 120);
+  _.first(component.dicts).set('count', 120);
   test.isFalse(component.noResults());
 });
 
@@ -57,9 +57,9 @@ Tinytest.add('EasySearch Components - Unit - IfSearching', function (test) {
 
   component.onCreated();
 
-  component.dict.set('searching', true);
+  _.first(component.dicts).set('searching', true);
   test.isTrue(component.searching());
 
-  component.dict.set('searching', false);
+  _.first(component.dicts).set('searching', false);
   test.isFalse(component.searching());
 });

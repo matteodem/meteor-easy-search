@@ -23,7 +23,7 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
    */
   static defaultMongoConfiguration(engineScope) {
     return {
-      selector: function (searchString, options) {
+      selector(searchString, options) {
         let selector = {
           $or: []
         };
@@ -34,14 +34,14 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
 
         return selector;
       },
-      selectorPerField: function (field, searchString) {
+      selectorPerField(field, searchString) {
         let selector = {};
 
         selector[field] = { '$regex' : `.*${searchString}.*`, '$options' : 'i'};
 
         return selector
       },
-      sort: function (searchString, options) {
+      sort(searchString, options) {
         return options.index.fields;
       }
     };
@@ -59,7 +59,8 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
       findOptions = {
         sort: this.callConfigMethod('sort', searchString, options),
         limit: options.search.limit,
-        offset: options.search.offset
+        offset: options.search.offset,
+        fields: this.callConfigMethod('fields', searchString, options)
       };
 
     check(searchString, String);

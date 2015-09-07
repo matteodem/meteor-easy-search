@@ -1,7 +1,6 @@
-// TODO: support indexes for input
-// TODO: throw error if indexes=* is used in each
-// TODO: Check for es6features again
 // TODO: test if components can re-use same index for multiple search components (on the same page)
+// TODO: Check for es6features again
+// TODO: documentation: how to metaScore (fields and sort)
 
 /* TODO: as a reminder
    Possible options:
@@ -11,7 +10,7 @@
    Reactive Engine options: transform
    Mongo Engine options: selector, sort, weights
    ES Engine options: query, sort, mapping (ES)
- */
+*/
 /**
  * An Index represents the main entry point for Searching with Easy-Search. It relies on
  * the given engine to have the search functionality and defines the data should be searchable.

@@ -53,7 +53,12 @@ Engine = class Engine {
    */
   callConfigMethod(methodName, ...args) {
     check(methodName, String);
-    return this.config[methodName].apply(this, args);
+
+    let func = this.config[methodName];
+
+    if (func) {
+      return func.apply(this, args);
+    }
   }
 
   /**

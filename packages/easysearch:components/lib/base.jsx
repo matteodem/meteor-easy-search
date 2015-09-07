@@ -17,22 +17,28 @@ BaseComponent = class BaseComponent extends BlazeComponent {
    * Setup component on created.
    */
   onCreated() {
-    // TODO: support for several indexes (indexes=*)
-    let index = this.getData().index;
+    let index = this.getData().index,
+      indexes = [index];
 
-    if (!(index instanceof EasySearch.Index)) {
+    if (!index) {
+      indexes = this.getData().indexes;
+    }
+
+    if (_.isEmpty(indexes)) {
       throw new Meteor.Error('no-index', 'Please provide an index for your component');
     }
 
-    this.index = index;
+    this.indexes = indexes;
     this.options = Object.assign({}, this.defaultOptions, this.getData().options);
 
     check(this.name, Match.Optional(String));
     check(this.options, Object);
 
-    if (!this.dict) {
-      this.index.registerComponent(this.name);
-    }
+    this.eachIndex(function () {
+      if (!this.dict) {
+        this.index.registerComponent(this.name);
+      }
+    });
   }
 
   /**
@@ -51,7 +57,10 @@ BaseComponent = class BaseComponent extends BlazeComponent {
    */
   search(searchString) {
     check(searchString, String);
-    this.dict.set('searchString', searchString);
+
+    this.eachIndex(function () {
+      this.dict.set('searchString', searchString);
+    });
   }
 
   /**
@@ -64,12 +73,35 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   }
 
   /**
-   * Return the dictionary.
+   * Return the dictionaries.
    *
    * @returns {Object}
    */
-  get dict() {
-    return this.index.getComponentDict(this.name);
+  get dicts() {
+    return _.map(this.indexes, (index) => {
+      return index.getComponentDict(this.name);
+    });
+  }
+
+  /**
+   * Loop through each index and apply a function
+   *
+   * @param {Function} func   Function to run
+   * @param {String}   method Lodash method name
+   *
+   * @return mixed
+   */
+  eachIndex(func, method = 'each') {
+    let componentScope = this,
+      logic = this.getData().logic;
+
+    if (!_.isEmpty(logic)) {
+      method = 'OR' === logic ? 'some' : 'every';
+    }
+
+    return _[method](this.indexes, function (index) {
+      return func.apply({ index, dict: index.getComponentDict(componentScope.name), name: componentScope.name });
+    });
   }
 };
 

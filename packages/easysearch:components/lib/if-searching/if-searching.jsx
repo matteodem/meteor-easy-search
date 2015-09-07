@@ -10,7 +10,9 @@ EasySearch.IfSearchingComponent = class IfSearchingComponent extends BaseCompone
    * @returns {boolean}
    */
   searching() {
-    return !!this.dict.get('searching');
+    return !!this.eachIndex(function () {
+      return !!this.dict.get('searching');
+    }, 'every');
   }
 };
 
