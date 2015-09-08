@@ -3,21 +3,19 @@
  *
  * @type {LoadMoreComponent}
  */
-EasySearch.LoadMoreComponent = class LoadMoreComponent extends BaseComponent {
+EasySearch.LoadMoreComponent = class LoadMoreComponent extends SingleIndexComponent {
 
   /**
    * Load more documents.
    */
   loadMore() {
-    // TODO: abstract logic into base component
-    let dict = _.first(this.dicts);
-    let currentCount = dict.get('currentCount');
+    let currentCount = this.dict.get('currentCount');
 
-    let options = dict.get('searchOptions') || {};
+    let options = this.dict.get('searchOptions') || {};
 
     options.limit = currentCount + this.options.count;
 
-    dict.set('searchOptions', options);
+    this.dict.set('searchOptions', options);
   }
 
   /**
@@ -35,7 +33,7 @@ EasySearch.LoadMoreComponent = class LoadMoreComponent extends BaseComponent {
    * @returns string
    */
   attributes() {
-    return this.options.attributes;
+    return this.getData().attributes || {};
   }
 
   /**
@@ -44,8 +42,7 @@ EasySearch.LoadMoreComponent = class LoadMoreComponent extends BaseComponent {
    * @returns {Boolean}
    */
   moreDocuments() {
-    return _.first(this.dicts).get('currentCount') < _.first(this.dicts).get('count');
-    // TODO: make throwing error in using "indexes" configurable
+    return this.dict.get('currentCount') < this.dict.get('count');
   }
   /**
    * Event map.
@@ -54,7 +51,7 @@ EasySearch.LoadMoreComponent = class LoadMoreComponent extends BaseComponent {
    */
   events() {
     return [{
-      'click button' : function (e) {
+      'click button' : function () {
         this.loadMore();
       }
     }];
@@ -68,7 +65,6 @@ EasySearch.LoadMoreComponent = class LoadMoreComponent extends BaseComponent {
   get defaultOptions() {
     return {
       content: 'Load more',
-      attributes: {},
       count: 10
     };
   }

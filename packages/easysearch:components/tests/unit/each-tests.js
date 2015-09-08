@@ -17,13 +17,13 @@ Tinytest.add('EasySearch Components - Unit - Each', function (test) {
     }, 200);
   };
 
-  _.first(component.dicts).set('searchString', 'hans');
+  component.dict.set('searchString', 'hans');
 
   var cursor = component.doc();
 
-  test.equal(_.first(component.dicts).get('count'), 200);
-  test.equal(_.first(component.dicts).get('currentCount'), 10);
-  test.equal(_.first(component.dicts).get('searching'), false);
+  test.equal(component.dict.get('count'), 200);
+  test.equal(component.dict.get('currentCount'), 10);
+  test.equal(component.dict.get('searching'), false);
   test.equal(cursor.fetch(), [{ foo: 'bar' }]);
 
   test.throws(function () {
