@@ -3,15 +3,7 @@
  *
  * @type {EachComponent}
  */
-EasySearch.EachComponent = class EachComponent extends BaseComponent {
-
-  onCreated() {
-    if (!_.isEmpty(this.getData().indexes)) {
-      throw new Meteor.Error('only-single-index', 'Can only specify one index');
-    }
-
-    super.onCreated();
-  }
+EasySearch.EachComponent = class EachComponent extends SingleIndexComponent {
 
   /**
    * Return the mongo cursor for the search.
@@ -19,16 +11,15 @@ EasySearch.EachComponent = class EachComponent extends BaseComponent {
    * @returns {Mongo.Cursor}
    */
   doc() {
-    let dict = _.first(this.dicts),
-      searchString = dict.get('searchString') || '',
-      searchOptions = dict.get('searchOptions') || {};
+    let searchString = this.dict.get('searchString') || '',
+      searchOptions = this.dict.get('searchOptions') || {};
 
     if (_.isString(searchString)) {
-      let cursor = _.first(this.indexes).search(searchString, searchOptions);
+      let cursor = this.index.search(searchString, searchOptions);
 
-      dict.set('count', cursor.count());
-      dict.set('searching', !cursor.isReady());
-      dict.set('currentCount', cursor.mongoCursor.count());
+      this.dict.set('count', cursor.count());
+      this.dict.set('searching', !cursor.isReady());
+      this.dict.set('currentCount', cursor.mongoCursor.count());
 
       return cursor.mongoCursor;
     }

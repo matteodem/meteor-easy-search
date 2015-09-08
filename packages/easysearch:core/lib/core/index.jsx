@@ -1,5 +1,7 @@
 // TODO: test if components can re-use same index for multiple search components (on the same page)
+// TODO: leverage logic from components into js API?
 // TODO: Check for es6features again
+// TODO: MIGRATING.MD
 // TODO: documentation: how to metaScore (fields and sort)
 
 /* TODO: as a reminder

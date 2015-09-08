@@ -18,7 +18,7 @@ Package.onUse(function(api) {
   api.use(['grigio:babel', 'peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
 
   // Base Component
-  api.addFiles(['lib/base.jsx', 'lib/component-registry.jsx'], 'client');
+  api.addFiles(['lib/base.jsx', 'lib/single-index.jsx', 'lib/component-registry.jsx'], 'client');
 
   // Input and Each
   api.addFiles(['lib/input/input.html', 'lib/input/input.jsx'], 'client');
@@ -43,5 +43,8 @@ Package.onTest(function(api) {
   api.addFiles(['tests/helpers.js']);
 
   // Unit tests
-  api.addFiles(['tests/unit/input-tests.js', 'tests/unit/each-tests.js', 'tests/unit/if-tests.js', 'tests/unit/base-tests.js'], 'client');
+  api.addFiles([
+    'tests/unit/input-tests.js', 'tests/unit/each-tests.js', 'tests/unit/if-tests.js', 'tests/unit/base-tests.js',
+    'tests/unit/load-more-tests.js'
+  ], 'client');
 });
