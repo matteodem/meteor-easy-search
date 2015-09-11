@@ -16,13 +16,11 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
       searchString = searchString.trim();
 
       if (this.searchString !== searchString) {
-        this.eachIndex(function () {
-          this.dict.set('searching', true);
-          this.dict.set('searchOptions', {});
-        });
-
         this.searchString = searchString;
-        this.search(searchString);
+
+        this.eachIndex(function (index, name) {
+          index.getComponentMethods(name).search(searchString);
+        });
       }
 
     }, this.options.timeout);

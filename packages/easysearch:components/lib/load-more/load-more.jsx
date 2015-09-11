@@ -9,13 +9,7 @@ EasySearch.LoadMoreComponent = class LoadMoreComponent extends SingleIndexCompon
    * Load more documents.
    */
   loadMore() {
-    let currentCount = this.dict.get('currentCount');
-
-    let options = this.dict.get('searchOptions') || {};
-
-    options.limit = currentCount + this.options.count;
-
-    this.dict.set('searchOptions', options);
+    this.index.getComponentMethods(this.name).loadMore(this.options.count);
   }
 
   /**

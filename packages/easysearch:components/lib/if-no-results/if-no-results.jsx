@@ -10,9 +10,8 @@ EasySearch.IfNoResultsComponent = class IfNoResultsComponent extends BaseCompone
    * @returns {boolean}
    */
   noResults() {
-    return !!this.eachIndex(function () {
-      let count = this.dict.get('count');
-      return !_.isNumber(count) || 0 === count;
+    return !!this.eachIndex(function (index, name) {
+      return index.getComponentMethods(name).hasNoResults();
     }, 'every');
   }
 };
