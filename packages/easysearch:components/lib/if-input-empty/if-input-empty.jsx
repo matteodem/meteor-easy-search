@@ -10,10 +10,8 @@ EasySearch.IfInputEmptyComponent = class IfInputEmptyComponent extends BaseCompo
    * @returns {boolean}
    */
   inputEmpty() {
-    return !!this.eachIndex(function () {
-      let searchString = this.dict.get('searchString');
-
-      return !searchString || (_.isString(searchString) && 0 === searchString.trim().length);
+    return !!this.eachIndex(function (index, name) {
+      return index.getComponentMethods(name).searchIsEmpty();
     }, 'every');
   }
 };

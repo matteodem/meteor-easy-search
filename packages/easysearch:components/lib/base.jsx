@@ -34,9 +34,9 @@ BaseComponent = class BaseComponent extends BlazeComponent {
     check(this.name, Match.Optional(String));
     check(this.options, Object);
 
-    this.eachIndex(function () {
-      if (!this.dict) {
-        this.index.registerComponent(this.name);
+    this.eachIndex(function (index, name) {
+      if (!index.getComponentDict(name)) {
+        index.registerComponent(name);
       }
     });
   }
@@ -58,8 +58,8 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   search(searchString) {
     check(searchString, String);
 
-    this.eachIndex(function () {
-      this.dict.set('searchString', searchString);
+    this.eachIndex(function (index, name) {
+      index.getComponentMethods(name).search(searchString);
     });
   }
 
@@ -78,9 +78,9 @@ BaseComponent = class BaseComponent extends BlazeComponent {
    * @returns {Object}
    */
   get dicts() {
-    return _.map(this.indexes, (index) => {
-      return index.getComponentDict(this.name);
-    });
+    return this.eachIndex((index, name) => {
+      return index.getComponentDict(name);
+    }, 'map');
   }
 
   /**
@@ -100,7 +100,7 @@ BaseComponent = class BaseComponent extends BlazeComponent {
     }
 
     return _[method](this.indexes, function (index) {
-      return func.apply({ index, dict: index.getComponentDict(componentScope.name), name: componentScope.name });
+      return func.apply(this, [index, componentScope.name]);
     });
   }
 };
