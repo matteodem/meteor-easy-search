@@ -9,7 +9,7 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
    */
   onCreated() {
     super.onCreated();
-    this.currentPage = 1;
+    this.dict.set('currentPage', 1);
   }
 
   /**
@@ -20,16 +20,13 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
   page() {
     let totalCount = this.dict.get('count'),
       pageCount = this.dict.get('limit'),
-      currentPage = this.currentPage,
+      currentPage = this.dict.get('currentPage'),
       maxPages = this.options.maxPages,
       prevAndNext = this.options.prevAndNext;
 
     if (!pageCount || !totalCount) {
       return [];
     }
-
-    // Trigger reactivity
-    this.dict.get('skip');
 
     return this.options.transformPages(
       // TODO: fix maxPages
@@ -74,8 +71,9 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
   events() {
     return [{
       'click .page:not(.disabled)' : function () {
-        this.currentPage = this.currentData().page;
-        this.paginate(this.currentPage);
+        let currentPage = this.currentData().page;
+        this.dict.set('currentPage', currentPage);
+        this.paginate(currentPage);
       }
     }];
   }
