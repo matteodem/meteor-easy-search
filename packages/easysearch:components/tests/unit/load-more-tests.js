@@ -1,7 +1,7 @@
 Tinytest.add('EasySearch Components - Unit - LoadMore', function (test) {
   var component = TestHelpers.createComponent(EasySearch.LoadMoreComponent, {
+    count: 15,
     attributes: { 'class': 'whatsup' },
-    options: { count: 15 },
     indexes: [new EasySearch.Index({
       collection: new Meteor.Collection(null),
       engine: new EasySearch.Minimongo(),

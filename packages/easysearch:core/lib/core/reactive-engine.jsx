@@ -36,6 +36,7 @@ ReactiveEngine = class ReactiveEngine extends Engine {
   onIndexCreate(indexConfig) {
     super.onIndexCreate(indexConfig);
     indexConfig.searchCollection = new SearchCollection(indexConfig, this);
+    indexConfig.mongoCollection = indexConfig.searchCollection._collection;
   }
 
   /**

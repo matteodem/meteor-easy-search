@@ -1,5 +1,4 @@
 // TODO: test if components can re-use same index for multiple search components (on the same page)
-// TODO: leverage logic from components into js API?
 // TODO: Check for es6features again
 // TODO: MIGRATING.MD
 // TODO: documentation: how to metaScore (fields and sort)
@@ -7,7 +6,7 @@
 /* TODO: as a reminder
    Possible options:
 
-   Search options: limit, offset, props
+   Search options: limit, skip, props
    Index options: permission, collection, fields, engine
    Reactive Engine options: transform
    Mongo Engine options: selector, sort, weights
@@ -39,7 +38,7 @@ Index = class Index {
     config.name = config.collection._name;
 
     this.config = Object.assign(Index.defaultConfiguration, config);
-    this.defaultSearchOptions = Object.assign({}, { limit: 10, offset: 0 }, this.config.defaultSearchOptions);
+    this.defaultSearchOptions = Object.assign({}, { limit: 10, skip: 0 }, this.config.defaultSearchOptions);
 
     // Engine specific code on index creation
     config.engine.onIndexCreate(this.config);
@@ -74,8 +73,19 @@ Index = class Index {
     }
 
     return this.config.engine.search(searchString, {
-      search: Object.assign({}, this.defaultSearchOptions, options),
+      search: this.getSearchOptions(options),
       index: this.config
     });
+  }
+
+  /**
+   * Returns the search options based on the given options.
+   *
+   * @param {Object} options Options to use
+   *
+   * @returns {Object}
+   */
+  getSearchOptions(options) {
+    return Object.assign({}, this.defaultSearchOptions, options);
   }
 };

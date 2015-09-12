@@ -14,11 +14,11 @@ Package.onUse(function(api) {
   api.versionsFrom('1.1.0.3');
 
   // Dependencies
-  api.use(['check', 'underscore', 'templating', 'reactive-dict', 'random']);
-  api.use(['grigio:babel', 'peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
+  api.use(['check', 'templating', 'reactive-dict', 'random']);
+  api.use(['stevezhu:lodash', 'grigio:babel', 'peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
 
   // Base Component
-  api.addFiles(['lib/base.jsx', 'lib/single-index.jsx', 'lib/core.jsx'], 'client');
+  api.addFiles(['lib/base.jsx', 'lib/single-index.jsx', 'lib/component-methods.jsx', 'lib/core.jsx'], 'client');
 
   // Input and Each
   api.addFiles(['lib/input/input.html', 'lib/input/input.jsx'], 'client');
@@ -30,7 +30,9 @@ Package.onUse(function(api) {
   api.addFiles(['lib/if-searching/if-searching.html', 'lib/if-searching/if-searching.jsx'], 'client');
 
   // Loading More Components
-  api.addFiles(['lib/load-more/load-more.html', 'lib/load-more/load-more.jsx'], 'client');
+  api.addFiles([
+    'lib/load-more/load-more.html', 'lib/load-more/load-more.jsx', 'lib/pagination/pagination.html', 'lib/pagination/pagination.jsx'
+  ], 'client');
 
   api.export('EasySearch');
 });
@@ -45,6 +47,6 @@ Package.onTest(function(api) {
   // Unit tests
   api.addFiles([
     'tests/unit/input-tests.js', 'tests/unit/each-tests.js', 'tests/unit/if-tests.js', 'tests/unit/base-tests.js',
-    'tests/unit/load-more-tests.js', 'tests/unit/core-tests.js'
+    'tests/unit/load-more-tests.js', 'tests/unit/core-tests.js', 'tests/unit/pagination-tests.js'
   ], 'client');
 });

@@ -59,7 +59,7 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
       findOptions = {
         sort: this.callConfigMethod('sort', searchString, options),
         limit: options.search.limit,
-        offset: options.search.offset,
+        skip: options.search.skip,
         fields: this.callConfigMethod('fields', searchString, options),
         transform: this.config.transform
       };
