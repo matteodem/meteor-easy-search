@@ -4,7 +4,6 @@
  * @type {LoadMoreComponent}
  */
 EasySearch.LoadMoreComponent = class LoadMoreComponent extends SingleIndexComponent {
-
   /**
    * Load more documents.
    */
@@ -36,8 +35,9 @@ EasySearch.LoadMoreComponent = class LoadMoreComponent extends SingleIndexCompon
    * @returns {Boolean}
    */
   moreDocuments() {
-    return this.dict.get('currentCount') < this.dict.get('count');
+    return this.index.getComponentMethods(this.name).hasMoreDocuments();
   }
+
   /**
    * Event map.
    *

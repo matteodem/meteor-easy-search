@@ -14,6 +14,15 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   }
 
   /**
+   * Return an array of properties that are reserved to the base component.
+   *
+   * @returns {String[]}
+   */
+  static get reserveredProperties() {
+    return ['index', 'indexes', 'name', 'attributes'];
+  }
+
+  /**
    * Setup component on created.
    */
   onCreated() {
@@ -29,7 +38,7 @@ BaseComponent = class BaseComponent extends BlazeComponent {
     }
 
     this.indexes = indexes;
-    this.options = Object.assign({}, this.defaultOptions, this.getData().options);
+    this.options = Object.assign({}, this.defaultOptions, _.omit(this.getData(), ...BaseComponent.reserveredProperties));
 
     check(this.name, Match.Optional(String));
     check(this.options, Object);

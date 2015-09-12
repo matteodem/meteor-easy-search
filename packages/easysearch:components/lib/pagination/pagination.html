@@ -1,0 +1,9 @@
+<template name="EasySearch.Pagination">
+    {{#if moreDocuments}}
+        <ul class="pagination">
+            {{#each page}}
+                <li class="page {{pageClasses this}}">{{content}}</li>
+            {{/each}}
+        </ul>
+    {{/if}}
+</template>

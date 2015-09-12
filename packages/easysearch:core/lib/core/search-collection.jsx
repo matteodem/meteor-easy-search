@@ -94,12 +94,11 @@ SearchCollection = class SearchCollection {
    * Get the mongo cursor.
    *
    * @param {String} searchString Search string
-   * @param {Object} options      Options
    *
    * @returns {Cursor}
    * @private
    */
-  _getMongoCursor(searchString, options) {
+  _getMongoCursor(searchString) {
     return this._collection.find({ _id: { $not: 'searchCount' }, __searchString: searchString }, {
       transform: (doc) => {
         delete doc.__searchString;

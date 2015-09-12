@@ -6,9 +6,7 @@ Tinytest.add('EasySearch Components - Unit - Base', function (test) {
       engine: new EasySearch.Minimongo(),
       fields: ['test']
     }),
-    options: {
-      fooTest: 'barTest'
-    }
+    fooTest: 'barTest'
   });
 
   component.onCreated();
@@ -29,9 +27,7 @@ Tinytest.add('EasySearch Components - Unit - Base without index', function (test
   var component = TestHelpers.createComponent(EasySearch.BaseComponent, {
     attributes: { type: 'number' },
     name: 'customName',
-    options: {
-      fooTest: 'barTest'
-    }
+    fooTest: 'barTest'
   });
 
   test.throws(function () {

@@ -15,7 +15,7 @@ EasySearch.Index = class Index extends EasySearch.Index {
   /**
    * Return static default name for components.
    *
-   * @returns {string}
+   * @returns {String}
    */
   static get COMPONENT_DEFAULT_NAME() {
     return'__default';
@@ -51,80 +51,67 @@ EasySearch.Index = class Index extends EasySearch.Index {
       throw new Meteor.Error('no-component', `Component with name '${componentName}' not found`);
     }
 
-    return {
-      /**
-       * Search a component for the given search string.
-       *
-       * @param {String} searchString String to search for
-       */
-      search: (searchString) => {
-        check(searchString, String);
-
-        dict.set('searching', searchString.length > 0);
-        dict.set('searchOptions', {});
-        dict.set('searchString', searchString);
-      },
-      /**
-       * Return the EasySearch.Cursor for the current search.
-       *
-       * @returns {Cursor}
-       */
-      getCursor: () => {
-        let searchString = dict.get('searchString') || '',
-          searchOptions = dict.get('searchOptions');
-
-        check(searchString, String);
-        check(searchOptions, Match.Optional(Object));
-
-        let cursor = this.search(searchString, searchOptions);
-
-        dict.set('count', cursor.count());
-        dict.set('searching', !cursor.isReady());
-        dict.set('currentCount', cursor.mongoCursor.count());
-
-        return cursor;
-      },
-      /**
-       * Return true if the current search string is empty.
-       *
-       * @returns {boolean}
-       */
-      searchIsEmpty: () => {
-        let searchString = dict.get('searchString');
-
-        return !searchString || (_.isString(searchString) && 0 === searchString.trim().length);
-      },
-      /**
-       * Return true if the component has no results.
-       *
-       * @returns {boolean}
-       */
-      hasNoResults: () => {
-        let count = dict.get('count');
-
-        return !_.isNumber(count) || 0 === count;
-      },
-      /**
-       * Return true if the component is being searched.
-       *
-       * @returns {boolean}
-       */
-      isSearching: () => {
-        return !!dict.get('searching');
-      },
-      /**
-       * Load more documents for the component.
-       *
-       * @param {Number} count Count of docs
-       */
-      loadMore: (count) => {
-        let currentCount = dict.get('currentCount'),
-          options = dict.get('searchOptions') || {};
-
-        options.limit = currentCount + count;
-        dict.set('searchOptions', options);
-      }
-    };
+    return EasySearch._getComponentMethods(dict, this);
   }
 };
 
+/**
+ * Return true if the current page is valid.
+ *
+ * @param {Number} totalPagesLength Count of all pages available
+ * @param {Number} currentPage      Current page to check
+ *
+ * @returns {boolean}
+ */
+function isValidPage(totalPagesLength, currentPage) {
+  return currentPage <= totalPagesLength && currentPage > 0;
+}
+
+/**
+ * Helper method to get the pages for pagination as an array.
+ *
+ * @param totalCount   Total count of results
+ * @param pageCount    Count of results per page
+ * @param currentPage  Current page
+ * @param prevAndNext  True if Next and Previous buttons should appear
+ * @param maxPages     Maximum count of pages to show
+ *
+ * @private
+ *
+ * @returns {Array}
+ */
+EasySearch._getPagesForPagination = function ({totalCount, pageCount, currentPage, prevAndNext, maxPages}) {
+  let pages = _.range(1, Math.ceil(totalCount / pageCount) + 1),
+    pagesLength = pages.length;
+
+  if (!isValidPage(pagesLength, currentPage)) {
+    throw new Meteor.Error('invalid-page', 'Current page is not in valid range');
+  }
+
+  if (maxPages) {
+    let startSlice = (currentPage > maxPages ? (currentPage - 1) - Math.floor(maxPages / 2) : 0),
+      endSlice = startSlice + maxPages;
+
+    if (endSlice > pagesLength) {
+      pages = pages.slice(-maxPages);
+    } else {
+      pages = pages.slice(startSlice, startSlice + maxPages);
+    }
+  }
+
+  let pageData = _.map(pages, function (page) {
+    let isCurrentPage = page === currentPage;
+    return { page, content: page.toString(), current: isCurrentPage, disabled: isCurrentPage };
+  });
+
+  if (prevAndNext) {
+    // Previous
+    let prevPage = isValidPage(pagesLength, currentPage - 1) ? currentPage - 1 : null;
+    pageData.unshift({ page: prevPage, content: 'Prev', current: false, disabled: 1 === currentPage });
+    // Next
+    let nextPage = isValidPage(pagesLength, currentPage + 1) ? currentPage + 1 : null;
+    pageData.push({ page: nextPage, content: 'Next', current: false, disabled: null == nextPage || pages.length + 1 === currentPage });
+  }
+
+  return pageData;
+};

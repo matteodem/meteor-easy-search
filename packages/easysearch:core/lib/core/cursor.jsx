@@ -18,6 +18,7 @@ Cursor = class Cursor {
   constructor(mongoCursor, count, isReady = true) {
     check(mongoCursor.fetch, Function);
     check(count, Number);
+    check(isReady, Match.Optional(Boolean));
 
     this._mongoCursor = mongoCursor;
     this._count = count;
