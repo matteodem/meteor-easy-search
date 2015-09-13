@@ -129,20 +129,26 @@ SearchCollection = class SearchCollection {
 
       let resultsHandle = cursor.mongoCursor.observe({
         addedAt: (doc, atIndex, before) => {
+          doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);
           doc.__searchString = searchString;
           doc.__sortPosition = atIndex;
           this.added(collectionName, doc._id, doc);
         },
         changedAt: (doc, oldDoc, atIndex) => {
-           doc.__searchString = searchString;
-           doc.__sortPosition = atIndex;
-           this.changed(collectionName, doc._id, doc)
+          doc = collectionScope.engine.config.beforePublish('changedAt', doc, oldDoc, atIndex);
+          doc.__searchString = searchString;
+          doc.__sortPosition = atIndex;
+          this.changed(collectionName, doc._id, doc)
         },
         movedTo: (doc, fromIndex, toIndex, before) => {
+          doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
           doc.__sortPosition = toIndex;
           this.changed(collectionName, doc._id, doc);
         },
-        removedAt: (doc, atIndex) => this.removed(collectionName, doc._id)
+        removedAt: (doc, atIndex) => {
+          doc = collectionScope.engine.config.beforePublish('removedAt', doc, atIndex);
+          this.removed(collectionName, doc._id)
+        }
       });
 
       this.onStop(function () {

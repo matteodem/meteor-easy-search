@@ -1,3 +1,5 @@
+// TODO: reactive updates are wrong (check publication)
+// TODO: tests for beforePublish
 // TODO: test if components can re-use same index for multiple search components (on the same page)
 // TODO: Check for es6features again
 // TODO: MIGRATING.MD
