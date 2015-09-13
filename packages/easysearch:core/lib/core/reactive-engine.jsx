@@ -22,7 +22,8 @@ ReactiveEngine = class ReactiveEngine extends Engine {
     }
 
     this.extendDefaultConfiguration({
-      transform: (doc) => doc
+      transform: (doc) => doc,
+      beforePublish: (event, doc) => doc
     });
 
     super(config);

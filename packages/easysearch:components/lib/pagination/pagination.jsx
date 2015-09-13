@@ -29,7 +29,6 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
     }
 
     return this.options.transformPages(
-      // TODO: fix maxPages
       EasySearch._getPagesForPagination({ totalCount, pageCount, currentPage, maxPages, prevAndNext })
     );
   }
@@ -46,7 +45,7 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
   /**
    * Return page classes.
    *
-   * @params {Object} data Data for the current page
+   * @param {Object} data Data for the current page
    *
    * @returns {String}
    */
@@ -87,7 +86,7 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
     return {
       prevAndNext: true,
       maxPages: null,
-      transformPages: (pages) => { return pages; }
+      transformPages: (pages) => pages
     };
   }
 };

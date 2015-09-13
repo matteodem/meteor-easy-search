@@ -13,7 +13,7 @@ Tinytest.add('EasySearch - Unit - Core - ReactiveEngine', function (test) {
   });
 
   var engineInstance = new CustomReactiveEngine(),
-    indexConfig = { name: 'testIndex' }, calledClientSearch = false;
+    indexConfig = { name: 'testIndex' };
 
   engineInstance.onIndexCreate(indexConfig);
 
