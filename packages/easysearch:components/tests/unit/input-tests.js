@@ -10,8 +10,8 @@ Tinytest.addAsync('EasySearch Components - Unit - Input', function (test, done) 
 
   component.onCreated();
 
-  test.equal(EasySearch.InputComponent.defaultAttributes, { type: 'text' });
-  test.equal(component.inputAttributes(), { type: 'number' });
+  test.equal(EasySearch.InputComponent.defaultAttributes, { type: 'text', value: '' });
+  test.equal(component.inputAttributes(), { type: 'number', value: '' });
   test.equal(component.options, { timeout: 50 });
   test.equal(_.first(component.dicts).get('searchString'), '');
   test.isFalse(_.first(component.dicts).get('searching'));
