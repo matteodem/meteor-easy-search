@@ -60,4 +60,13 @@ Cursor = class Cursor {
   get mongoCursor() {
     return this._mongoCursor;
   }
+
+  /**
+   * Return a fake empty cursor, without data.
+   *
+   * @returns {Object}
+   */
+  static get emptyCursor() {
+    return { fetch: () => [], observe: () => { return { stop: () => null }; } };
+  }
 };

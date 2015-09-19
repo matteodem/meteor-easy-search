@@ -15,7 +15,7 @@ Package.onUse(function(api) {
 
   // Dependencies
   api.use(['check']);
-  api.use(['grigio:babel', 'stevezhu:lodash']);
+  api.use(['grigio:babel', 'erasaur:meteor-lodash@3.10.0']);
 
   // Core packages
   api.addFiles([

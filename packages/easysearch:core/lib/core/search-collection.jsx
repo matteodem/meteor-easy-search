@@ -143,6 +143,14 @@ SearchCollection = class SearchCollection {
         movedTo: (doc, fromIndex, toIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
           doc.__sortPosition = toIndex;
+
+          let beforeDoc = collectionScope._indexConfiguration.collection.findOne(before);
+
+          if (beforeDoc) {
+            beforeDoc.__sortPosition = fromIndex;
+            this.changed(collectionName, beforeDoc._id, beforeDoc);
+          }
+
           this.changed(collectionName, doc._id, doc);
         },
         removedAt: (doc, atIndex) => {

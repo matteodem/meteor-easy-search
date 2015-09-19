@@ -2,6 +2,7 @@ var collection = new Meteor.Collection(null);
 
 if (Meteor.isServer) {
   collection.insert({ _id: 'testId', name: 'testName' });
+  collection.insert({ _id: 'beforePublishDoc', sortField: -1, name: 'publishdoc' });
 
   for (var i = 0; i < 100; i += 1) {
     collection.insert({ _id: 'testId' + i, sortField: i, name: 'name sup what' });
@@ -13,16 +14,27 @@ var index = new EasySearch.Index({
     sort: function () {
       return ['sortField'];
     },
-    selectorPerField: function (field, searchString) {
+    selectorPerField: function (field, searchString, options) {
       if ('testName' === searchString) {
         var selector = {};
 
         selector[field] = 'name sup what';
 
+        if (options.search.props.returnAll) {
+          return selector[field] = '';
+        }
+
         return selector;
       }
 
       return this.defaultConfiguration.selectorPerField(field, searchString);
+    },
+    beforePublish: function (event, doc) {
+      if ('addedAt' == event && 'beforePublishDoc' == doc._id) {
+        doc.newAwesomeProperty = doc.name + ' awesome property';
+      }
+
+      return doc;
     }
   }),
   collection: collection,
@@ -66,7 +78,6 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - suffixed search', functio
 });
 
 Tinytest.addAsync('EasySearch - Functional - MongoDB - custom selector', function (test, done) {
-
   Tracker.autorun(function (c) {
     var docs = index.search('testName', { limit: 20 }).fetch();
 
@@ -75,6 +86,40 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - custom selector', functio
       test.equal(index.search('testName').count(), 100);
       done();
       c.stop();
+    }
+  });
+});
+
+Tinytest.addAsync('EasySearch - Functional - MongoDB - custom property', function (test, done) {
+  Tracker.autorun(function (c) {
+    var docs = index.search('testName', { limit: 20 }).fetch();
+
+    if (docs.length === 20) {
+      test.equal(docs, getExpectedDocs(20));
+      test.equal(index.search('testName').count(), 100);
+      done();
+      c.stop();
+    }
+  });
+});
+
+Tinytest.addAsync('EasySearch - Functional - MongoDB - beforePublish', function (test, done) {
+  Tracker.autorun(function (c) {
+    var docs = index.search('publish').fetch();
+
+    if (docs.length === 1) {
+      var expectedDocs = [{ _id: 'beforePublishDoc', sortField: -1, name: 'publishdoc' }];
+
+      if (Meteor.isClient) {
+        expectedDocs[0].newAwesomeProperty = 'publishdoc awesome property';
+      }
+
+      Meteor.setTimeout(function () {
+        test.equal(docs, expectedDocs);
+        test.equal(index.search('publish').count(), 1);
+        done();
+        c.stop();
+      }, 100);
     }
   });
 });

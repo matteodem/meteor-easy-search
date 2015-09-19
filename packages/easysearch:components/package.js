@@ -15,7 +15,7 @@ Package.onUse(function(api) {
 
   // Dependencies
   api.use(['check', 'templating', 'reactive-dict', 'random']);
-  api.use(['stevezhu:lodash', 'grigio:babel', 'peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
+  api.use(['erasaur:meteor-lodash@3.10.0', 'grigio:babel', 'peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
 
   // Base Component
   api.addFiles(['lib/base.jsx', 'lib/single-index.jsx', 'lib/component-methods.jsx', 'lib/core.jsx'], 'client');

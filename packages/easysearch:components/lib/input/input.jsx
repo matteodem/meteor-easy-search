@@ -10,7 +10,7 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
   onCreated() {
     super.onCreated(...arguments);
 
-    this.search('');
+    this.search(this.inputAttributes().value);
 
     this.debouncedSearch = _.debounce((searchString) => {
       searchString = searchString.trim();
@@ -35,6 +35,10 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
   events() {
     return [{
       'keyup input' : function (e) {
+        if ('enter' == this.getData().event && e.keyCode != 13) {
+          return;
+        }
+
         this.debouncedSearch($(e.target).val());
       }
     }];
@@ -56,7 +60,8 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
    */
   static get defaultAttributes() {
     return {
-      type: 'text'
+      type: 'text',
+      value: ''
     };
   }
 

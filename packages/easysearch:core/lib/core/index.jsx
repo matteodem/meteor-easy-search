@@ -1,9 +1,5 @@
-// TODO: reactive updates are wrong (check publication)
-// TODO: tests for beforePublish
-// TODO: test if components can re-use same index for multiple search components (on the same page)
-// TODO: Check for es6features again
-// TODO: MIGRATING.MD
 // TODO: documentation: how to metaScore (fields and sort)
+// TODO: Check for es6features again
 
 /* TODO: as a reminder
    Possible options:
@@ -37,10 +33,10 @@ Index = class Index {
       throw new Meteor.Error('invalid-engine', 'engine needs to be instanceof Engine');
     }
 
-    config.name = config.collection._name;
+    config.name = (config.collection._name  || '').toLowerCase();
 
     this.config = Object.assign(Index.defaultConfiguration, config);
-    this.defaultSearchOptions = Object.assign({}, { limit: 10, skip: 0 }, this.config.defaultSearchOptions);
+    this.defaultSearchOptions = Object.assign({}, { limit: 10, skip: 0, props: {} }, this.config.defaultSearchOptions);
 
     // Engine specific code on index creation
     config.engine.onIndexCreate(this.config);
@@ -68,7 +64,11 @@ Index = class Index {
    */
   search(searchString, options = {}) {
     check (searchString, Match.OneOf(Object, String));
-    check(options, Object);
+    check(options, {
+      limit: Match.Optional(Number),
+      skip: Match.Optional(Number),
+      props: Match.Optional(Object)
+    });
 
     if (!this.config.permission()) {
       throw new Meteor.Error('not-allowed', "You're not allowed to search this index!");

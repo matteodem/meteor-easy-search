@@ -9,5 +9,3 @@ EasySearch = {
   Minimongo: MinimongoEngine,
   MongoTextIndex: MongoTextIndexEngine
 };
-
-_ = lodash;

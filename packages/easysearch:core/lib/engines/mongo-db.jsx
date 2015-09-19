@@ -29,7 +29,9 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
         };
 
         _.each(options.index.fields, function (field) {
-          selector['$or'].push(engineScope.callConfigMethod('selectorPerField', field, searchString));
+          selector['$or'].push(engineScope.callConfigMethod(
+            'selectorPerField', field, searchString, options
+          ));
         });
 
         return selector;
