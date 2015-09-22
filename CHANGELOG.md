@@ -1,3 +1,8 @@
+1.6.4
+=====
+
+* Remove less dependency by using plain css for styles
+
 1.6.3
 =====
 * Change less dependency to accept 1.* and 2.* 
