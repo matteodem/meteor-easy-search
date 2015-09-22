@@ -17,7 +17,7 @@ Package.on_use(function (api) {
   api.use(['underscore', 'livedata', 'mongo-livedata', 'meteor',
     'meteor-platform', 'meteorhacks:aggregate@1.2.1'], ['client', 'server']);
 
-  api.use(['templating', 'ui', 'jquery'], 'client');
+  api.use(['templating', 'session', 'ui', 'jquery'], 'client');
 
   api.add_files(['lib/easy-search-common.js', 'lib/easy-search-convenience.js']);
 
@@ -39,12 +39,8 @@ Package.on_use(function (api) {
 });
 
 Package.on_test(function (api) {
-  if (api.versionsFrom) {
-    api.use('matteodem:easy-search');
-    api.use('tinytest@1.0.0');
-  } else {
-    api.use(['tinytest', 'easy-search']);
-  }
+  api.use('matteodem:easy-search');
+  api.use(['tinytest', 'session', 'templating']);
 
   api.add_files(['tests/javascript-api-tests.js']);
   api.add_files(['tests/component-api-tests.js', 'tests/components-tests.js'], 'client');
