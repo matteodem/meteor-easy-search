@@ -38,7 +38,7 @@ if (Meteor.isServer) {
   Meteor.subscribe('testCollection');
 
   Tinytest.addAsync('EasySearch - Functional - Minimongo - prefix search', function (test, done) {
-    Deps.autorun(function (c) {
+    Tracker.autorun(function (c) {
       var docs = index.search('test').fetch();
 
       if (docs.length === 1) {

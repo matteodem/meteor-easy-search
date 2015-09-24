@@ -50,7 +50,7 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
    * @returns {Object}
    */
   inputAttributes() {
-    return Object.assign({}, InputComponent.defaultAttributes, this.getData().attributes);
+    return _.defaults({}, this.getData().attributes, InputComponent.defaultAttributes);
   }
 
   /**

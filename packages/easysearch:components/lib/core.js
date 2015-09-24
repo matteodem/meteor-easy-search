@@ -8,8 +8,8 @@ EasySearch.Index = class Index extends EasySearch.Index {
    * Constructor.
    */
   constructor() {
-    this.components = {};
     super(...arguments);
+    this.components = {};
   }
 
   /**

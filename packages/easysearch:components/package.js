@@ -11,34 +11,34 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.1.0.3');
+  api.versionsFrom('1.2.0.1');
 
   // Dependencies
-  api.use(['check', 'templating', 'reactive-dict', 'random']);
-  api.use(['erasaur:meteor-lodash@3.10.0', 'grigio:babel', 'peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
+  api.use(['check', 'templating', 'reactive-dict', 'ecmascript', 'random']);
+  api.use(['erasaur:meteor-lodash@3.10.0', 'peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
 
   // Base Component
-  api.addFiles(['lib/base.jsx', 'lib/single-index.jsx', 'lib/component-methods.jsx', 'lib/core.jsx'], 'client');
+  api.addFiles(['lib/base.js', 'lib/single-index.js', 'lib/component-methods.js', 'lib/core.js'], 'client');
 
   // Input and Each
-  api.addFiles(['lib/input/input.html', 'lib/input/input.jsx'], 'client');
-  api.addFiles(['lib/each/each.html', 'lib/each/each.jsx'], 'client');
+  api.addFiles(['lib/input/input.html', 'lib/input/input.js'], 'client');
+  api.addFiles(['lib/each/each.html', 'lib/each/each.js'], 'client');
 
   // If Components
-  api.addFiles(['lib/if-input-empty/if-input-empty.html', 'lib/if-input-empty/if-input-empty.jsx'], 'client');
-  api.addFiles(['lib/if-no-results/if-no-results.html', 'lib/if-no-results/if-no-results.jsx'], 'client');
-  api.addFiles(['lib/if-searching/if-searching.html', 'lib/if-searching/if-searching.jsx'], 'client');
+  api.addFiles(['lib/if-input-empty/if-input-empty.html', 'lib/if-input-empty/if-input-empty.js'], 'client');
+  api.addFiles(['lib/if-no-results/if-no-results.html', 'lib/if-no-results/if-no-results.js'], 'client');
+  api.addFiles(['lib/if-searching/if-searching.html', 'lib/if-searching/if-searching.js'], 'client');
 
   // Loading More Components
   api.addFiles([
-    'lib/load-more/load-more.html', 'lib/load-more/load-more.jsx', 'lib/pagination/pagination.html', 'lib/pagination/pagination.jsx'
+    'lib/load-more/load-more.html', 'lib/load-more/load-more.js', 'lib/pagination/pagination.html', 'lib/pagination/pagination.js'
   ], 'client');
 
   api.export('EasySearch');
 });
 
 Package.onTest(function(api) {
-  api.use('tinytest');
+  api.use(['tinytest', 'ecmascript', 'tracker']);
   api.use('easysearch:components');
 
   // Test Helpers

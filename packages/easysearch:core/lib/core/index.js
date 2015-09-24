@@ -11,8 +11,8 @@
    ES Engine options: query, sort, mapping (ES)
 */
 /**
- * An Index represents the main entry point for Searching with Easy-Search. It relies on
- * the given engine to have the search functionality and defines the data should be searchable.
+ * An Index represents the main entry point for Searching with EasySearch. It relies on
+ * the given engine to have the search functionality and defines the data that should be searchable.
  *
  * @type {Index}
  */
@@ -35,8 +35,8 @@ Index = class Index {
 
     config.name = (config.collection._name  || '').toLowerCase();
 
-    this.config = Object.assign(Index.defaultConfiguration, config);
-    this.defaultSearchOptions = Object.assign({}, { limit: 10, skip: 0, props: {} }, this.config.defaultSearchOptions);
+    this.config = _.assign(Index.defaultConfiguration, config);
+    this.defaultSearchOptions = _.defaults({}, this.config.defaultSearchOptions, { limit: 10, skip: 0, props: {} });
 
     // Engine specific code on index creation
     config.engine.onIndexCreate(this.config);
@@ -88,6 +88,6 @@ Index = class Index {
    * @returns {Object}
    */
   getSearchOptions(options) {
-    return Object.assign({}, this.defaultSearchOptions, options);
+    return _.defaults({}, options, this.defaultSearchOptions);
   }
 };

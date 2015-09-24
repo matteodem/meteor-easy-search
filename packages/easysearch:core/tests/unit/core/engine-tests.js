@@ -34,7 +34,7 @@ Tinytest.add('EasySearch - Unit - Core - Engine - custom configuration', functio
 
         return new EasySearch.Cursor(cursor, 200);
       }
-    }, EasySearch.Engine, { otherMethod: function () {
+    }, { otherMethod: function () {
       return 'otherString';
     }});
 

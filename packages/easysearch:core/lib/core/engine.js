@@ -21,17 +21,7 @@ Engine = class Engine {
       throw new Error('Engine needs to implement search method');
     }
 
-    this.config = Object.assign({}, this.defaultConfiguration, config);
-  }
-
-  /**
-   * Extend default configuration with custom configuration for engines.
-   *
-   * @param {Object} config Additional default configuration
-   */
-  extendDefaultConfiguration(config) {
-    check(config, Object);
-    this.__defaultConfiguration = Object.assign({}, this.defaultConfiguration, config);
+    this.config = _.defaults({}, config, this.defaultConfiguration());
   }
 
   /**
@@ -39,8 +29,8 @@ Engine = class Engine {
    *
    * @returns {Object}
    */
-  get defaultConfiguration() {
-    return this.__defaultConfiguration;
+  defaultConfiguration() {
+    return {};
   }
 
   /**

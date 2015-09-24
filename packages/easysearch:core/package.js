@@ -11,36 +11,36 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.1.0.3');
+  api.versionsFrom('1.2.0.1');
 
   // Dependencies
-  api.use(['check']);
-  api.use(['grigio:babel', 'erasaur:meteor-lodash@3.10.0']);
+  api.use(['check', 'ecmascript', 'mongo']);
+  api.use(['erasaur:meteor-lodash@3.10.0']);
 
   // Core packages
   api.addFiles([
-    'lib/core/index.jsx',
-    'lib/core/engine.jsx',
-    'lib/core/reactive-engine.jsx',
-    'lib/core/cursor.jsx',
-    'lib/core/search-collection.jsx'
+    'lib/core/index.js',
+    'lib/core/engine.js',
+    'lib/core/reactive-engine.js',
+    'lib/core/cursor.js',
+    'lib/core/search-collection.js'
   ]);
 
   // Engines
   api.addFiles([
-    'lib/engines/mongo-db.jsx',
-    'lib/engines/minimongo.jsx',
-    'lib/engines/mongo-text-index.jsx'
+    'lib/engines/mongo-db.js',
+    'lib/engines/minimongo.js',
+    'lib/engines/mongo-text-index.js'
   ]);
 
   // Global
-  api.addFiles(['lib/globals.jsx']);
+  api.addFiles(['lib/globals.js']);
 
   api.export('EasySearch');
 });
 
 Package.onTest(function(api) {
-  api.use('tinytest');
+  api.use(['tinytest', 'mongo', 'tracker', 'ecmascript']);
   api.use('easysearch:core');
 
   // Test Helpers
