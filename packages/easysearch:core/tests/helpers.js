@@ -1,23 +1,25 @@
 TestHelpers = {
-  createEngine: function (methods, engineClass, defaultConfiguration) {
-    if (!engineClass) {
-      engineClass = EasySearch.Engine;
-    }
-
-    if (!defaultConfiguration) {
-      defaultConfiguration = {};
-    }
-
-    var engine = function () {
-      this.extendDefaultConfiguration(defaultConfiguration);
-      engineClass.apply(this, arguments);
+  createEngine: function (methods, defaultConf = {}) {
+    let e = class engine extends EasySearch.Engine {
+      defaultConfiguration() { return defaultConf; }
     };
 
-    engine.prototype = _.extend(Object.create(engineClass.prototype), methods);
+    _.each(methods, function (method, key) {
+      e.prototype[key] = method;
+    });
 
-    engine.prototype.constructor = engine;
+    return e;
+  },
+  createReactiveEngine: function (methods, defaultConf = {}) {
+    let e = class engine extends EasySearch.ReactiveEngine {
+      defaultConfiguration() { return defaultConf; }
+    };
 
-    return engine;
+    _.each(methods, function (method, key) {
+      e.prototype[key] = method;
+    });
+
+    return e;
   },
   createIndex: function () {
     return new EasySearch.Index({

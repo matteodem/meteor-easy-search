@@ -6,12 +6,12 @@
  */
 MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
   /**
-   * Constructor.
+   * Return default configuration.
+   *
+   * @returns {Object}
    */
-  constructor() {
-    this.extendDefaultConfiguration(MongoDBEngine.defaultMongoConfiguration(this));
-
-    super(...arguments);
+  defaultConfiguration() {
+    return _.defaults({}, MongoDBEngine.defaultMongoConfiguration(this), super.defaultConfiguration());
   }
 
   /**

@@ -13,8 +13,16 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
    * Constructor.
    */
   constructor() {
-    this.extendDefaultConfiguration(ElasticSearchEngine.defaultElasticsearchConfiguration());
     super(...arguments);
+  }
+
+  /**
+   * Return default configuration.
+   *
+   * @returns {Object}
+   */
+  defaultConfiguration() {
+    return _.defaults({}, ElasticSearchEngine.defaultElasticsearchConfiguration(), super.defaultConfiguration());
   }
 
   /**

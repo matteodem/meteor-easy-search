@@ -13,6 +13,8 @@ ReactiveEngine = class ReactiveEngine extends Engine {
    * @constructor
    */
   constructor(config) {
+    super(config);
+
     if (this === this.constructor) {
       throw new Error('Cannot initialize instance of ReactiveEngine');
     }
@@ -20,13 +22,18 @@ ReactiveEngine = class ReactiveEngine extends Engine {
     if (!_.isFunction(this.getSearchCursor)) {
       throw new Error('Reactive engine needs to implement getSearchCursor method');
     }
+  }
 
-    this.extendDefaultConfiguration({
+  /**
+   * Return default configuration.
+   *
+   * @returns {Object}
+   */
+  defaultConfiguration() {
+    return _.defaults({}, {
       transform: (doc) => doc,
       beforePublish: (event, doc) => doc
-    });
-
-    super(config);
+    }, super.defaultConfiguration());
   }
 
   /**

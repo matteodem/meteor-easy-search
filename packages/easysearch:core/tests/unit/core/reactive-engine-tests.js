@@ -1,12 +1,12 @@
 Tinytest.add('EasySearch - Unit - Core - ReactiveEngine', function (test) {
-  var CustomReactiveEngine = TestHelpers.createEngine({
+  var CustomReactiveEngine = TestHelpers.createReactiveEngine({
       getSearchCursor: function (s, o) {
         test.equal(s, 'testCursor');
         test.equal(o.foo, 'bar');
 
         return new EasySearch.Cursor(new Mongo.Cursor(), 155);
       }
-    }, EasySearch.ReactiveEngine);
+    });
 
   test.throws(function () {
     new EasySearch.ReactiveEngine();

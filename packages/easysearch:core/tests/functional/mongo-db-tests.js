@@ -27,7 +27,7 @@ var index = new EasySearch.Index({
         return selector;
       }
 
-      return this.defaultConfiguration.selectorPerField(field, searchString);
+      return this.defaultConfiguration().selectorPerField(field, searchString);
     },
     beforePublish: function (event, doc) {
       if ('addedAt' == event && 'beforePublishDoc' == doc._id) {
@@ -52,7 +52,7 @@ function getExpectedDocs(count) {
 }
 
 Tinytest.addAsync('EasySearch - Functional - MongoDB - prefix search', function (test, done) {
-  Deps.autorun(function (c) {
+  Tracker.autorun(function (c) {
     var docs = index.search('test').fetch();
 
     if (docs.length === 1) {

@@ -38,7 +38,7 @@ BaseComponent = class BaseComponent extends BlazeComponent {
     }
 
     this.indexes = indexes;
-    this.options = Object.assign({}, this.defaultOptions, _.omit(this.getData(), ...BaseComponent.reserveredProperties));
+    this.options = _.defaults({}, _.omit(this.getData(), ...BaseComponent.reserveredProperties), this.defaultOptions);
 
     check(this.name, Match.Optional(String));
     check(this.options, Object);

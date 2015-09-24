@@ -5,9 +5,11 @@
  */
 MongoTextIndexEngine = class MongoTextIndexEngine extends ReactiveEngine {
   /**
-   * Constructor
+   * Return default configuration.
+   *
+   * @returns {Object}
    */
-  constructor() {
+  defaultConfiguration() {
     let mongoConfiguration = MongoDBEngine.defaultMongoConfiguration(this);
 
     mongoConfiguration.selector = function (searchString) {
@@ -18,8 +20,7 @@ MongoTextIndexEngine = class MongoTextIndexEngine extends ReactiveEngine {
       return {};
     };
 
-    this.extendDefaultConfiguration(mongoConfiguration);
-    super(...arguments);
+    return _.defaults({}, mongoConfiguration, super.defaultConfiguration());
   }
 
   /**

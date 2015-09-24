@@ -15,22 +15,22 @@ Npm.depends({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.1.0.3');
+  api.versionsFrom('1.2.0.1');
 
   // Dependencies
-  api.use(['check']);
-  api.use(['easysearch:core', 'grigio:babel', 'erasaur:meteor-lodash@3.10.0']);
+  api.use(['check', 'ecmascript']);
+  api.use(['easysearch:core', 'erasaur:meteor-lodash@3.10.0']);
 
   api.addFiles([
-    'lib/data-syncer.jsx',
-    'lib/engine.jsx'
+    'lib/data-syncer.js',
+    'lib/engine.js'
   ]);
 
   api.export('EasySearch');
 });
 
 Package.onTest(function(api) {
-  api.use('tinytest');
+  api.use(['tinytest', 'ecmascript']);
   api.use('easysearch:elasticsearch');
 
   // Test Helpers
