@@ -5,7 +5,7 @@ if (Meteor.isServer) {
   collection.insert({ _id: 'beforePublishDoc', sortField: -1, name: 'publishdoc' });
 
   for (var i = 0; i < 100; i += 1) {
-    collection.insert({ _id: 'testId' + i, sortField: i, name: 'name sup what' });
+    collection.insert({ _id: 'testId' + i, sortField: i, name: 'name sup what', otherName: (i == 1 ? 'what' : '') });
   }
 }
 
@@ -38,14 +38,15 @@ var index = new EasySearch.Index({
     }
   }),
   collection: collection,
-  fields: ['name']
+  fields: ['name'],
+  allowedFields: ['name', 'otherName']
 });
 
 function getExpectedDocs(count) {
   var docs = [];
 
   for (var i = 0; i < count; i += 1) {
-    docs.push({ _id: 'testId' + i,  sortField: i, name: 'name sup what' });
+    docs.push({ _id: 'testId' + i,  sortField: i, name: 'name sup what', otherName: (i == 1 ? 'what' : '') });
   }
 
   return docs;
@@ -103,6 +104,20 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - custom property', functio
   });
 });
 
+Tinytest.addAsync('EasySearch - Functional - MongoDB - per field search', function (test, done) {
+  Tracker.autorun(function (c) {
+    var cursor = index.search({ otherName: 'what' }, { limit: 20 });
+
+    if (cursor.count() === 1) {
+      let expectedDoc = { _id: 'testId1',  sortField: 1, name: 'name sup what', otherName: 'what' };
+
+      test.equal(cursor.fetch(), [expectedDoc]);
+      done();
+      c.stop();
+    }
+  });
+});
+
 Tinytest.addAsync('EasySearch - Functional - MongoDB - beforePublish', function (test, done) {
   Tracker.autorun(function (c) {
     var docs = index.search('publish').fetch();
@@ -121,5 +136,15 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - beforePublish', function 
         c.stop();
       }, 100);
     }
+  });
+});
+
+Tinytest.add('EasySearch - Functional - MongoDB - failing searches', function (test) {
+  test.throws(function () {
+    index.search(100);
+  });
+
+  test.throws(function () {
+    index.search({ score: 10 });
   });
 });

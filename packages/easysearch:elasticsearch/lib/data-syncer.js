@@ -24,7 +24,7 @@ ElasticSearchDataSyncer = class ElasticSearchDataSyncer {
         this.writeToIndex(beforeIndex(fields), id);
       },
       changed: (id) => {
-        this.writeToIndex(beforeIndex(options.collection.findOne(id)), id);
+        this.writeToIndex(beforeIndex(collection.findOne(id)), id);
       },
       removed: (id) => {
         this.client.delete({

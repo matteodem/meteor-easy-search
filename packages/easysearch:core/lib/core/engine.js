@@ -52,7 +52,22 @@ Engine = class Engine {
   }
 
   /**
-   * Placeholder onIndexCreate function
+   * Check the given search parameter for validity
+   *
+   * @param search
    */
-  onIndexCreate() {}
+  checkSearchParam(search) {
+    check(search, String);
+  }
+
+  /**
+   *Code to run on index creation
+   *
+   * @param {Object} indexConfig Index configuraction
+   */
+  onIndexCreate(indexConfig) {
+    if (!indexConfig.allowedFields) {
+      indexConfig.allowedFields = indexConfig.fields;
+    }
+  }
 };

@@ -53,20 +53,20 @@ SearchCollection = class SearchCollection {
   /**
    * Find documents on the client.
    *
-   * @param {String} searchString Search string
-   * @param {Object} options      Options
+   * @param {Object} searchDefinition Search definition
+   * @param {Object} options          Options
    *
    * @returns {Cursor}
    */
-  find(searchString, options) {
+  find(searchDefinition, options) {
     if (!Meteor.isClient) {
       throw new Error('find can only be used on client');
     }
 
-    this._publishHandle = Meteor.subscribe(this.name, searchString, options);
+    this._publishHandle = Meteor.subscribe(this.name, searchDefinition, options);
 
     let count = this._getCount();
-    let mongoCursor = this._getMongoCursor(searchString, options);
+    let mongoCursor = this._getMongoCursor(searchDefinition, options);
 
     if (!_.isNumber(count)) {
       return new Cursor(mongoCursor, 0, false);
@@ -93,15 +93,15 @@ SearchCollection = class SearchCollection {
   /**
    * Get the mongo cursor.
    *
-   * @param {String} searchString Search string
+   * @param {Object} searchDefinition Search definition
    *
    * @returns {Cursor}
    * @private
    */
-  _getMongoCursor(searchString) {
-    return this._collection.find({ _id: { $not: 'searchCount' }, __searchString: searchString }, {
+  _getMongoCursor(searchDefinition) {
+    return this._collection.find({ _id: { $not: 'searchCount' }, __searchDefinition: JSON.stringify(searchDefinition) }, {
       transform: (doc) => {
-        delete doc.__searchString;
+        delete doc.__searchDefinition;
         delete doc.__sortPosition;
         this.engine.config.transform(doc);
         return doc;
@@ -119,8 +119,14 @@ SearchCollection = class SearchCollection {
     var collectionScope = this,
       collectionName = this.name;
 
-    Meteor.publish(collectionName, function (searchString, options) {
-      let cursor = collectionScope.engine.search(searchString, {
+    Meteor.publish(collectionName, function (searchDefinition, options) {
+      if (!collectionScope._indexConfiguration.permission()) {
+        throw new Meteor.Error('not-allowed', "You're not allowed to search this index!");
+      }
+
+      collectionScope.engine.checkSearchParam(searchDefinition, collectionScope._indexConfiguration);
+
+      let cursor = collectionScope.engine.search(searchDefinition, {
         search: options,
         index: collectionScope._indexConfiguration
       });
@@ -130,13 +136,13 @@ SearchCollection = class SearchCollection {
       let resultsHandle = cursor.mongoCursor.observe({
         addedAt: (doc, atIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);
-          doc.__searchString = searchString;
+          doc.__searchDefinition = JSON.stringify(searchDefinition);
           doc.__sortPosition = atIndex;
           this.added(collectionName, doc._id, doc);
         },
         changedAt: (doc, oldDoc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('changedAt', doc, oldDoc, atIndex);
-          doc.__searchString = searchString;
+          doc.__searchDefinition = JSON.stringify(searchDefinition);
           doc.__sortPosition = atIndex;
           this.changed(collectionName, doc._id, doc)
         },

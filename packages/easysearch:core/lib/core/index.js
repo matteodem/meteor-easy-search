@@ -1,15 +1,6 @@
-// TODO: documentation: how to metaScore (fields and sort)
 // TODO: Check for es6features again
+// TODO: add tests for mongo-text-index
 
-/* TODO: as a reminder
-   Possible options:
-
-   Search options: limit, skip, props
-   Index options: permission, collection, fields, engine
-   Reactive Engine options: transform
-   Mongo Engine options: selector, sort, weights
-   ES Engine options: query, sort, mapping (ES)
-*/
 /**
  * An Index represents the main entry point for Searching with EasySearch. It relies on
  * the given engine to have the search functionality and defines the data that should be searchable.
@@ -57,13 +48,14 @@ Index = class Index {
   /**
    * Search the index.
    *
-   * @param {String} searchString Search string
-   * @param {Object} options      Options
+   * @param {Object|String} searchDefinition Search definition
+   * @param {Object}        options          Options
    *
    * @returns {Cursor}
    */
-  search(searchString, options = {}) {
-    check (searchString, Match.OneOf(Object, String));
+  search(searchDefinition, options = {}) {
+    this.config.engine.checkSearchParam(searchDefinition, this.config);
+
     check(options, {
       limit: Match.Optional(Number),
       skip: Match.Optional(Number),
@@ -74,7 +66,7 @@ Index = class Index {
       throw new Meteor.Error('not-allowed', "You're not allowed to search this index!");
     }
 
-    return this.config.engine.search(searchString, {
+    return this.config.engine.search(searchDefinition, {
       search: this.getSearchOptions(options),
       index: this.config
     });

@@ -62,7 +62,7 @@ if (Meteor.isServer) {
     }
 
     Tracker.autorun(function (c) {
-      var docs = index.search('what').fetch();
+      var docs = index.search({ name: 'what' }).fetch();
 
       if (docs.length === 10) {
         test.equal(docs, getExpectedDocs());
@@ -70,6 +70,12 @@ if (Meteor.isServer) {
         done();
         c.stop();
       }
+    });
+  });
+
+  Tinytest.add('EasySearch - Functional - Minimongo - failing searches', function (test) {
+    test.throws(function () {
+      index.search(100);
     });
   });
 }

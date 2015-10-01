@@ -7,10 +7,12 @@ Tinytest.add('EasySearch ElasticSearch - Unit - Configuration', function (test) 
     };
 
   test.equal(defaultConfig.fieldsToIndex(), []);
-  test.equal(defaultConfig.query('testString', { index: { fields: ['name'] } }), {
-    fuzzy_like_this: {
-      'fields': ['name'],
-      'like_text': 'testString'
+  test.equal(defaultConfig.query({ name: 'testString' }, { index: { fields: ['name'] } }), {
+    bool: {
+      should: [{ fuzzy_like_this: {
+        'fields': ['name'],
+        'like_text': 'testString'
+      }}]
     }
   });
 

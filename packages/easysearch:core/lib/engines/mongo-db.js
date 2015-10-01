@@ -23,12 +23,12 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
    */
   static defaultMongoConfiguration(engineScope) {
     return {
-      selector(searchString, options) {
+      selector(searchObject, options) {
         let selector = {
           $or: []
         };
 
-        _.each(options.index.fields, function (field) {
+        _.each(searchObject, function (searchString, field) {
           selector['$or'].push(engineScope.callConfigMethod(
             'selectorPerField', field, searchString, options
           ));
@@ -43,7 +43,7 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
 
         return selector
       },
-      sort(searchString, options) {
+      sort(searchObject, options) {
         return options.index.fields;
       }
     };
@@ -52,25 +52,68 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
   /**
    * Return the reactive search cursor.
    *
-   * @param {String} searchString String to search for
-   * @param {Object} options      Search and index options
+   * @param {String} searchDefinition Search definition
+   * @param {Object} options          Search and index options
    */
-  getSearchCursor(searchString, options) {
-    let selector = this.callConfigMethod('selector', searchString, options),
+  getSearchCursor(searchDefinition, options) {
+    searchDefinition = this.transformSearchDefinition(searchDefinition, options);
+
+    let selector = this.callConfigMethod('selector', searchDefinition, options),
       collection = options.index.collection,
       findOptions = {
-        sort: this.callConfigMethod('sort', searchString, options),
+        sort: this.callConfigMethod('sort', searchDefinition, options),
         limit: options.search.limit,
         skip: options.search.skip,
-        fields: this.callConfigMethod('fields', searchString, options)
+        fields: this.callConfigMethod('fields', searchDefinition, options)
       };
 
-    check(searchString, String);
+    check(searchDefinition, Object);
     check(options, Object);
 
     return new Cursor(
       collection.find(selector, findOptions),
       collection.find(selector).count()
     );
+  }
+
+  /**
+   * Transform the search definition.
+   *
+   * @param {String|Object} searchDefinition Search definition
+   * @param {Object}        options          Search and index options
+   *
+   * @returns {Object}
+   */
+  transformSearchDefinition(searchDefinition, options) {
+    if (_.isString(searchDefinition)) {
+      let obj = {};
+
+      _.each(options.index.fields, function (field) {
+        obj[field] = searchDefinition;
+      });
+
+      searchDefinition = obj;
+    }
+    return searchDefinition;
+  }
+
+  /**
+   * Check the given search parameter for validity
+   *
+   * @param search
+   * @param indexOptions
+   */
+  checkSearchParam(search, indexOptions) {
+    check(search, Match.OneOf(String, Object));
+
+    if (_.isObject(search)) {
+      _.each(search, function (val, field) {
+        check(val, String);
+
+        if (-1 === _.indexOf(indexOptions.allowedFields, field)) {
+          throw new Meteor.Error(`Not allowed to search over field "${field}`);
+        }
+      });
+    }
   }
 };

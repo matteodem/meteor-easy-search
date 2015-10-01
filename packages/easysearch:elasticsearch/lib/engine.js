@@ -45,28 +45,38 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
       /**
        * The ES query object used for searching the results.
        *
-       * @param {String} searchString Search string
+       * @param {Object} searchObject Search object
        * @param {Object} options      Search options
        *
        * @return array
        */
-      query(searchString, options) {
-        return {
-          "fuzzy_like_this" : {
-            "fields" : options.index.fields,
-            "like_text" : searchString
+      query(searchObject, options) {
+        let query = {
+          bool: {
+            should: []
           }
         };
+
+        _.each(searchObject, function (searchString, field) {
+          query.bool.should.push({
+            "fuzzy_like_this": {
+              "fields": [field],
+              "like_text": searchString
+            }
+          });
+        });
+
+        return query;
       },
       /**
        * The ES sorting method used for sorting the results.
        *
-       * @param {String} searchString Search string
+       * @param {Object} searchObject Search object
        * @param {Object} options      Search options
        *
        * @return array
        */
-      sort(searchString, options) {
+      sort(searchObject, options) {
         return options.index.fields;
       },
       /**
@@ -130,18 +140,20 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
   /**
    * Return the reactive search cursor.
    *
-   * @param {String} searchString String to search for
-   * @param {Object} options      Search and index options
+   * @param {Object} searchDefinition Search definition
+   * @param {Object} options          Search and index options
    */
-  getSearchCursor(searchString, options) {
+  getSearchCursor(searchDefinition, options) {
     let fut = new Future(),
       body = {};
 
-    body.query = this.config.query(searchString, options);
-    body.sort = this.config.sort(searchString, options);
+    searchDefinition = EasySearch.MongoDB.prototype.transformSearchDefinition(searchDefinition, options);
+
+    body.query = this.callConfigMethod('query', searchDefinition, options);
+    body.sort = this.callConfigMethod('sort', searchDefinition, options);
     body.fields = ['_id'];
 
-    body = this.config.body(body);
+    body = this.callConfigMethod('body', body);
 
     options.index.elasticSearchClient.search({
       index: 'easysearch',
