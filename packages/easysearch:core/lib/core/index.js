@@ -1,4 +1,3 @@
-// TODO: Check for es6features again
 // TODO: add tests for mongo-text-index
 
 /**

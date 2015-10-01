@@ -47,6 +47,6 @@ Package.onTest(function(api) {
   // Unit tests
   api.addFiles([
     'tests/unit/input-tests.js', 'tests/unit/each-tests.js', 'tests/unit/if-tests.js', 'tests/unit/base-tests.js',
-    'tests/unit/load-more-tests.js', 'tests/unit/core-tests.js', 'tests/unit/pagination-tests.js'
+    'tests/unit/load-more-tests.js', 'tests/unit/core-tests.js', 'tests/unit/pagination-tests.js', 'tests/unit/component-methods-tests.js'
   ], 'client');
 });
