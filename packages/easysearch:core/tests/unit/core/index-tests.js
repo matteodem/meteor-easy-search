@@ -21,12 +21,12 @@ Tinytest.addAsync('EasySearch - Unit - Core - Index', function (test, done) {
   index.search('testSearch', { limit: 200, skip: 20 });
 
   index.config.engine.search = function (searchDefinition, options) {
-    test.equal(searchDefinition, { name: 'test', country: 'CH' });
+    test.equal(searchDefinition, 'testSearch');
     test.equal(options.search, { limit: 10, skip: 0, props: { custom: 'property' } });
     done();
   };
 
-  index.search({ name: 'test', country: 'CH' }, { props: { custom: 'property' } });
+  index.search('testSearch', { props: { custom: 'property' } });
 });
 
 Tinytest.add('EasySearch - Unit - Core - Index - Error handling', function (test) {

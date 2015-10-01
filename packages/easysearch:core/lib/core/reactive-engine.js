@@ -37,7 +37,7 @@ ReactiveEngine = class ReactiveEngine extends Engine {
   }
 
   /**
-   * Create a search collection used for reactive searching when index is created.
+   * Code to run on index creation
    *
    * @param {Object} indexConfig Index configuration
    */
@@ -50,16 +50,16 @@ ReactiveEngine = class ReactiveEngine extends Engine {
   /**
    * Reactively search on the collection.
    *
-   * @param {String} searchString Search string
-   * @param {Object} options      Options
+   * @param {Object} searchDefinition Search definition
+   * @param {Object} options          Options
    *
    * @returns {Cursor}
    */
-  search(searchString, options) {
+  search(searchDefinition, options) {
     if (Meteor.isClient) {
-      return options.index.searchCollection.find(searchString, options.search);
+      return options.index.searchCollection.find(searchDefinition, options.search);
     } else {
-      return this.getSearchCursor(searchString, options);
+      return this.getSearchCursor(searchDefinition, options);
     }
   }
 };

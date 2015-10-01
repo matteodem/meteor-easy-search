@@ -16,12 +16,12 @@ MinimongoEngine = class MinimongoEngine extends Engine {
   /**
    * Search the index.
    *
-   * @param {String} searchString String to search for
-   * @param {Object} options      Object of options
+   * @param {Object} searchDefinition Search definition
+   * @param {Object} options          Object of options
    *
    * @returns {cursor}
    */
-  search(searchString, options) {
+  search(searchDefinition, options) {
     if (!Meteor.isClient) {
       throw new Meteor.Error('only-client', 'Minimongo can only be used on the client');
     }
@@ -30,3 +30,6 @@ MinimongoEngine = class MinimongoEngine extends Engine {
     return MongoDBEngine.prototype.getSearchCursor.apply(this, arguments);
   }
 };
+
+MinimongoEngine.prototype.checkSearchParam = MongoDBEngine.prototype.checkSearchParam;
+MinimongoEngine.prototype.transformSearchDefinition = MongoDBEngine.prototype.transformSearchDefinition;
