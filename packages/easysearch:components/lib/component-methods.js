@@ -3,14 +3,13 @@ EasySearch._getComponentMethods = function (dict, index) {
     /**
      * Search a component for the given search string.
      *
-     * @param {String} searchString String to search for
+     * @param {Object|String} searchDefinition Search definition
      */
-    search: (searchString) => {
-      check(searchString, String);
-
-      dict.set('searching', searchString.length > 0);
+    search: (searchDefinition) => {
+      dict.set('searching', searchDefinition.length > 0);
       dict.set('searchOptions', {});
-      dict.set('searchString', searchString);
+
+      dict.set('searchDefinition', searchDefinition);
     },
     /**
      * Return the EasySearch.Cursor for the current search.
@@ -18,13 +17,12 @@ EasySearch._getComponentMethods = function (dict, index) {
      * @returns {Cursor}
      */
     getCursor: () => {
-      let searchString = dict.get('searchString') || '',
+      let searchDefinition = dict.get('searchDefinition') || '',
         options = dict.get('searchOptions');
 
-      check(searchString, String);
       check(options, Match.Optional(Object));
 
-      let cursor = index.search(searchString, options),
+      let cursor = index.search(searchDefinition, options),
         searchOptions = index.getSearchOptions(options);
 
       dict.set('count', cursor.count());
@@ -42,9 +40,9 @@ EasySearch._getComponentMethods = function (dict, index) {
      * @returns {boolean}
      */
     searchIsEmpty: () => {
-      let searchString = dict.get('searchString');
+      let searchDefinition = dict.get('searchDefinition');
 
-      return !searchString || (_.isString(searchString) && 0 === searchString.trim().length);
+      return !searchDefinition || (_.isString(searchDefinition) && 0 === searchDefinition.trim().length);
     },
     /**
      * Return true if the component has no results.

@@ -11,7 +11,7 @@ Package.describe({
 });
 
 Npm.depends({
-  'elasticsearch': '5.0.0'
+  'elasticsearch': '8.2.0'
 });
 
 Package.onUse(function(api) {

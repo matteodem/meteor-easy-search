@@ -9,16 +9,16 @@ Tinytest.add('EasySearch Components - Unit - IfInputEmpty', function (test) {
 
   component.onCreated();
 
-  _.first(component.dicts).set('searchString', null);
+  _.first(component.dicts).set('searchDefinition', null);
   test.isTrue(component.inputEmpty());
 
-  _.first(component.dicts).set('searchString', '');
+  _.first(component.dicts).set('searchDefinition', '');
   test.isTrue(component.inputEmpty());
 
-  _.first(component.dicts).set('searchString', '   ');
+  _.first(component.dicts).set('searchDefinition', '   ');
   test.isTrue(component.inputEmpty());
 
-  _.first(component.dicts).set('searchString', 'test');
+  _.first(component.dicts).set('searchDefinition', 'test');
   test.isFalse(component.inputEmpty());
 });
 

@@ -18,8 +18,9 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
       if (this.searchString !== searchString) {
         this.searchString = searchString;
 
-        this.eachIndex(function (index, name) {
-          index.getComponentMethods(name).search(searchString);
+        this.search(searchString);
+
+        this.eachIndex((index, name) => {
           index.getComponentDict(name).set('currentPage', 1);
         });
       }

@@ -57,6 +57,7 @@ Package.onTest(function(api) {
   // Functional tests
   api.addFiles([
     'tests/functional/mongo-db-tests.js',
+    'tests/functional/mongo-text-index-tests.js',
     'tests/functional/minimongo-tests.js'
   ]);
 });

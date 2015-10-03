@@ -1,7 +1,7 @@
 Tinytest.add('EasySearch - Unit - Core - ReactiveEngine', function (test) {
   var CustomReactiveEngine = TestHelpers.createReactiveEngine({
       getSearchCursor: function (s, o) {
-        test.equal(s, 'testCursor');
+        test.equal(s, { name: 'testCursor' });
         test.equal(o.foo, 'bar');
 
         return new EasySearch.Cursor(new Mongo.Cursor(), 155);
@@ -18,7 +18,7 @@ Tinytest.add('EasySearch - Unit - Core - ReactiveEngine', function (test) {
   engineInstance.onIndexCreate(indexConfig);
 
   if (Meteor.isClient) {
-    var counter = engineInstance.search('test', { index: { searchCollection: { find: function (d, o) {
+    var counter = engineInstance.search('test', { index: { fields: ['name'], searchCollection: { find: function (d, o) {
       test.equal(d, 'test');
       test.equal(o, { limit: 9 });
 
@@ -27,7 +27,7 @@ Tinytest.add('EasySearch - Unit - Core - ReactiveEngine', function (test) {
 
     test.equal(counter.count(), 777);
   } else if (Meteor.isServer) {
-    var cursor = engineInstance.search('testCursor', { foo: 'bar' });
+    var cursor = engineInstance.search('testCursor', { foo: 'bar', index: { fields: ['name'] } });
     test.instanceOf(cursor, EasySearch.Cursor);
     test.equal(cursor.count(), 155);
   }
