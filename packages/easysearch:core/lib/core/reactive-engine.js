@@ -48,6 +48,48 @@ ReactiveEngine = class ReactiveEngine extends Engine {
   }
 
   /**
+   * Transform the search definition.
+   *
+   * @param {String|Object} searchDefinition Search definition
+   * @param {Object}        options          Search and index options
+   *
+   * @returns {Object}
+   */
+  transformSearchDefinition(searchDefinition, options) {
+    if (_.isString(searchDefinition)) {
+      let obj = {};
+
+      _.each(options.index.fields, function (field) {
+        obj[field] = searchDefinition;
+      });
+
+      searchDefinition = obj;
+    }
+
+    return searchDefinition;
+  }
+
+  /**
+   * Check the given search parameter for validity
+   *
+   * @param search
+   * @param indexOptions
+   */
+  checkSearchParam(search, indexOptions) {
+    check(search, Match.OneOf(String, Object));
+
+    if (_.isObject(search)) {
+      _.each(search, function (val, field) {
+        check(val, String);
+
+        if (-1 === _.indexOf(indexOptions.allowedFields, field)) {
+          throw new Meteor.Error(`Not allowed to search over field "${field}"`);
+        }
+      });
+    }
+  }
+
+  /**
    * Reactively search on the collection.
    *
    * @param {Object} searchDefinition Search definition
@@ -59,7 +101,10 @@ ReactiveEngine = class ReactiveEngine extends Engine {
     if (Meteor.isClient) {
       return options.index.searchCollection.find(searchDefinition, options.search);
     } else {
-      return this.getSearchCursor(searchDefinition, options);
+      return this.getSearchCursor(
+        this.transformSearchDefinition(searchDefinition, options),
+        options
+      );
     }
   }
 };

@@ -21,7 +21,7 @@ Package.onUse(function(api) {
   api.addFiles(['lib/base.js', 'lib/single-index.js', 'lib/component-methods.js', 'lib/core.js'], 'client');
 
   // Input and Each
-  api.addFiles(['lib/input/input.html', 'lib/input/input.js'], 'client');
+  api.addFiles(['lib/input/input.html', 'lib/input/input.js', 'lib/field-input/field-input.html', 'lib/field-input/field-input.js'], 'client');
   api.addFiles(['lib/each/each.html', 'lib/each/each.js'], 'client');
 
   // If Components
@@ -46,7 +46,14 @@ Package.onTest(function(api) {
 
   // Unit tests
   api.addFiles([
-    'tests/unit/input-tests.js', 'tests/unit/each-tests.js', 'tests/unit/if-tests.js', 'tests/unit/base-tests.js',
-    'tests/unit/load-more-tests.js', 'tests/unit/core-tests.js', 'tests/unit/pagination-tests.js', 'tests/unit/component-methods-tests.js'
+    'tests/unit/input-tests.js',
+    'tests/unit/field-input-tests.js',
+    'tests/unit/each-tests.js',
+    'tests/unit/if-tests.js',
+    'tests/unit/base-tests.js',
+    'tests/unit/load-more-tests.js',
+    'tests/unit/core-tests.js',
+    'tests/unit/pagination-tests.js',
+    'tests/unit/component-methods-tests.js'
   ], 'client');
 });

@@ -20,7 +20,7 @@ Tinytest.add('EasySearch Components - Unit - Base', function (test) {
   test.equal(component.options, { fooTest: 'barTest' });
   test.equal(component.defaultOptions, {});
   test.instanceOf(_.first(component.indexes), EasySearch.Index);
-  test.equal(_.first(component.dicts).get('searchString'), 'testString');
+  test.equal(_.first(component.dicts).get('searchDefinition'), 'testString');
 });
 
 Tinytest.add('EasySearch Components - Unit - Base without index', function (test) {

@@ -21,13 +21,13 @@ Tinytest.add('EasySearch Components - Unit - Core - search', function (test) {
 
   index.getComponentMethods('testName').search('');
 
-  test.equal(index.getComponentDict('testName').get('searchString'), '');
+  test.equal(index.getComponentDict('testName').get('searchDefinition'), '');
   test.equal(index.getComponentDict('testName').get('searching'), false);
   test.equal(index.getComponentDict('testName').get('searchOptions'), {});
 
   index.getComponentMethods('testName').search('foo');
 
-  test.equal(index.getComponentDict('testName').get('searchString'), 'foo');
+  test.equal(index.getComponentDict('testName').get('searchDefinition'), 'foo');
   test.equal(index.getComponentDict('testName').get('searching'), true);
   test.equal(index.getComponentDict('testName').get('searchOptions'), {});
 });

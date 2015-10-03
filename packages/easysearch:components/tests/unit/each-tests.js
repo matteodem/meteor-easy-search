@@ -9,15 +9,15 @@ Tinytest.add('EasySearch Components - Unit - Each', function (test) {
 
   component.onCreated();
 
-  _.first(component.indexes).search = function (searchString) {
-    test.equal(searchString, 'hans');
+  _.first(component.indexes).search = function (searchDefinition) {
+    test.equal(searchDefinition, 'hans');
     return new EasySearch.Cursor({
       fetch: function () { return [{ foo: 'bar' }]; },
       count: function () { return 10; }
     }, 200);
   };
 
-  component.dict.set('searchString', 'hans');
+  component.dict.set('searchDefinition', 'hans');
 
   var cursor = component.doc();
 

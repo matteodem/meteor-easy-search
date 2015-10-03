@@ -45,6 +45,27 @@ MongoTextIndexEngine = class MongoTextIndexEngine extends ReactiveEngine {
       indexConfig.collection._ensureIndex(textIndexesConfig);
     }
   }
+
+  /**
+   * Transform the search definition.
+   *
+   * @param {String|Object} searchDefinition Search definition
+   * @param {Object}        options          Search and index options
+   *
+   * @returns {Object}
+   */
+  transformSearchDefinition(searchDefinition, options) {
+    return searchDefinition;
+  }
+
+  /**
+   * Check the given search parameter for validity
+   *
+   * @param search
+   */
+  checkSearchParam(search) {
+    check(search, String);
+  }
 };
 
 // Explicitely inherit getSearchCursor method functionality

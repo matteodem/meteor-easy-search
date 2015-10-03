@@ -1,4 +1,6 @@
 // TODO: add tests for mongo-text-index
+// TODO: CHANGELOG.md and UPGRADE-2.0.md
+// TODO: DOCS
 
 /**
  * An Index represents the main entry point for Searching with EasySearch. It relies on

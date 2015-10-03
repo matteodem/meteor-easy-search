@@ -33,6 +33,10 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
     );
   }
 
+  customRenderPagination() {
+    return this.getData().renderPagination;
+  }
+
   /**
    * Paginate documents.
    */

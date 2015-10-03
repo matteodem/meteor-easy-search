@@ -23,15 +23,20 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
    */
   static defaultMongoConfiguration(engineScope) {
     return {
-      selector(searchObject, options) {
-        let selector = {
-          $or: []
-        };
+      aggregation: '$or',
+      selector(searchObject, options, aggregation) {
+        let selector = {};
 
-        _.each(searchObject, function (searchString, field) {
-          selector['$or'].push(engineScope.callConfigMethod(
+        selector[aggregation] = [];
+
+        _.each(searchObject, (searchString, field) => {
+          let fieldSelector = engineScope.callConfigMethod(
             'selectorPerField', field, searchString, options
-          ));
+          );
+
+          if (fieldSelector) {
+            selector[aggregation].push(fieldSelector);
+          }
         });
 
         return selector;
@@ -56,9 +61,7 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
    * @param {Object} options          Search and index options
    */
   getSearchCursor(searchDefinition, options) {
-    searchDefinition = this.transformSearchDefinition(searchDefinition, options);
-
-    let selector = this.callConfigMethod('selector', searchDefinition, options),
+    let selector = this.callConfigMethod('selector', searchDefinition, options, this.config.aggregation),
       collection = options.index.collection,
       findOptions = {
         sort: this.callConfigMethod('sort', searchDefinition, options),
@@ -67,53 +70,12 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
         fields: this.callConfigMethod('fields', searchDefinition, options)
       };
 
-    check(searchDefinition, Object);
+    check(selector, Object);
     check(options, Object);
 
     return new Cursor(
       collection.find(selector, findOptions),
       collection.find(selector).count()
     );
-  }
-
-  /**
-   * Transform the search definition.
-   *
-   * @param {String|Object} searchDefinition Search definition
-   * @param {Object}        options          Search and index options
-   *
-   * @returns {Object}
-   */
-  transformSearchDefinition(searchDefinition, options) {
-    if (_.isString(searchDefinition)) {
-      let obj = {};
-
-      _.each(options.index.fields, function (field) {
-        obj[field] = searchDefinition;
-      });
-
-      searchDefinition = obj;
-    }
-    return searchDefinition;
-  }
-
-  /**
-   * Check the given search parameter for validity
-   *
-   * @param search
-   * @param indexOptions
-   */
-  checkSearchParam(search, indexOptions) {
-    check(search, Match.OneOf(String, Object));
-
-    if (_.isObject(search)) {
-      _.each(search, function (val, field) {
-        check(val, String);
-
-        if (-1 === _.indexOf(indexOptions.allowedFields, field)) {
-          throw new Meteor.Error(`Not allowed to search over field "${field}`);
-        }
-      });
-    }
   }
 };
