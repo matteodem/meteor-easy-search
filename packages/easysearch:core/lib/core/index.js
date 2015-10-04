@@ -1,5 +1,3 @@
-// TODO: fix weird behaviour when autosuggest and input on same site
-// TODO: test if works with iron-router
 // TODO: docs
 // TODO: CHANGELOG.md and UPGRADE-2.0.md
 // TODO: release process (+ README for each package)
