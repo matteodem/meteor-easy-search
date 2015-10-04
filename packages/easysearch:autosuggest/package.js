@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'easysearch:elasticsearch',
+  name: 'easysearch:autosuggest',
   version: '2.0.0',
   // Brief, one-line summary of the package.
   summary: '',
@@ -10,28 +10,22 @@ Package.describe({
   documentation: 'README.md'
 });
 
-Npm.depends({
-  'elasticsearch': '8.2.0'
-});
-
 Package.onUse(function(api) {
   api.versionsFrom('1.2.0.1');
 
   // Dependencies
-  api.use(['check', 'ecmascript']);
-  api.use(['easysearch:core', 'erasaur:meteor-lodash@3.10.0']);
+  api.use(['check', 'ecmascript', 'templating', 'blaze']);
+  api.use(['easysearch:core', 'jeremy:selectize', 'erasaur:meteor-lodash@3.10.0']);
 
   api.addFiles([
-    'lib/data-syncer.js',
-    'lib/engine.js'
-  ]);
-
-  api.export('EasySearch');
+    'lib/autosuggest.html',
+    'lib/autosuggest.js'
+  ], 'client');
 });
 
 Package.onTest(function(api) {
-  api.use(['tinytest', 'ecmascript']);
-  api.use('easysearch:elasticsearch');
+  api.use(['tinytest', 'ecmascript', 'templating']);
+  api.use('easysearch:autosuggest');
 
-  api.addFiles(['tests/engine-tests.js']);
+  api.addFiles(['tests/autosuggest-tests.js'], 'client');
 });

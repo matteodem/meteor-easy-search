@@ -1,6 +1,8 @@
-// TODO: add tests for mongo-text-index
+// TODO: fix weird behaviour when autosuggest and input on same site
+// TODO: test if works with iron-router
+// TODO: docs
 // TODO: CHANGELOG.md and UPGRADE-2.0.md
-// TODO: DOCS
+// TODO: release process (+ README for each package)
 
 /**
  * An Index represents the main entry point for Searching with EasySearch. It relies on

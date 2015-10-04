@@ -132,7 +132,7 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
         indexType: indexConfig.name,
         collection: indexConfig.collection,
         client: indexConfig.elasticSearchClient,
-        beforeIndex: (doc) => this.config.getElasticSearchDoc(doc, this.config.fieldsToIndex(indexConfig))
+        beforeIndex: (doc) => this.callConfigMethod('getElasticSearchDoc', doc, this.callConfigMethod('fieldsToIndex', indexConfig))
       });
     }
   }
