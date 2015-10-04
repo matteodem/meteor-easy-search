@@ -8,4 +8,5 @@ env:
   - PACKAGES=./packages/easysearch:core PACKAGE_DIRS=./packages/
   - PACKAGES=./packages/easysearch:components PACKAGE_DIRS=./packages/
   - PACKAGES=./packages/easysearch:elasticsearch PACKAGE_DIRS=./packages/
+  - PACKAGES=./packages/easysearch:autosuggest PACKAGE_DIRS=./packages/
 
