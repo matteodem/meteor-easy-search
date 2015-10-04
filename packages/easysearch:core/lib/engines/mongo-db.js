@@ -24,8 +24,9 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
   static defaultMongoConfiguration(engineScope) {
     return {
       aggregation: '$or',
-      selector(searchObject, options, aggregation) {
-        let selector = {};
+      selector(searchObject, options) {
+        let selector = {},
+          aggregation = this.config.aggregation;
 
         selector[aggregation] = [];
 
@@ -61,7 +62,7 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
    * @param {Object} options          Search and index options
    */
   getSearchCursor(searchDefinition, options) {
-    let selector = this.callConfigMethod('selector', searchDefinition, options, this.config.aggregation),
+    let selector = this.callConfigMethod('selector', searchDefinition, options),
       collection = options.index.collection,
       findOptions = {
         sort: this.callConfigMethod('sort', searchDefinition, options),
