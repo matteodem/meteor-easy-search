@@ -7,7 +7,7 @@ Package.describe({
 
 Package.on_use(function (api) {
   if (api.versionsFrom) {
-    api.versionsFrom('METEOR@1.0.4');
+    api.versionsFrom('1.2.0.1');
   }
 
   api.use('easy:search');
