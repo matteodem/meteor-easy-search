@@ -1,7 +1,7 @@
 Easy Search Core
 =====================
 
-The core package allows you to search indexes with configured engines through the Javascript API.
+The core package allows you to search indexes with configured engines through the Javascript API. The `easy:search` package wraps this package together with `easysearch:components` for convenience. 
 
 ```javascript
 // On Client and Server
@@ -19,9 +19,6 @@ Tracker.autorun(() => {
   console.log(cursor.count()); // logs the count of all matched documents
 });
 ```
-
-Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have a look at the
-[Documentation](http://matteodem.github.io/meteor-easy-search/) for more information.
 
 ## How to install
 
