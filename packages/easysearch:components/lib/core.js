@@ -110,7 +110,9 @@ EasySearch._getPagesForPagination = function ({totalCount, pageCount, currentPag
     pageData.unshift({ page: prevPage, content: 'Prev', current: false, disabled: 1 === currentPage });
     // Next
     let nextPage = isValidPage(pagesLength, currentPage + 1) ? currentPage + 1 : null;
-    pageData.push({ page: nextPage, content: 'Next', current: false, disabled: null == nextPage || pagesLength + 1 === currentPage });
+    pageData.push(
+      { page: nextPage, content: 'Next', current: false, disabled: null == nextPage || pagesLength + 1 === currentPage }
+    );
   }
 
   return pageData;

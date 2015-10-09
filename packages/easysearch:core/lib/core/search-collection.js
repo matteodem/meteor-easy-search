@@ -65,7 +65,7 @@ SearchCollection = class SearchCollection {
 
     this._publishHandle = Meteor.subscribe(this.name, searchDefinition, options);
 
-    let count = this._getCount();
+    let count = this._getCount(searchDefinition);
     let mongoCursor = this._getMongoCursor(searchDefinition, options);
 
     if (!_.isNumber(count)) {
@@ -78,12 +78,14 @@ SearchCollection = class SearchCollection {
   /**
    * Get the count of the cursor.
    *
+   * @params {Object} searchDefinition Search definition
    *
    * @returns {Cursor.count}
+   *
    * @private
    */
-  _getCount() {
-    let countDoc = this._collection.findOne('searchCount');
+  _getCount(searchDefinition) {
+    let countDoc = this._collection.findOne('searchCount' + JSON.stringify(searchDefinition));
 
     if (countDoc) {
       return countDoc.count;
@@ -99,15 +101,30 @@ SearchCollection = class SearchCollection {
    * @private
    */
   _getMongoCursor(searchDefinition) {
-    return this._collection.find({ _id: { $not: 'searchCount' }, __searchDefinition: JSON.stringify(searchDefinition) }, {
-      transform: (doc) => {
-        delete doc.__searchDefinition;
-        delete doc.__sortPosition;
-        this.engine.config.transform(doc);
-        return doc;
-      },
-      sort: ['__sortPosition']
-    });
+    return this._collection.find(
+      { __searchDefinition: JSON.stringify(searchDefinition) },
+      {
+        transform: (doc) => {
+          delete doc.__searchDefinition;
+          delete doc.__sortPosition;
+
+          this.engine.config.transform(doc);
+          return doc;
+        },
+        sort: ['__sortPosition']
+      }
+    );
+  }
+
+  /**
+   * Return a unique document id for publication.
+   *
+   * @param {Object} Document
+   *
+   * @returns string
+   */
+  generateId(doc) {
+    return doc._id + doc.__searchDefinition;
   }
 
   /**
@@ -131,20 +148,26 @@ SearchCollection = class SearchCollection {
         index: collectionScope._indexConfiguration
       });
 
-      this.added(collectionName, 'searchCount', { count: cursor.count() });
+      let definitionString = JSON.stringify(searchDefinition);
+
+      this.added(collectionName, 'searchCount' + definitionString, { count: cursor.count() });
 
       let resultsHandle = cursor.mongoCursor.observe({
         addedAt: (doc, atIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);
-          doc.__searchDefinition = JSON.stringify(searchDefinition);
+          doc.__searchDefinition = definitionString;
           doc.__sortPosition = atIndex;
-          this.added(collectionName, doc._id, doc);
+          doc.__originalId = doc._id;
+
+          this.added(collectionName, collectionScope.generateId(doc), doc);
         },
         changedAt: (doc, oldDoc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('changedAt', doc, oldDoc, atIndex);
-          doc.__searchDefinition = JSON.stringify(searchDefinition);
+          doc.__searchDefinition = definitionString;
           doc.__sortPosition = atIndex;
-          this.changed(collectionName, doc._id, doc)
+          doc.__originalId = doc._id;
+
+          this.changed(collectionName, collectionScope.generateId(doc), doc)
         },
         movedTo: (doc, fromIndex, toIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
@@ -154,10 +177,10 @@ SearchCollection = class SearchCollection {
 
           if (beforeDoc) {
             beforeDoc.__sortPosition = fromIndex;
-            this.changed(collectionName, beforeDoc._id, beforeDoc);
+            this.changed(collectionName, collectionScope.generateId(beforeDoc), beforeDoc);
           }
 
-          this.changed(collectionName, doc._id, doc);
+          this.changed(collectionName, collectionScope.generateId(doc), doc);
         },
         removedAt: (doc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('removedAt', doc, atIndex);

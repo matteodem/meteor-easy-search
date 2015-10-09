@@ -20,8 +20,8 @@ var index = new EasySearch.Index({
 
         selector[field] = 'name sup what';
 
-        if (options.search.props.returnAll) {
-          return selector[field] = '';
+        if (options.search.props.returnNone) {
+          selector[field] = '';
         }
 
         return selector;
@@ -57,7 +57,7 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - prefix search', function 
     var docs = index.search('test').fetch();
 
     if (docs.length === 1) {
-      test.equal(docs, [{ _id: 'testId', name: 'testName' }]);
+      test.equal(docs[0].name, 'testName');
       test.equal(index.search('test').count(), 1);
       done();
       c.stop();
@@ -67,10 +67,15 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - prefix search', function 
 
 Tinytest.addAsync('EasySearch - Functional - MongoDB - suffixed search', function (test, done) {
   Tracker.autorun(function (c) {
-    var docs = index.search('what').fetch();
+    var cursor = index.search('what'),
+      docs = cursor.fetch();
 
     if (docs.length === 10) {
-      test.equal(docs, getExpectedDocs(10));
+      test.equal(cursor.count(), 100);
+      test.equal(docs[0].name, 'name sup what');
+      test.equal(docs[0].sortField, 0);
+      test.equal(docs[5].name, 'name sup what');
+      test.equal(docs[6].sortField, 6);
       test.equal(index.search('what').count(), 100);
       done();
       c.stop();
@@ -80,10 +85,14 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - suffixed search', functio
 
 Tinytest.addAsync('EasySearch - Functional - MongoDB - custom selector', function (test, done) {
   Tracker.autorun(function (c) {
-    var docs = index.search('testName', { limit: 20 }).fetch();
+    var cursor = index.search('testName', { limit: 20 }),
+      docs = cursor.fetch();
 
     if (docs.length === 20) {
-      test.equal(docs, getExpectedDocs(20));
+      test.equal(cursor.count(), 100);
+      test.equal(docs[11].sortField, 11);
+      test.equal(docs[17].sortField, 17);
+
       test.equal(index.search('testName').count(), 100);
       done();
       c.stop();
@@ -93,11 +102,11 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - custom selector', functio
 
 Tinytest.addAsync('EasySearch - Functional - MongoDB - custom property', function (test, done) {
   Tracker.autorun(function (c) {
-    var docs = index.search('testName', { limit: 20 }).fetch();
+    var cursor = index.search('should not match anything', { limit: 10, props: { returnNone: true } }),
+      docs = cursor.fetch();
 
-    if (docs.length === 20) {
-      test.equal(docs, getExpectedDocs(20));
-      test.equal(index.search('testName').count(), 100);
+    if (docs.length === 0) {
+      test.equal(cursor.count(), 0);
       done();
       c.stop();
     }
@@ -106,12 +115,13 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - custom property', functio
 
 Tinytest.addAsync('EasySearch - Functional - MongoDB - per field search', function (test, done) {
   Tracker.autorun(function (c) {
-    var cursor = index.search({ otherName: 'what' }, { limit: 20 });
+    var cursor = index.search({ otherName: 'what' }, { limit: 20 }),
+      docs = cursor.fetch();
 
     if (cursor.count() === 1) {
-      let expectedDoc = { _id: 'testId1',  sortField: 1, name: 'name sup what', otherName: 'what' };
-
-      test.equal(cursor.fetch(), [expectedDoc]);
+      test.equal(docs[0].sortField, 1);
+      test.equal(docs[0].name, 'name sup what');
+      test.equal(docs[0].otherName, 'what');
       done();
       c.stop();
     }
@@ -125,12 +135,14 @@ Tinytest.addAsync('EasySearch - Functional - MongoDB - beforePublish', function 
     if (docs.length === 1) {
       var expectedDocs = [{ _id: 'beforePublishDoc', sortField: -1, name: 'publishdoc' }];
 
-      if (Meteor.isClient) {
-        expectedDocs[0].newAwesomeProperty = 'publishdoc awesome property';
-      }
-
       Meteor.setTimeout(function () {
-        test.equal(docs, expectedDocs);
+        test.equal(docs[0].sortField, -1);
+        test.equal(docs[0].name, 'publishdoc');
+
+        if (Meteor.isClient) {
+          test.equal(docs[0].newAwesomeProperty, 'publishdoc awesome property');
+        }
+
         test.equal(index.search('publish').count(), 1);
         done();
         c.stop();
