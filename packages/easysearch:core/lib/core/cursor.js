@@ -15,14 +15,16 @@ Cursor = class Cursor {
    * @constructor
    *
    */
-  constructor(mongoCursor, count, isReady = true) {
+  constructor(mongoCursor, count, isReady = true, publishHandle = null) {
     check(mongoCursor.fetch, Function);
     check(count, Number);
     check(isReady, Match.Optional(Boolean));
+    check(publishHandle, Match.OneOf(null, Object));
 
     this._mongoCursor = mongoCursor;
     this._count = count;
     this._isReady = isReady;
+    this._publishHandle = publishHandle;
   }
 
   /**
@@ -32,6 +34,15 @@ Cursor = class Cursor {
    */
   fetch() {
     return this._mongoCursor.fetch();
+  }
+
+ /**
+  * Stop the subscription handle associated with the cursor.
+  */
+  stop() {
+    if (this._publishHandle) {
+      return this._publishHandle.stop();
+    }
   }
 
   /**

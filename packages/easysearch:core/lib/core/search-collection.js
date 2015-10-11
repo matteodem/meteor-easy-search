@@ -63,7 +63,7 @@ SearchCollection = class SearchCollection {
       throw new Error('find can only be used on client');
     }
 
-    this._publishHandle = Meteor.subscribe(this.name, searchDefinition, options);
+    let publishHandle = Meteor.subscribe(this.name, searchDefinition, options);
 
     let count = this._getCount(searchDefinition);
     let mongoCursor = this._getMongoCursor(searchDefinition, options);
@@ -72,7 +72,7 @@ SearchCollection = class SearchCollection {
       return new Cursor(mongoCursor, 0, false);
     }
 
-    return new Cursor(mongoCursor, count);
+    return new Cursor(mongoCursor, count, true, publishHandle);
   }
 
   /**
@@ -172,11 +172,13 @@ SearchCollection = class SearchCollection {
         movedTo: (doc, fromIndex, toIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
           doc.__sortPosition = toIndex;
+          doc.__searchDefinition = definitionString;
 
           let beforeDoc = collectionScope._indexConfiguration.collection.findOne(before);
 
           if (beforeDoc) {
             beforeDoc.__sortPosition = fromIndex;
+            beforeDoc.__searchDefinition = definitionString;
             this.changed(collectionName, collectionScope.generateId(beforeDoc), beforeDoc);
           }
 
@@ -184,7 +186,8 @@ SearchCollection = class SearchCollection {
         },
         removedAt: (doc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('removedAt', doc, atIndex);
-          this.removed(collectionName, doc._id)
+          doc.__searchDefinition = definitionString;
+          this.removed(collectionName, collectionScope.generateId(doc));
         }
       });
 

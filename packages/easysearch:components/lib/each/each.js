@@ -11,11 +11,19 @@ EasySearch.EachComponent = class EachComponent extends SingleIndexComponent {
    * @returns {Mongo.Cursor}
    */
   doc() {
-    return this.index
-      .getComponentMethods(this.name)
-      .getCursor()
-      .mongoCursor
+    let stopPublication = this.index
+      .getComponentDict(this.name)
+      .get('stopPublication')
     ;
+
+    this.cursor && stopPublication && this.cursor.stop();
+
+    this.cursor = this.index
+        .getComponentMethods(this.name)
+        .getCursor()
+    ;
+
+    return this.cursor.mongoCursor;
   }
 };
 

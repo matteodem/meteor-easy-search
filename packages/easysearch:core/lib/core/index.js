@@ -1,9 +1,9 @@
-// TODO: docs
+// TODO: docs, don't forget __originalId
 // TODO: CHANGELOG.md and UPGRADE-2.0.md
 // TODO: release process (+ README for each package)
 
 /**
- * An Index represents the main entry point for Searching with EasySearch. It relies on
+ * An Index represents the main entry point for searching with EasySearch. It relies on
  * the given engine to have the search functionality and defines the data that should be searchable.
  *
  * @type {Index}

@@ -10,6 +10,7 @@ EasySearch._getComponentMethods = function (dict, index) {
       dict.set('searchOptions', {});
 
       dict.set('searchDefinition', searchDefinition);
+      dict.set('stopPublication', true);
     },
     /**
      * Return the EasySearch.Cursor for the current search.
@@ -27,10 +28,10 @@ EasySearch._getComponentMethods = function (dict, index) {
 
       dict.set('count', cursor.count());
       dict.set('searching', !cursor.isReady());
-      dict.set('currentCount', cursor.mongoCursor.count());
-
       dict.set('limit', searchOptions.limit);
       dict.set('skip', searchOptions.skip);
+      dict.set('currentCount', cursor.mongoCursor.count());
+      dict.set('stopPublication', false);
 
       return cursor;
     },
@@ -97,6 +98,7 @@ EasySearch._getComponentMethods = function (dict, index) {
 
       options.skip = limit * (page - 1);
       dict.set('searchOptions', options);
+      dict.set('stopPublication', true);
     },
     /**
      * Add custom properties for search.
