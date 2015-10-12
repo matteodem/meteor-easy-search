@@ -1,0 +1,103 @@
+---
+title: Core
+order: 1
+---
+
+The core provides you with a basic set of Javascript classes and methods to implement search. `easy:search` wraps the core and components package, but if
+you want to use the Javascript part of Easy Search you can only add `easysearch:core` to your app. It provides you with reactive search and a set of
+[engines](/docs/engines/) to choose from.
+
+## Customization
+
+Easy Search provides a lot of possible configuration out of the box, with a minimum of actually required ones. There are three levels on which you can
+customize your search.
+
+### Index
+
+The index is the only part that requires you to add configuration for it to work. You need to specify an __engine__ for the search logic,
+the __collection__ that contains the data that you want to search and the __fields__ to search over. You can optionally specify __permission__
+to restrict general access to your index.
+
+```javascript
+let index = new EasySearch.Index({
+  collection: someCollection,
+  fields: ['name'],
+  engine: new EasySearch.MongoTextIndex(),
+  permission: (userId) => {
+    return userHasAccess(userId); // always return true or false here
+  }
+});
+```
+
+### Engine
+
+If you don't like the way your Engine searches or you want to add sorting to your app, then you can add engine configuration in form of an object.
+The `EasySearch.Minimongo` engine for example allows you to rewrite or extend the selector and add sorting.
+
+```javascript
+let index = new EasySearch.Index({
+  collection: someCollection,
+  fields: ['name'],
+  engine: new EasySearch.Minimongo({
+    sort: () => ['score'], // sort by score
+    selector: function (searchObject, options) {
+      // selector contains the default mongo selector that Easy Search would use
+      let selector = this.defaultConfiguration().selector(searchObject, options);
+
+      // modify the selector to only match documents where region equals "New York"
+      selector.region = 'New York';
+
+      return selector;
+    }
+  })
+});
+```
+
+### search
+
+It is possible to pass in an optional options object when using `search` in your application. This enables you to also pass in custom props
+to change behavior based on that app specific data. One example would be to have facet data in there so you can filter out certain
+result sets.
+
+
+```javascript
+// index instanceof EasySearch.Index
+index.search('Peter', {
+  limit: 20
+  props: {
+    // custom fields that can contain EJSON parseable data
+    minScore: 50,
+    maxScore: 100
+  }
+});
+```
+
+The functionality of filtering for scores obviously needs to be implemented on the engine level.
+
+```javascript
+let index = new EasySearch.Index({
+  ...
+  engine: new EasySearch.Minimongo({
+    selector: function (searchObject, options) {
+      let selector = this.defaultConfiguration().selector(searchObject, options),
+        scoreFilter = {};
+
+      if (options.search.props.maxScore) {
+        scoreFilter.$lt = options.search.props.maxScore;
+      }
+
+      if (options.search.props.minScore) {
+        selector.scoreFilter.$gt =  options.search.props.minScore;
+      }
+
+      if (scoreFilter.$gt || scoreFilter.$lt) {
+        selector.score = scoreFilter;
+      }
+
+      return selector;
+    }
+  })
+});
+```
+
+## Extensibility
