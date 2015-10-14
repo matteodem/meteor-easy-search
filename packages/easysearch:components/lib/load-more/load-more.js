@@ -8,7 +8,10 @@ EasySearch.LoadMoreComponent = class LoadMoreComponent extends SingleIndexCompon
    * Load more documents.
    */
   loadMore() {
-    this.index.getComponentMethods(this.name).loadMore(this.options.count);
+    this.index
+      .getComponentMethods(this.name)
+      .loadMore(this.options.count)
+    ;
   }
 
   /**

@@ -33,3 +33,5 @@ SingleIndexComponent = class SingleIndexComponent extends BaseComponent {
     return _.first(this.dicts);
   }
 };
+
+EasySearch.SingleIndexComponent = SingleIndexComponent;

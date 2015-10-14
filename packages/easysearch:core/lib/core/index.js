@@ -1,3 +1,4 @@
+// TODO: use index.search in search-collection
 // TODO: docs, don't forget __originalId
 // TODO: CHANGELOG.md and UPGRADE-2.0.md
 // TODO: release process (+ README for each package)
@@ -63,7 +64,7 @@ Index = class Index {
       props: Match.Optional(Object)
     });
 
-    if (!this.config.permission()) {
+    if (!this.config.permission(Meteor.userId ? Meteor.userId() : null)) {
       throw new Meteor.Error('not-allowed', "You're not allowed to search this index!");
     }
 

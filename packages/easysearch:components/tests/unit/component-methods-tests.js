@@ -30,6 +30,12 @@ Tinytest.add('EasySearch Components - Unit - Component Methods - addProps / remo
     }
   });
 
+  componentMethods.addProps({
+    aha: 'yeah new'
+  });
+
+  test.equal(index.getComponentDict().get('searchOptions').props.aha, 'yeah new');
+
   componentMethods.removeProps('aha', 'customProp');
 
   test.equal(index.getComponentDict().get('searchOptions'), {
