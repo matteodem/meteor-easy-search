@@ -4,7 +4,7 @@ order: 1
 ---
 
 The core provides you with a basic set of Javascript classes and methods to implement search. `easy:search` wraps the core and components package, but if
-you want to use the Javascript part of Easy Search you can only add `easysearch:core` to your app. It provides you with reactive search and a set of
+you only want to use the Javascript part of Easy Search you can add `easysearch:core` to your app. It provides you with reactive search and a set of
 [engines](/docs/engines/) to choose from.
 
 ## Customization
