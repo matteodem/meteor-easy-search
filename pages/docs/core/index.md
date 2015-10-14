@@ -31,7 +31,7 @@ let index = new EasySearch.Index({
 
 ### Engine
 
-If you don't like the way your Engine searches or you want to add sorting to your app, then you can add engine configuration in form of an object.
+If you want to customize or extend the way your Engine searches, then you can add optional engine configuration in form of an object.
 The `EasySearch.Minimongo` engine for example allows you to rewrite or extend the selector and add sorting.
 
 ```javascript
@@ -55,24 +55,23 @@ let index = new EasySearch.Index({
 
 ### search
 
-It is possible to pass in an optional options object when using `search` in your application. This enables you to also pass in custom props
-to change behavior based on that app specific data. One example would be to have facet data in there so you can filter out certain
+It is possible to pass in an optional object when using `search` in your application. This enables you to use custom props
+to change behavior for app specific data. One example would be to have facet values in there so you can filter
 result sets.
-
 
 ```javascript
 // index instanceof EasySearch.Index
 index.search('Peter', {
   limit: 20
   props: {
-    // custom fields that can contain EJSON parseable data
+    // custom data that can contains EJSON parseable data
     minScore: 50,
     maxScore: 100
   }
 });
 ```
 
-The functionality of filtering for scores also needs to be implemented for the props to work.
+The functionality of filtering for `minScore` and `maxScore` also needs to be implemented for the props to work.
 
 ```javascript
 let index = new EasySearch.Index({
@@ -105,7 +104,7 @@ Have a look at the [API Reference](/docs/api-reference/) to see all possible con
 ## Extensibility
 
 If the configuration possibilities that EasySearch provide aren't sufficient then you can extend the core classes. One example would
-be when creating your one engine. The following example extends the `EasySearch.MongoDB` to execute code when an index is being created.
+be when creating your one engine. The following code extends the `EasySearch.MongoDB` to call a method `doSomeStuff` when an index is being created.
 
 ```javascript
 class MyCustomEngine extends EasySearch.MongoDB {
@@ -117,7 +116,7 @@ class MyCustomEngine extends EasySearch.MongoDB {
 }
 ```
 
-You could now simply replace that engine when creating an index. Don't forget that the code is isomorphic, which means that it's executed
+You could now use that engine when creating an index. Don't forget that the code is isomorphic, which means that it's executed
 on both the server and client.
 
 ```javascript
