@@ -9,7 +9,7 @@ you only want to use the Javascript part of Easy Search you can add `easysearch:
 
 ## Customization
 
-Easy Search provides a lot of possible configuration out of the box, with a minimum of actually required ones.
+Easy Search provides a lot of possible configuration out of the box, with a minimum of required configuration.
 There are three levels on which you can customize your search.
 
 ### Index
