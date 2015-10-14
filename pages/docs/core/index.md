@@ -9,8 +9,8 @@ you want to use the Javascript part of Easy Search you can only add `easysearch:
 
 ## Customization
 
-Easy Search provides a lot of possible configuration out of the box, with a minimum of actually required ones. There are three levels on which you can
-customize your search.
+Easy Search provides a lot of possible configuration out of the box, with a minimum of actually required ones.
+There are three levels on which you can customize your search.
 
 ### Index
 
@@ -72,7 +72,7 @@ index.search('Peter', {
 });
 ```
 
-The functionality of filtering for scores obviously needs to be implemented on the engine level.
+The functionality of filtering for scores also needs to be implemented for the props to work.
 
 ```javascript
 let index = new EasySearch.Index({
@@ -100,4 +100,29 @@ let index = new EasySearch.Index({
 });
 ```
 
+Have a look at the [API Reference](/docs/api-reference/) to see all possible configuration values.
+
 ## Extensibility
+
+If the configuration possibilities that EasySearch provide aren't sufficient then you can extend the core classes. One example would
+be when creating your one engine. The following example extends the `EasySearch.MongoDB` to execute code when an index is being created.
+
+```javascript
+class MyCustomEngine extends EasySearch.MongoDB {
+  onIndexCreate(indexConfig) {
+    super.onIndexCreate(indexConfig);
+    // indexConfig is configuration object passed when creating a new index
+    doSomeStuff(indexConfig.fields);
+  }
+}
+```
+
+You could now simply replace that engine when creating an index. Don't forget that the code is isomorphic, which means that it's executed
+on both the server and client.
+
+```javascript
+let index = new EasySearch.Index({
+  ...
+  engine: new MyCustomEngine()
+});
+```
