@@ -3,20 +3,18 @@ title: Getting started
 order: 0
 ---
 
-In Easy Search you use an __index__ with a configured __engine__ to search through a specified Mongo Collection. Let's define those two things
+In Easy Search you use __indexes__ together with __engines__ to search through a specified Mongo Collection. Let's define those two things
 before we continue.
 
 ### Engine
 
-The engine contain is named after the backend that it uses to search. Every engine contains the  search logic required for the index to work,
-but differs in the technology used to do so. There is an `EasySearch.MongoDB` engine for example, which uses MongoDB on the server and subscriptions
-on the client to retrieve the data.
+The engine is named after the technology that it uses to search. There is an `EasySearch.MongoDB` engine for example, which uses MongoDB on the server and subscriptions on the client to retrieve the data. You can configure the general search behavior for engines, but the actual data source is not defined there.
 There are a lot predefined [engines](/docs/engines/) but you can easily create your own or extend existing ones.
 
 ### Index
 
-An index holds more specific configuration such as which collection and documents fields are searchable. One part of the configuration is the engine
-so the index knows how to actually search through the collection. The index is the main building block to creating search functionality for your app.
+The index is the main building block for creating search functionality in your app. It provides you with the `search` method and defines the
+data that should be searchable. One part of the configuration is the engine so the index knows how to actually search through the collection.
 
 ## Creating An Index
 
@@ -63,7 +61,7 @@ Have a look at the [Core section](/docs/core/) to find out the many customizatio
 
 ## Adding Components
 
-Easy Search also provides customizable Blaze Components out of the box.
+Easy Search also provides customizable [Blaze Components](/docs/components/) out of the box.
 
 ```html
 <template name="search">

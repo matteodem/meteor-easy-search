@@ -3,7 +3,7 @@ title: Engines
 order: 3
 ---
 
-Engines contain the core functionality of EasySearch. They can be re-used for multiple indexes, as long as it's not configured specific to an index. The default set of engines all use mongo, either on the client or server side. Engines that search on the server do not conflict with existing publications, as EasySearch uses creates _fake collection_ to synchronize data. Every engine allows you to pass in an optional configuration object to change it's behaviour.
+Engines contain the core functionality of EasySearch. They can be re-used for multiple indexes, as long as it doesn't hold configuration specific to an index. The default set of engines all use mongo, either on the client or server side. Engines that search on the server do not conflict with existing publications, as EasySearch creates _fake collections_ to synchronize data. Every engine allows you to pass in an optional configuration object to change it's behaviour.
 
 ```javascript
 // Client and Server
@@ -23,14 +23,30 @@ The following engines are available to use with EasySearch. Having a look at the
 
 The MongoDB engine searches the specified collection directly with MongoDB on the server and uses subscriptions to retrieve reactive data. It uses a simple regex that matches the string that's searched for inside the specified fields.
 
-#### Parameters
-* __aggregation__: String that defines what [mongo selector](http://docs.mongodb.org/manual/reference/operator/query/or/) the selector should use for the index fields. By default it uses `$or`
+#### Configuration
 * __selector(searchObject, options)__: Function that returns a mongo selector
 * __selectorPerField(field, searchString)__: Function that returns a sub selector for each field
+* __aggregation__: String that defines the [logical query operator](http://docs.mongodb.org/manual/reference/operator/query/or/) thats used for the fields. By default it is `$or`
 * __sort(searchObject, options)__: Function that returns a sort specifier
 * __fields(searchObject, options)__: Function that returns the fields to return when searching
- 
-You might notice that there is a `searchObject` parameter for `selector` and a `searchString` for `selectorPerField`. That's because MongoDB allows you to search only in a specified field, as long as it's allowed.
+
+You might notice that there is a `searchObject` parameter for `selector` and a `searchString` for `selectorPerField`. That's because MongoDB allows you to search only in specified fields. That means if you use `search` with a string it gets converted into an object where the keys are all
+the configured `fields` on your index and the value is the search string used.
+
+
+```javascript
+let index = new EasySearch.Index({
+  ...
+  fields: ['name', 'fullName', 'address']
+});
+
+index.search('Peter');
+// transforms into: { name: 'Peter', fullName: 'Peter', address: 'Peter' }
+
+index.search({ name: 'Peter', address: 'Awesomestreet' });
+// stays the same: { name: 'Peter', address: 'Awesomestreet' }
+
+```
 
 ### Minimongo
 
@@ -42,5 +58,4 @@ The MongoTextIndex engine inherits the same configuration as MongoDB but uses a 
 
 ### ElasticSearch
 
-ElasticSearch is a mature search engine that's capable of advanced searching techniques. It is not part of the core anymore but you can add `easysearch:elasticsearch` to your app and [read the documentation](https://github.com/matteodem/meteor-easy-search/tree/master/packages/easysearch:elasticsearch) to get started.
-
+ElasticSearch is a mature search engine that's capable of advanced searching techniques. It is not part of the core but you can add `easysearch:elasticsearch` to your app and [read the documentation](https://github.com/matteodem/meteor-easy-search/tree/master/packages/easysearch:elasticsearch) to get started.

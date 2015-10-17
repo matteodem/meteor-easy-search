@@ -15,7 +15,7 @@ There are three levels on which you can customize your search.
 ### Index
 
 The index is the only part that requires you to add configuration for it to work. You need to specify an __engine__ for the search logic,
-the __collection__ that contains the data that you want to search and the __fields__ to search over. You can optionally specify __permission__
+the __collection__ that contains the data that you want to search and the __fields__ to search over. You can optionally specify permission
 to restrict general access to your index.
 
 ```javascript
@@ -31,7 +31,7 @@ let index = new EasySearch.Index({
 
 ### Engine
 
-If you want to customize or extend the way your Engine searches, then you can add optional engine configuration in form of an object.
+If you want to customize or extend the way your Engine searches, then you can add an engine configuration in form of an object.
 The `EasySearch.Minimongo` engine for example allows you to rewrite or extend the selector and add sorting.
 
 ```javascript
@@ -55,7 +55,7 @@ let index = new EasySearch.Index({
 
 ### search
 
-It is possible to pass in an optional object when using `search` in your application. This enables you to use custom props
+It is possible to pass in an object as the second argument when using `search` in your application. This enables you to use custom props
 to change behavior for app specific data. One example would be to have facet values in there so you can filter
 result sets.
 
@@ -99,18 +99,18 @@ let index = new EasySearch.Index({
 });
 ```
 
-Have a look at the [API Reference](/docs/api-reference/) to see all possible configuration values.
+Have a look at the [API Reference](/docs/api-reference/) or [Engines section](/docs/engines/) to see all possible configuration values.
 
 ## Extensibility
 
 If the configuration possibilities that EasySearch provide aren't sufficient then you can extend the core classes. One example would
-be when creating your one engine. The following code extends the `EasySearch.MongoDB` to call a method `doSomeStuff` when an index is being created.
+be when creating your own engine. The following code extends the `EasySearch.MongoDB` to call a method `doSomeStuff` when an index is being created.
 
 ```javascript
 class MyCustomEngine extends EasySearch.MongoDB {
   onIndexCreate(indexConfig) {
     super.onIndexCreate(indexConfig);
-    // indexConfig is configuration object passed when creating a new index
+    // indexConfig is the configuration object passed when creating a new index
     doSomeStuff(indexConfig.fields);
   }
 }
