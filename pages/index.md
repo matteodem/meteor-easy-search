@@ -1,5 +1,4 @@
 ---
-title: "Easy-to-use search with Blaze Components and Elastic Search Support"
 ---
 
 Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Read the documentation to [get started](/docs/).

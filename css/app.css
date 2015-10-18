@@ -1,3 +1,7 @@
+pre {
+  padding: 1rem !important;
+}
+
 .landing-page a {
     color: #2b3137;
 }
@@ -5,4 +9,3 @@
 .landing-page .site-title {
     min-width: 150px;
 }
-
