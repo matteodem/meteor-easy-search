@@ -24,7 +24,7 @@ EasySearch._getComponentMethods = function (dict, index) {
       check(options, Match.Optional(Object));
 
       let cursor = index.search(searchDefinition, options),
-        searchOptions = index.getSearchOptions(options);
+        searchOptions = index._getSearchOptions(options);
 
       dict.set('count', cursor.count());
       dict.set('searching', !cursor.isReady());

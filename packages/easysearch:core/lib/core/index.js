@@ -1,6 +1,6 @@
 // TODO: use index.search in search-collection
-// TODO: docs, don't forget __originalId
 // TODO: CHANGELOG.md and UPGRADE-2.0.md
+// TODO: add styling for API reference
 // TODO: release process (+ README for each package)
 
 /**
@@ -69,7 +69,7 @@ Index = class Index {
     }
 
     return this.config.engine.search(searchDefinition, {
-      search: this.getSearchOptions(options),
+      search: this._getSearchOptions(options),
       index: this.config
     });
   }
@@ -81,7 +81,7 @@ Index = class Index {
    *
    * @returns {Object}
    */
-  getSearchOptions(options) {
+  _getSearchOptions(options) {
     return _.defaults({}, options, this.defaultSearchOptions);
   }
 };
