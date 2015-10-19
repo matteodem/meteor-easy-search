@@ -41,7 +41,7 @@ index.search('Marie', {
 
 ## Index
 
-* Since there are multiple layers of configuration now there has also been some changes
+* Since there are multiple layers of configuration options previously set on the `createSearchIndex` call have now mostly changed and been renamed / removed where it made sense
  * `field` => `fields`: index configuratiion, always an array now
  * `collection` => `collection`: index configuration
  * `limit` => `limit`: search configuration
