@@ -2,7 +2,6 @@
 
 ## General
 
-* 
 * Instead of `createSearchIndex(name, options)` you now use the class `EasySearch.Index(configuration)`
 * Instead of `EasySearch.search(name, searchString, options[, callback])` you now use the instance method `index.search(searchDefinition, configuration)`
 * Instead of `EasySearch.createSearcher(name, options)` you create inherited classes, e.g. from `EasySearch.Engine(configuration)`
