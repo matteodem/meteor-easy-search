@@ -5,6 +5,7 @@
 * Instead of `createSearchIndex(name, options)` you now use the class `EasySearch.Index(configuration)`
 * Instead of `EasySearch.search(name, searchString, options[, callback])` you now use the instance method `index.search(searchDefinition, configuration)`
 * Instead of `EasySearch.createSearcher(name, options)` you create inherited classes, e.g. from `EasySearch.Engine(configuration)`
+* `collection.initEasySearch` has been removed in favor of instantiating an `EasySearch.Index`
 * All options that were previously passed to `EasySearch.createSearchIndex` are now split up into three levels of configuration:
  * Engine level configuration, how does the search behave (e.g. sort)
  * Index level configuration, which data is searchable and general configuration (e.g. permission)
@@ -64,7 +65,7 @@ index.search('Marie', {
 ## Components
 
 * Components are now prefixed with `EasySearch` (e.g. `EasySearch.Input`)
-* `EasySearch.getComponentInstance` are now two index methods
+* `EasySearch.getComponentInstance` is now split up into two index methods
  * `index.getComponentDict`: Retrieve search values, (e.g. search string, limit)
  * `index.getComponentMethods`: Use search component functionaly (e.g. searching, adding / removing props)
 
