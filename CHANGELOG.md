@@ -1,3 +1,8 @@
+2.0.0
+=====
+
+* Contains lots of bugfixes, features and general refactoring see [UPGRADE-2.0.md](UPGRADE-2.0.md) and docs
+
 1.6.4
 =====
 

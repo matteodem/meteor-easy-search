@@ -1,8 +1,6 @@
 // TODO: Add transform to minimongo
 // TODO: use index.search in search-collection
-// TODO: CHANGELOG.md and UPGRADE-2.0.md
 // TODO: add styling for API reference
-// TODO: release process (+ README for each package)
 
 /**
  * An Index represents the main entry point for searching with EasySearch. It relies on
