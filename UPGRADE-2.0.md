@@ -23,7 +23,7 @@ let index = new EasySearch.Index({
 });
 
 index.search('Marie', {
-  // search level configuration
+  // search level configuration / options
   limit: 20,
   props: {
     'maxScore': 200
@@ -42,7 +42,7 @@ index.search('Marie', {
 
 ## Index
 
-* Since there are multiple layers of configuration options previously set on the `createSearchIndex` call have now mostly changed and been renamed / removed where it made sense
+* Since there are multiple layers of configuration options most of it has changed places or renamed / removed where it made sense
  * `field` => `fields`: index configuratiion, always an array now
  * `collection` => `collection`: index configuration
  * `limit` => `limit`: search configuration
@@ -58,7 +58,7 @@ index.search('Marie', {
  * `weights` => `weights`: engine configuration, only for `EasySearch.MongoTextIndex`
  * `permission` => `permission`: index configuration
 * No `EasySearch.searchMultiple` anymore, use the index instances themselves to search on multiple indexes
-* No `changeProperty`, `changeLimit` anymore, use the `props` configuration while using the `search` method
+* No `changeProperty`, `changeLimit` anymore, use the `props` option while using the `search` method
 * No `pagination` anymore, use either the components package or implement the pagination logic by using `skip` and `limit` search configuration
 * `search` always returns a `EasySearch.Cursor` that can be used in a reactive context
 
