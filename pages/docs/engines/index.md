@@ -25,7 +25,7 @@ The MongoDB engine searches the specified collection directly with MongoDB on th
 
 #### Configuration
 
-* __selector(searchObject, options)__: Function that returns a mongo selector
+* __selector(searchObject, options, aggregation)__: Function that returns a mongo selector
 * __selectorPerField(field, searchString)__: Function that returns a sub selector for each field
 * __aggregation__: String that defines the [logical query operator](http://docs.mongodb.org/manual/reference/operator/query/or/) thats used for the fields. By default it is `$or`
 * __sort(searchObject, options)__: Function that returns a sort specifier
