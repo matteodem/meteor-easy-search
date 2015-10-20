@@ -37,10 +37,10 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
        *
        * @param {Object} options Index options
        *
-       * @returns {Array}
+       * @returns {null|Array}
        */
-      fieldsToIndex: function (options) {
-        return [];
+      fieldsToIndex(options) {
+        return null;
       },
       /**
        * The ES query object used for searching the results.
@@ -86,7 +86,7 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
        * @param {Array}  fields Array of document fields
        */
       getElasticSearchDoc(doc, fields) {
-        if (_.isEmpty(fields)) {
+        if (null === fields) {
           return doc;
         }
 

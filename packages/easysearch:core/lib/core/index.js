@@ -1,3 +1,4 @@
+// TODO: Add transform to minimongo
 // TODO: use index.search in search-collection
 // TODO: CHANGELOG.md and UPGRADE-2.0.md
 // TODO: add styling for API reference
