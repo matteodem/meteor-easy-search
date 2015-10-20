@@ -1,7 +1,7 @@
 Easy Search Elasticsearch
 =====================
 
-This package adds an `EasySearch.ElasticSearch` engine to Easy-Search. EasySearch synchronizes documents to an index called
+This package adds an `EasySearch.ElasticSearch` engine to EasySearch. EasySearch synchronizes documents to an index called
 __easysearch__, with types based on the collection name.
 
 ```javascript
@@ -23,13 +23,22 @@ The configuration options that can be passed to `EasSearch.ElasticSearch` as an 
 
 * __client__: Object of [client configuration](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/quick-start.html) (such as the `host` and so on)
 * __fieldsToIndex__: Array of document fields to index, by default all fields
-* __query(searchObject, options)__: Function that returns the ElasticSearch query to be sent, by default a `fuzzy_like_this` query
-* __sort(searchObject, options)__: Function that returns the ElasticSearch sort parameter to be sent, by default the index `fields`
-* __getElasticSearchDoc(doc, fields)__: Function that returns a document to index, uses fieldsToIndex by default
+* __query(searchObject, options)__: Function that returns the query, by default a `fuzzy_like_this` query
+* __sort(searchObject, options)__: Function that returns the sort parameter, by default the index `fields`
+* __getElasticSearchDoc(doc, fields)__: Function that returns the document to index, fieldsToIndex by default
 * __body(body)__: Function that returns the ElasticSearch body to send when searching
 
+## Mapping, Analyzers and so on
 
-## How to run ElasticSearch locally
+To make changes to the mapping and other custom ElasticSearch actions you can use the exposed [nodejs client](https://www.npmjs.com/package/elasticsearch) on your index.
+
+```javascript
+index.config.elasticSearchClient.putMapping({
+  // define custom mapping
+});
+```
+
+## How to run ElasticSearch
 
 ```sh
 

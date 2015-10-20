@@ -5,6 +5,7 @@
 * Instead of `createSearchIndex(name, options)` you now use the class `EasySearch.Index(configuration)`
 * Instead of `EasySearch.search(name, searchString, options[, callback])` you now use the instance method `index.search(searchDefinition, configuration)`
 * Instead of `EasySearch.createSearcher(name, options)` you create inherited classes, e.g. from `EasySearch.Engine(configuration)`
+* `collection.initEasySearch` has been removed in favor of instantiating an `EasySearch.Index`
 * All options that were previously passed to `EasySearch.createSearchIndex` are now split up into three levels of configuration:
  * Engine level configuration, how does the search behave (e.g. sort)
  * Index level configuration, which data is searchable and general configuration (e.g. permission)
@@ -22,7 +23,7 @@ let index = new EasySearch.Index({
 });
 
 index.search('Marie', {
-  // search level configuration
+  // search level configuration / options
   limit: 20,
   props: {
     'maxScore': 200
@@ -41,7 +42,7 @@ index.search('Marie', {
 
 ## Index
 
-* Since there are multiple layers of configuration options previously set on the `createSearchIndex` call have now mostly changed and been renamed / removed where it made sense
+* Since there are multiple layers of configuration options most of it has changed places or renamed / removed where it made sense
  * `field` => `fields`: index configuratiion, always an array now
  * `collection` => `collection`: index configuration
  * `limit` => `limit`: search configuration
@@ -57,14 +58,14 @@ index.search('Marie', {
  * `weights` => `weights`: engine configuration, only for `EasySearch.MongoTextIndex`
  * `permission` => `permission`: index configuration
 * No `EasySearch.searchMultiple` anymore, use the index instances themselves to search on multiple indexes
-* No `changeProperty`, `changeLimit` anymore, use the `props` configuration while using the `search` method
+* No `changeProperty`, `changeLimit` anymore, use the `props` option while using the `search` method
 * No `pagination` anymore, use either the components package or implement the pagination logic by using `skip` and `limit` search configuration
 * `search` always returns a `EasySearch.Cursor` that can be used in a reactive context
 
 ## Components
 
 * Components are now prefixed with `EasySearch` (e.g. `EasySearch.Input`)
-* `EasySearch.getComponentInstance` are now two index methods
+* `EasySearch.getComponentInstance` is now split up into two index methods
  * `index.getComponentDict`: Retrieve search values, (e.g. search string, limit)
  * `index.getComponentMethods`: Use search component functionaly (e.g. searching, adding / removing props)
 

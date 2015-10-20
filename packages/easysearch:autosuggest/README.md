@@ -15,7 +15,7 @@ __EasySearch__ for the search. Like the [EasySearch Components](#putInLink) it o
 
 You can pass in following parameters to the `EasySearch.Autosuggest` component.
 * __valueField__: String that specifies the document field that contains the autosuggest value, by default "_id"
-* __labelField__: String that specifies which field to display inside the search results, by default the first of the configured index `fields`
+* __labelField__: String that specifies the search result field to display, by default the first of index `fields`
 * __changeConfiguration__: Function to change the configuration that is passed to selectize.
 * __suggestionTemplate__: String that specifies a custom template to render the autosuggest, by default `EasySarch.Autogguest.DefaultRenderSuggestion`
 
