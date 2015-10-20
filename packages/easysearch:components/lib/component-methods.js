@@ -7,7 +7,9 @@ EasySearch._getComponentMethods = function (dict, index) {
      */
     search: (searchDefinition) => {
       dict.set('searching', searchDefinition.length > 0);
-      dict.set('searchOptions', {});
+      dict.set('searchOptions', {
+        props: (dict.get('searchOptions') || {}).props
+      });
 
       dict.set('searchDefinition', searchDefinition);
       dict.set('stopPublication', true);
