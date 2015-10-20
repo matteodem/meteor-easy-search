@@ -18,7 +18,7 @@ data that should be searchable. One part of the configuration is the engine so t
 
 ## Creating An Index
 
-Let's create an index to see how searching works with Easy Search.
+Let's create an index to see how searching works with Easy Search. First add a file that's reachable both on the __client and server__.
 
 ```javascript
 // On Client and Server
@@ -85,10 +85,14 @@ All the components are prefixed with `EasySearch` to prevent namespace collision
 search app that contains an `Input` to enter the search keywords, an `Each` that loops through the found results an `LoadMore` button that loads
 more documents on request and a condition to display *No results found!* if there are no results.
 
+This is doesn't need more code because EasySearch takes over the logic that controls the state of your search app while providing a lot of
+[customization possibilities](/docs/components/). It stores the search options, search string and takes over things such as stopping unnecessary
+subscriptions and so on.
+
 You might notice that all the components have an `index` parameter, whose value simply is the index that should be acted upon.
 
 ```javascript
 Template.search.helpers({
-  playersIndex: () => PlayersIndex
+  playersIndex: () => PlayersIndex // instanceof EasySearch.Index
 });
 ```

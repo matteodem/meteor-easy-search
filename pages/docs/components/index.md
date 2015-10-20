@@ -119,6 +119,51 @@ Renders an unordered list that displays pages to navigate through if there are m
 * __customRenderPagination__: Template to render the pagination with
 * __transformPages__: Function to return a transformed array of pages before usage
 
+## Retrieving component values
+
+You can retrieve component values, such as the current search string by using the index method `getComponentDict`.
+
+```javascript
+// Assuming you either use EasySearch.Input or EasySearch.FieldInput inside your app
+
+Template.searchBox.onRendered(() => {
+  // index instanceof EasySearch.index
+  let dict = index.getComponentDict(/* optional name */);
+
+  // get the total count of search results, useful when displaying additional information
+  console.log(dict.get('count'));
+});
+```
+
+The components use the dictionary themselves to store reactive state. You can retrieve following values through the dictionary.
+
+* __searchDefinition__: Search definition, mostly strings that are used to call `search`
+* __searchOptions__: Options array to give in (e.g. props)
+* __limit__: Count of search results to limit
+* __skip__: Count of search results to skip
+* __count__: Count of all found search results
+* __currentCount__: Count of currently displayed search results
+* __searching__: True if components are searching
+
+## Using component methods
+
+The components also use component methods that contain the core logic, such as searching with an input and so on. The index method
+`getComponentMethods` exposes those.
+
+```javascript
+Template.filterBox.events({
+  'change select': (e) => {
+    // index instanceof EasySearch.index
+    index.getComponentMethods(/* optional name */)
+      .addProps('countryFilter', $(e.target).val())
+    ;
+  }
+});
+```
+
+This code adds a custom property that is called `countryFilter` and the value of a country code.
+You can log the object that `getComponentMethods` returns to see the complete list of available methods.
+
 ## Extensibility
 
 The components are written with [Blaze Components](https://atmospherejs.com/peerlibrary/blaze-components) which offer a great way to
