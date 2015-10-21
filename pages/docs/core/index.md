@@ -101,6 +101,51 @@ let index = new EasySearch.Index({
 
 Have a look at the [API Reference](/docs/api-reference/) or [Engines section](/docs/engines/) to see all possible configuration values.
 
+## Searching
+
+Searching is easy. Simply call the index `search` method with an appropriate search definition (mostly strings) and options if needed.
+
+```javascript
+// index instanceof EasySearch.Index
+let cursor = index.search('Marie'),
+  docs = cursor.fetch();
+
+// do stuff
+```
+
+The `search` method always returns an EasySearch.Cursor, no matter if on the server or client. It basically wraps a mongo cursor and provides
+you with methods such as `fetch` and `count` and let's you access the underlying cursor with a property called `mongoCursor`. This makes it
+possible to write custom publications.
+
+```javascript
+Meteor.publish('carSearch', (searchString) {
+  check(searchString, String);
+
+  // index instanceof EasySearch.Index
+  return index.search(searchString).mongoCursor;
+})
+```
+
+Certain engines also allow to search by objects as your searchDefinition, specifying the fields that are searched.
+
+```javascript
+let index = new EasySearch.Index({
+  ...
+  fields: ['name'],
+  allowedFields: ['name', 'score'],
+  engine: new EasySearch.MongoDB()
+});
+
+// only search for the name
+let docs = index.search({ name: 'Marie' }).fetch();
+
+// will fail, since allowedFields does not contain that field
+let fail = index.search({ password: '1234' }).fetch();
+```
+
+By default the specified index `fields` are searchable but you can specify your own `allowedFields` that are checked inside the engines
+when searched with objects
+
 ## Extensibility
 
 If the configuration possibilities that EasySearch provide aren't sufficient then you can extend the core classes. One example would

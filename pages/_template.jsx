@@ -34,7 +34,6 @@ module.exports = React.createClass({
       return route.path;
     });
     docsActive = (routes.indexOf(urlPrefix + "/docs/") >= 0);
-    examplesActive = (routes.indexOf(urlPrefix + "/examples/") >= 0);
 
     return (
       <div>
@@ -87,23 +86,6 @@ module.exports = React.createClass({
                 >
                   Github
                 </a>
-                <Link
-                  to={`${urlPrefix}/examples/`}
-                  style={{
-                    background: examplesActive ? activeHeaderColors.bg : headerColors.bg,
-                    color: examplesActive ? activeHeaderColors.fg : headerColors.fg,
-                    float: 'right',
-                    textDecoration: 'none',
-                    paddingLeft: rhythm(1/2),
-                    paddingRight: rhythm(1/2),
-                    paddingBottom: rhythm(1),
-                    marginBottom: rhythm(-1),
-                    paddingTop: rhythm(1),
-                    marginTop: rhythm(-1)
-                  }}
-                >
-                  Examples
-                </Link>
                 <Link
                   to={`${urlPrefix}/docs/`}
                   style={{
