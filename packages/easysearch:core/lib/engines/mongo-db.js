@@ -55,6 +55,21 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
   }
 
   /**
+   * Return the find options for the mongo find query.
+   *
+   * @param {String} searchDefinition Search definition
+   * @param {Object} options          Search and index options
+   */
+  getFindOptions(searchDefinition, options) {
+    return {
+      sort: this.callConfigMethod('sort', searchDefinition, options),
+      limit: options.search.limit,
+      skip: options.search.skip,
+      fields: this.callConfigMethod('fields', searchDefinition, options)
+    };
+  }
+
+  /**
    * Return the reactive search cursor.
    *
    * @param {String} searchDefinition Search definition
@@ -62,16 +77,12 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
    */
   getSearchCursor(searchDefinition, options) {
     let selector = this.callConfigMethod('selector', searchDefinition, options, this.config.aggregation),
-      collection = options.index.collection,
-      findOptions = {
-        sort: this.callConfigMethod('sort', searchDefinition, options),
-        limit: options.search.limit,
-        skip: options.search.skip,
-        fields: this.callConfigMethod('fields', searchDefinition, options)
-      };
+      findOptions = this.getFindOptions(searchDefinition, options)
+      collection = options.index.collection;
 
-    check(selector, Object);
     check(options, Object);
+    check(selector, Object);
+    check(findOptions, Object);
 
     return new Cursor(
       collection.find(selector, findOptions),

@@ -1,5 +1,5 @@
 /**
- * An Engine is the technology used for searching with Easy-Search, with
+ * An Engine is the technology used for searching with EasySearch, with
  * customizable configuration to how it interacts with the data from the Index.
  *
  * @type {Engine}

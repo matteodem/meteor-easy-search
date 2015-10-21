@@ -35,3 +35,11 @@ MinimongoEngine = class MinimongoEngine extends Engine {
 
 MinimongoEngine.prototype.checkSearchParam = ReactiveEngine.prototype.checkSearchParam;
 MinimongoEngine.prototype.transformSearchDefinition = ReactiveEngine.prototype.transformSearchDefinition;
+
+MinimongoEngine.prototype.getFindOptions = function (...args) {
+  let findOptions = MongoDBEngine.prototype.getFindOptions.apply(this, args);
+
+  findOptions.transform = this.config.transform;
+
+  return findOptions;
+};

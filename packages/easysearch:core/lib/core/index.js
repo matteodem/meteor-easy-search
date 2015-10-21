@@ -1,5 +1,3 @@
-// TODO: Add transform to minimongo
-// TODO: use index.search in search-collection
 // TODO: add styling for API reference
 
 /**
@@ -63,7 +61,7 @@ Index = class Index {
       props: Match.Optional(Object)
     });
 
-    if (!this.config.permission(Meteor.userId ? Meteor.userId() : null)) {
+    if (!this.config.permission(Meteor.userId ? Meteor.userId() : null, this)) {
       throw new Meteor.Error('not-allowed', "You're not allowed to search this index!");
     }
 

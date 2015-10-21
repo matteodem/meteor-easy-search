@@ -11,8 +11,12 @@ if (Meteor.isServer) {
 
 var index = new EasySearch.Index({
   engine: new EasySearch.Minimongo({
-    sort: function () {
+    sort() {
       return ['sortField'];
+    },
+    transform(doc) {
+      doc.what = 'what';
+      return doc;
     }
   }),
   collection: collection,
@@ -42,7 +46,7 @@ if (Meteor.isServer) {
       var docs = index.search('test').fetch();
 
       if (docs.length === 1) {
-        test.equal(docs, [{ _id: 'testId', name: 'testName' }]);
+        test.equal(docs, [{ _id: 'testId', name: 'testName', what: 'what' }]);
         test.equal(index.search('test').count(), 1);
         done();
         c.stop();
@@ -55,7 +59,7 @@ if (Meteor.isServer) {
       var docs = [];
 
       for (var i = 0; i < 10; i += 1) {
-        docs.push({ _id: 'testId' + i,  sortField: i, name: 'name sup what' });
+        docs.push({ _id: 'testId' + i,  sortField: i, name: 'name sup what', what: 'what' });
       }
 
       return docs;

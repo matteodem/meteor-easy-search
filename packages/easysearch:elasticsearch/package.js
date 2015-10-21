@@ -1,6 +1,6 @@
 Package.describe({
   name: 'easysearch:elasticsearch',
-  summary: "Elasticsearch Engine for Easy-Search",
+  summary: "Elasticsearch Engine for EasySearch",
   version: "2.0.0",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
