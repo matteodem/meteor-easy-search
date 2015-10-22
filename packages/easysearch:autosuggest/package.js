@@ -1,6 +1,6 @@
 Package.describe({
   name: 'easysearch:autosuggest',
-  summary: "Selectize Autosuggest Component for Easy-Search",
+  summary: "Selectize Autosuggest Component for EasySearch",
   version: "2.0.0",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
