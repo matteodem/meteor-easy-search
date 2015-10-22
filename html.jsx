@@ -73,7 +73,7 @@ module.exports = React.createClass({
         </head>
         <body className="landing-page">
           <div id="react-mount" dangerouslySetInnerHTML={{__html: this.props.body}} />
-          <script src={`${urlPrefix}/bundle.js`}/>
+          <script src={`${urlPrefix}/meteor-easy-search/bundle.js`}/>
         </body>
       </html>
     );
