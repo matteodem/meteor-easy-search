@@ -3,34 +3,40 @@ layout: default
 title: Home
 ---
 
-Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Use the Blaze Components + Javascript API to [get started]({{ site.baseurl }}/getting-started). 
+Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Read the documentation to [get started](docs/).
 
 ```javascript
 // On Client and Server
-Players = new Meteor.Collection('players');
-// name is the field of the documents to search over
-Players.initEasySearch('name');
+let Players = new Meteor.Collection('players'),
+  PlayersIndex = new EasySearch.Index({
+    collection: Players,
+    fields: ['name'],
+    engine: new EasySearch.MongoDB()
+  });
+
+Template.searchBox.helpers({
+  playersIndex: () => PlayersIndex
+});
 ```
 
 ```html
 {% raw %}
 <template name="searchBox">
-    {{> esInput index="players" placeholder="Search..." }}
-
+    {{> EasySearch.Input index=playersIndex }}
     <ul>
-        {{#esEach index="players"}}
+        {{#EasySearch.Each index=playersIndex }}
             <li>Name of the player: {{name}}</li>
-        {{/esEach}}
+        {{/EasySearch.Each}}
     </ul>
 </template>
 {% endraw %}
 ```
 
-Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have a look at the sidebar for more information.
+Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) for a project implemented with EasySearch.
 
 ## How to install
 
 ```sh
 cd /path/to/project
-meteor add matteodem:easy-search
+meteor add easy:search
 ```

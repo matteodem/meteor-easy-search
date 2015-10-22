@@ -1,178 +1,152 @@
 ---
-layout: doc
 title: Recipes
+order: 4
 ---
 
-Here you can find instructions on different search features you might want to add to your app.
+This is a cookbook containing recipes on how to use EasySearch for different scenarios in your app.
 
-### Search the Users Collection
+## Modifying search results
 
-If you want to search through the Meteor.users collection you have to make use of the query method property. You can
-further specify the selector as you do for faceting, filtering your search. Since you have to handle nested objects,
-we use the __$elemMatch__ selector.
+EasySearch returns documents when using `search` that have the same fields as the original ones, but the `_id` is different.
+If you want to perform changes on search result documents by the id you can use the `__originalId` which contains the original `_id`
+of the document. So `collection.findOne(doc._id)` won't work, while `collection.findOne(doc.__originalId)` would.
+
+```Javascript
+Tracker.autorun(function () {
+  // index instanceof EasySearch.Index
+  let docs = index.search('angry').fetch();
+
+  if (docs.length) {
+    docs.forEach((doc) => {
+      // originalId is the _id of the original document
+      makeHappy(doc.__originalId);
+    });
+  }
+})
+
+
+```
+
+## Searching user mails
+
+If you want to search through the mails of `Meteor.users` you can do it by using a custom selector with `$elemMatch`.
 
 ```javascript
-EasySearch.createSearchIndex('users', {
-  field: 'username',
-  collection: Meteor.users,
-  use: 'mongo-db',
-  query: function (searchString, opts) {
-    // Default query that is used for searching
-    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
-
-    // Make the emails searchable
-    query.$or.push({
-      emails: {
-        $elemMatch: {
-          address: { '$regex' : '.*' + searchString + '.*', '$options' : 'i' }
+let index = new EasySearch.Index({
+  ...
+  fields: ['username', 'emails']
+  selectorPerField: function (field, searchString) {
+    if ('emails' === field) {
+      // return this selector if the email field is being searched
+      return {
+        emails: {
+          $elemMatch: {
+            address: { '$regex' : '.*' + searchString + '.*', '$options' : 'i' }
+          }
         }
-      }
-    });
+      };
+    }
 
-    return query;
+    // use the default otherwise
+    return this.defaultConfiguration().selectorPerField(field, searchString);
   }
 });
 ```
 
-### Loading more content
+This configuration returns a different selector if the configured `emails` fields is being searched and thus matches the actual email
+address nested inside the object.
 
-You can easily load more content by using either ```esLoadMoreButton``` or ```esPagination```. The advantage of using the load more buton is that
-it's easy to navigate, but it loads a lot more documents and uses more disk space than the paginatable solution. Simply use them like this:
+## Searching without an input
 
+If you want to have the functionality of the Blaze Components without searching inside an input, you can use the search component method.
+This allows you to react on any custom Javascript Event, for example clicking on a picture of a player to load all his latest matches with an EasySearch Index.
 
-```html
-{% raw %}
-<div class="search-controls">
-    {{> esLoadMoreButton index="players"}}
-    <!-- or -->
-    {{> esPagination index="players"}}
-</div>
-{% endraw %}
-```
-
-### Searching on custom events
-
-If you want to have the functionality of all the Blaze Components, without searching inside an input, you can use the
-search method on the [component instance]({{ site.baseurl }}/docs/component-api). This allows you to react on any custom
-Javascript Event, for example clicking on a picture of a player to load all his latest matches with an EasySearch Index.
-
-
-```javascript
-
+```Javascript
 Template.players.events({
   'click .playerBox': function () {
-    EasySearch
-      .getComponentInstance({ index: 'players' })
+    // index instanceof EasySearch.Index
+    index
+      .getComponentMethods(/* optional name if specified on the components */)
       .search(this._id)
     ;
   }
 });
-
 ```
 
 This let's you use all the functionality of EasySearch but without the need of only searching through an input.
 
-### Enhancing document fields
+## Adding additional data to your document
 
-With Elastic-Search and other Search Indexes you generally try to have as much information in a document than possible.
-This means you have to let go of normalization and instead focus on fields you would want for a better search experience.
-If you for example have a __firstName__ and __lastName__ field in your Mongo docs, but you want users to search over their
-full name, you could do it with ```transform```
+If you want to add relations to your documents you can use `beforePublish` that is used on the server side before the document is actually published. There is also the `transform` configuration that is useful if you want the existing document data to be transformed. Both of those configurations are on the engine level.
 
 ```javascript
-EasySearch.createSearchIndex('employees', {
-   use: 'elastic-search', // mongo-db and minimongo won't work
-   field: 'fullName',
-   transform: function (doc) {
-     doc.fullName = doc.firstName + ' ' + doc.lastName;
-   }
-});
+let index = new EasySearch.Index({
+  ...
+  engine: new EasySearch.MongoDB({
+    beforePublish: (action, doc) {
+      // might be that the field is already published and it's being modified
+      if (!doc.owner && doc.ownerId) {
+        doc.owner = Meteor.users.findOne({ _id: doc.ownerId });
+      }
+
+      // always return the document
+      return doc;
+    },
+    transform: (doc) {
+      doc.slug = sluggify(doc.awesomeName);
+
+      // always return the document
+      return doc;
+    }
+  })
+})
 ```
 
-This creates a new property called __fullName__, which is only used for indexing and searching. It is also a good idea
-to add new fields for sorting. If you want to have the same functionality with mongo-db, you need to add those
-fields to your docs.
+## Adding facets to your search app
 
-### Searching with Mongo Text Indexes
+Adding facets to your application to filter out certain result sets is easy. First create a `<select>` box or anything else
+that you want to use to determine what to filter for.
 
-If you want to stay true to MongoDB you can use text indexes to get enhanced search functionality. It is a good idea to sort by
-`textScore`, which is the most relevant document that matches your search.
+```Javascript
+let index = new EasySearch.Index({
+  ...
+  engine: new EasySearch.MongoDB({
+    selector: (searchObject, options) {
+      let selector = this.defaultConfiguration().selector(searchObject, options);
 
+      // filter for the brand if set
+      if (options.search.props.brand) {
+        selector.brand = options.search.props.brand;
+      }
 
-```javascript
-EasySearch.createSearchIndex('employees', {
-   use: 'mongo-db',
-   useTextIndexes: true, // use mongo text indexes
-   field: 'fullName', // field to use text indexes for
-   sort: function () {
-    return {
-      score: { $meta: 'textScore' } // sort by relevance
-    };
-   }
+      return selector;
+    }
+  })
 });
 ```
-
-### Filters / Faceted Search
-
-You can easily implement filters and faceted search with Easy-Search. Let's say you want to filter for different categories, you would probably do it like this.
 
 ```html
-{% raw %}
 <template name="filters">
   ...
-  <div class="filters">
-    <div class="filter">Nike</div>
-    <div class="filter">Adidas</div>
-    <div class="filter">Puma</div>
-  </div>
+  <select class="filters">
+    <option value="nike">Nike</option>
+    <option value="adidas">Adidas</option>
+    <option value="puma">Puma</option>
+  </select>
   ...
 </template>
-{% endraw %}
 ```
 
-Clicking on one of those filter buttons will re-trigger the search when adding following JS code.
+Now add code that sets a custom property when the select changes it's selection.
 
 ```javascript
-// On Client and Server
-EasySearch.createSearchIndex('cars', {
-  'field' : ['name', 'description'],
-  'collection' : Products,
-  'props' : {
-    'filteredCategories' : []
-  },
-  'query' : function (searchString) {
-    // Default query that will be used for searching
-    var query = EasySearch.getSearcher(this.use).defaultQuery(this, searchString);
-
-    // filter for categories if set
-    if (this.props.filteredCategories.length > 0) {
-      query.categories = { $in : this.props.filteredCategories };
-    }
-
-    return query;
+Template.filters.events({
+  'change select': function (e) {
+    shoeIndex.getComponentMethods(/* optional name */)
+      .addProps('brand', $(e.target).val())
+    ;
   }
-});
-
-// Only on Client
-if (Meteor.isClient) {
-  Template.filters.events({
-    'click .filter' : function () {
-      var instance = EasySearch.getComponentInstance(
-        { index : 'cars' }
-      );
-
-      ...
-
-      // Change the currently filteredCategories like this
-      EasySearch.changeProperty('cars', 'filteredCategories', categories);
-      // Trigger the search again, to reload the new products
-      instance.triggerSearch();
-    }
-  });
-}
+})
 ```
 
-With the help of ```changeProperty``` you can change the configuration values set in ```createSearchIndex``` and then re-trigger the search with ```triggerSearch``` on the component instance.
-This will run through the custom query defined and since it has an if statement that covers filters, it'll only return results where the products are in one of the selected cateogries.
-
-See the [Easy-Search Leaderboard](https://github.com/matteodem/easy-search-leaderboard) for a working example of this.
+Since the index is configured to filter for the brand if set this is enough to have a simple brand facet.
