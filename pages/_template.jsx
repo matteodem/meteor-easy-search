@@ -28,7 +28,7 @@ module.exports = React.createClass({
     if (__GH_PAGES__) {
       urlPrefix = this.props.config.ghPagesURLPrefix;
     } else {
-      urlPrefix = "";
+      urlPrefix = this.props.config.ghPagesURLPrefix;
     }
     routes = this.getRoutes().map(function(route) {
       return route.path;
