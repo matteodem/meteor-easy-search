@@ -11,7 +11,7 @@ Package.on_use(function (api) {
     api.versionsFrom('1.2.0.1');
   }
 
-  api.use('easy:search');
+  api.use('easy:search@2.0.0');
   api.export('EasySearch');
 
   console.log('matteodem:easy-search is deprecated (use easy:search instead)');
