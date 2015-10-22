@@ -20,7 +20,7 @@ module.exports = React.createClass({
     if ((typeof __GH_PAGES__ !== "undefined" && __GH_PAGES__ !== null) && __GH_PAGES__) {
       urlPrefix = this.props.config.ghPagesURLPrefix;
     } else {
-      urlPrefix = "/meteor-easy-search";
+      urlPrefix = "";
     }
 
     return (
@@ -32,44 +32,6 @@ module.exports = React.createClass({
           <title>{title}</title>
           <link rel="shortcut icon" href={this.props.favicon}/>
           <TypographyStyle/>
-          <style dangerouslySetInnerHTML={{__html:
-            `
-              a {
-                color: #884499;
-              }
-              pre {
-                background: whitesmoke;
-                padding: 1.5rem;
-              }
-              .demo1-ball {
-                border-radius: 99px;
-                background-color: white;
-                width: 50px;
-                height: 50px;
-                border: 3px solid white;
-                position: absolute;
-                background-size: 50px;
-              }
-              .ball-0 {
-                background-image: url(${urlPrefix}/docs/some-react-code/0.jpg);
-              }
-              .ball-1 {
-                background-image: url(${urlPrefix}/docs/some-react-code/1.jpg);
-              }
-              .ball-2 {
-                background-image: url(${urlPrefix}/docs/some-react-code/2.jpg);
-              }
-              .ball-3 {
-                background-image: url(${urlPrefix}/docs/some-react-code/3.jpg);
-              }
-              .ball-4 {
-                background-image: url(${urlPrefix}/docs/some-react-code/4.jpg);
-              }
-              .ball-5 {
-                background-image: url(${urlPrefix}/docs/some-react-code/5.jpg);
-              }
-            `
-          }} />
         </head>
         <body className="landing-page">
           <div id="react-mount" dangerouslySetInnerHTML={{__html: this.props.body}} />
