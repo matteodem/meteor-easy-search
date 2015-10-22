@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: Recipes
 order: 4
 ---
