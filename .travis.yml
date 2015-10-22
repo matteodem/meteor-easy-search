@@ -1,8 +1,12 @@
-sudo: required
 language: node_js
 node_js:
   - "0.12"
 before_install:
-  - "curl -L https://raw.githubusercontent.com/arunoda/travis-ci-meteor-packages/master/configure.sh | /bin/sh"
-services:
-  - mongodb
+  - "curl -L http://git.io/ejPSng | /bin/sh"
+sudo: required
+env:
+  - PACKAGES=./packages/easysearch:core PACKAGE_DIRS=./packages/
+  - PACKAGES=./packages/easysearch:components PACKAGE_DIRS=./packages/
+  - PACKAGES=./packages/easysearch:elasticsearch PACKAGE_DIRS=./packages/
+  - PACKAGES=./packages/easysearch:autosuggest PACKAGE_DIRS=./packages/
+

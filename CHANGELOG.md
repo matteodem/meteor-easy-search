@@ -1,3 +1,8 @@
+2.0.0
+=====
+
+* Contains lots of bugfixes, features and general refactoring see [UPGRADE-2.0.md](UPGRADE-2.0.md) and docs
+
 1.6.4
 =====
 
@@ -5,7 +10,7 @@
 
 1.6.3
 =====
-* Change less dependency to accept 1.* and 2.* 
+* Change less dependency to accept 1.* and 2.*
 
 1.6.2
 =====
@@ -15,7 +20,7 @@
 1.6.1
 =====
 
-* Changed #249: Update elasticsearch npm dependency 
+* Changed #249: Update elasticsearch npm dependency
 
 1.6.0
 =====
