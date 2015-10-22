@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 
-Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Read the documentation to [get started](docs/).
+Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Read the documentation to [get started](getting-started).
 
 ```javascript
 // On Client and Server

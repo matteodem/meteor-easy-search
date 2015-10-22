@@ -9,7 +9,7 @@ before we continue.
 ### Engine
 
 The engine is named after the technology that it uses to search. There is an `EasySearch.MongoDB` engine for example, which uses MongoDB on the server and subscriptions on the client to retrieve the data. You can configure the general search behavior for engines, but the actual data source is not defined there.
-There are a lot predefined [engines](/docs/engines/) but you can easily create your own or extend existing ones.
+There are a lot predefined [engines](../docs/engines/) but you can easily create your own or extend existing ones.
 
 ### Index
 
@@ -32,8 +32,8 @@ PlayersIndex = new EasySearch.Index({
 ```
 
 This configuration tells EasySearch to search through name and score on the Players collection. We told EasySearch to use
-[Minimongo](/docs/engines/) as an engine. The Minimongo engine doesn't create new subscriptions and makes sense when you already have the data
-that you need to search accessible on the client. If you want to search all the documents in the collection, use [MongoDB](/docs/engines/) as your engine.
+[Minimongo](../docs/engines/) as an engine. The Minimongo engine doesn't create new subscriptions and makes sense when you already have the data
+that you need to search accessible on the client. If you want to search all the documents in the collection, use [MongoDB](../docs/engines/) as your engine.
 
 ## Searching
 
@@ -57,11 +57,11 @@ Tracker.autorun(function () {
 });
 ```
 
-Have a look at the [Core section](/docs/core/) to find out the many customization possibilities around searching.
+Have a look at the [Core section](../docs/core/) to find out the many customization possibilities around searching.
 
 ## Adding Components
 
-Easy Search also provides customizable [Blaze Components](/docs/components/) out of the box.
+Easy Search also provides customizable [Blaze Components](../docs/components/) out of the box.
 
 ```html
 {% raw %}
@@ -88,7 +88,7 @@ search app that contains an `Input` to enter the search keywords, an `Each` that
 more documents on request and a condition to display *No results found!* if there are no results.
 
 This is doesn't need more code because EasySearch takes over the logic that controls the state of your search app while providing a lot of
-[customization possibilities](/docs/components/). It stores the search options, search string and takes over things such as stopping unnecessary
+[customization possibilities](../docs/components/). It stores the search options, search string and takes over things such as stopping unnecessary
 subscriptions and so on.
 
 You might notice that all the components have an `index` parameter, whose value simply is the index that should be acted upon.

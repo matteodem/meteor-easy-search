@@ -6,7 +6,7 @@ order: 1
 
 The core provides you with a basic set of Javascript classes and methods to implement search. `easy:search` wraps the core and components package, but if
 you only want to use the Javascript part of Easy Search you can add `easysearch:core` to your app. It provides you with reactive search and a set of
-[engines](/docs/engines/) to choose from.
+[engines](../engines/) to choose from.
 
 ## Customization
 
@@ -100,7 +100,7 @@ let index = new EasySearch.Index({
 });
 ```
 
-Have a look at the [API Reference](/docs/api-reference/) or [Engines section](/docs/engines/) to see all possible configuration values.
+Have a look at the [API Reference](../api-reference/) or [Engines section](../engines/) to see all possible configuration values.
 
 ## Searching
 

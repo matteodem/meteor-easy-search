@@ -30,7 +30,7 @@ Search the index with the given search definition.
 
 #### searchDefinition
 
-A search string (or object for [mongo based engines](/docs/engines/)) that defines what to search for.
+A search string (or object for [mongo based engines](../engines/)) that defines what to search for.
 
 #### options
 

@@ -211,7 +211,7 @@ Template.MySelectFilter.events({
 });
 ```
 
-The above example would be useable by just calling `{{> MySelectFilter}}` in your code. With Blaze Components you could create a component
+The above example would be useable by just calling `{% raw %}{{> MySelectFilter}}{% endraw %}` in your code. With Blaze Components you could create a component
 that is useable for every index that supports the awesomeFilter.
 
 ```javascript
@@ -235,4 +235,4 @@ class MySelectFilterComponent extends EasySearch.BaseComponent {
 MySelectFilterComponent.register('MySelectFilter');
 ```
 
-This could be used by calling `{{> MySelectFilter index=index}}` or with multiple indexes.
+This could be used by calling `{% raw %}{{> MySelectFilter index=index}}{% endraw %}` or with multiple indexes.
