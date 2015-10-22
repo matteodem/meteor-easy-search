@@ -20,7 +20,7 @@ module.exports = React.createClass({
     if ((typeof __GH_PAGES__ !== "undefined" && __GH_PAGES__ !== null) && __GH_PAGES__) {
       urlPrefix = this.props.config.ghPagesURLPrefix;
     } else {
-      urlPrefix = "";
+      urlPrefix = this.props.config.ghPagesURLPrefix;
     }
 
     return (
