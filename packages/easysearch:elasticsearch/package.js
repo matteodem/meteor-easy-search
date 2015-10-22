@@ -15,7 +15,7 @@ Package.onUse(function(api) {
 
   // Dependencies
   api.use(['check', 'ecmascript']);
-  api.use(['easysearch:core', 'erasaur:meteor-lodash@3.10.0']);
+  api.use(['easysearch:core@2.0.0', 'erasaur:meteor-lodash@3.10.0']);
 
   api.addFiles([
     'lib/data-syncer.js',

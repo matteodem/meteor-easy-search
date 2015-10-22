@@ -11,7 +11,7 @@ Package.onUse(function(api) {
 
   // Dependencies
   api.use(['check', 'ecmascript', 'templating', 'blaze']);
-  api.use(['easysearch:core', 'jeremy:selectize', 'erasaur:meteor-lodash@3.10.0']);
+  api.use(['easysearch:core@2.0.0', 'jeremy:selectize@0.12.1_4', 'erasaur:meteor-lodash@3.10.0']);
 
   api.addFiles([
     'lib/autosuggest.html',
