@@ -27,8 +27,9 @@ Allows to use multiple indexes.
 
 #### Parameters
 
-* __attributes__: An object containing the input attributes (e.g. `{ placeholder: "Search for this" }`)
+* __attributes__: Object containing input attributes (e.g. `{ placeholder: "Search..." }`)
 * __timeout__: Number of ms to wait until search starts
+* __event__: Can be `enter`, if it only should search on enter
 
 
 ### FieldInput
@@ -46,6 +47,7 @@ Is the same as `EasySearch.Input`, but lets you search in a specified field. All
 * __field__: Field that should be used for search
 * __attributes__: Object with input attributes (e.g. `{ placeholder: "Search for this" }`)
 * __timeout__: Number of ms to wait until search starts
+* __event__: Can be `enter`, if it only should search on enter
 
 ### Each
 
