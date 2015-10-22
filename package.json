@@ -1,0 +1,26 @@
+{
+  "name": "docs-site",
+  "version": "1.0.0",
+  "description": "Gatsby example site",
+  "main": "n/a",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chroma-js": "0.7.2",
+    "color-pairs-picker": "^1.3.5",
+    "lodash": "^3.10.0",
+    "react": "^0.13.3",
+    "react-document-title": "^1.0.2",
+    "react-motion": "^0.1.0",
+    "react-responsive-grid": "^0.2.0",
+    "react-router": "^0.13.3",
+    "typography": "^0.3.6",
+    "underscore.string": "^3.1.1"
+  }
+}
