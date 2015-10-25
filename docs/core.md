@@ -24,8 +24,8 @@ let index = new EasySearch.Index({
   collection: someCollection,
   fields: ['name'],
   engine: new EasySearch.MongoTextIndex(),
-  permission: (userId) => {
-    return userHasAccess(userId); // always return true or false here
+  permission: (options) => {
+    return userHasAccess(options.userId); // always return true or false here
   }
 });
 ```

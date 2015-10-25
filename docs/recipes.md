@@ -6,6 +6,26 @@ order: 4
 
 This is a cookbook containing recipes on how to use EasySearch for different scenarios in your app.
 
+## Accessing user data
+
+Since EasySearch runs your code on both on the server and the client (if the engine searches on the server), you cannot always use
+`Meteor.userId()` inside your code. EasySearch sets the userId in the options object at a consistent place for you.
+
+```javascript
+// Client and Server
+let index = new EasySearch.Index({
+  ...
+  engine: new MongoDB({
+    selector(searchDefinition, options) {
+      console.log(options.search.userId); // contains the userId
+    }
+  }),
+  permission(options) {
+    console.log(options.userId); // contains the userId
+  }
+});
+```
+
 ## Modifying search results
 
 EasySearch returns documents when using `search` that have the same fields as the original ones, but the `_id` is different.

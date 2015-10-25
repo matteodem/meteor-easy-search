@@ -19,7 +19,7 @@ Constructor for creating an index.
 * __collection__: Required, data that contains the searchable data
 * __fields__: Required, fields to search for on the document
 * __engine__: Required, engine to use for search
-* __permission(userId)__: Manage permission by returning a boolean
+* __permission(options)__: Manage permission by returning a boolean
 * __defaultSearchOptions__: The default search options as an object
 
 ```javascript
