@@ -146,6 +146,7 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
     getSearchCursor(searchDefinition, options) {
         let fut  = new Future(),
             body = {};
+        var self = this;
 
         searchDefinition = EasySearch.MongoDB.prototype.transformSearchDefinition(searchDefinition, options);
 
@@ -161,14 +162,14 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
             body: body,
             size: options.search.limit,
             from: options.search.skip
-        }, Meteor.BindEnvironment(function(error, data) {
+        }, Meteor.bindEnvironment(function(error, data) {
             if (error) {
                 console.log('Had an error while searching!');
                 console.log(error);
                 return;
             }
 
-            let { total, ids } = this.getCursorData(data),
+            let { total, ids } = self.getCursorData(data),
                 cursor;
 
             if (ids.length > 0) {
