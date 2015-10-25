@@ -119,7 +119,7 @@ SearchCollection = class SearchCollection {
   /**
    * Return a unique document id for publication.
    *
-   * @param {Object} Document
+   * @param {Document} doc
    *
    * @returns string
    */
@@ -137,7 +137,10 @@ SearchCollection = class SearchCollection {
       collectionName = this.name;
 
     Meteor.publish(collectionName, function (searchDefinition, options) {
-      if (!collectionScope._indexConfiguration.permission(this.userId, this)) {
+      options.userId = this.userId;
+      options.publicationScope = this;
+
+      if (!collectionScope._indexConfiguration.permission(options)) {
         throw new Meteor.Error('not-allowed', "You're not allowed to search this index!");
       }
 

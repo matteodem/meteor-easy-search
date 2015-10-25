@@ -77,7 +77,7 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
    */
   getSearchCursor(searchDefinition, options) {
     let selector = this.callConfigMethod('selector', searchDefinition, options, this.config.aggregation),
-      findOptions = this.getFindOptions(searchDefinition, options)
+      findOptions = this.getFindOptions(searchDefinition, options),
       collection = options.index.collection;
 
     check(options, Object);

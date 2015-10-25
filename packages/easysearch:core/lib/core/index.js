@@ -1,5 +1,3 @@
-// TODO: add styling for API reference
-
 /**
  * An Index represents the main entry point for searching with EasySearch. It relies on
  * the given engine to have the search functionality and defines the data that should be searchable.
@@ -61,14 +59,16 @@ Index = class Index {
       props: Match.Optional(Object)
     });
 
-    if (!this.config.permission(Meteor.userId ? Meteor.userId() : null, this)) {
+    options = {
+      search: this._getSearchOptions(options),
+      index: this.config
+    };
+
+    if (!this.config.permission(options.search)) {
       throw new Meteor.Error('not-allowed', "You're not allowed to search this index!");
     }
 
-    return this.config.engine.search(searchDefinition, {
-      search: this._getSearchOptions(options),
-      index: this.config
-    });
+    return this.config.engine.search(searchDefinition, options);
   }
 
   /**
@@ -79,6 +79,6 @@ Index = class Index {
    * @returns {Object}
    */
   _getSearchOptions(options) {
-    return _.defaults({}, options, this.defaultSearchOptions);
+    return _.defaults(( Meteor.userId ? { userId: Meteor.userId() } : {} ), options, this.defaultSearchOptions);
   }
 };
