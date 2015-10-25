@@ -132,8 +132,8 @@ that you want to use to determine what to filter for.
 let index = new EasySearch.Index({
   ...
   engine: new EasySearch.MongoDB({
-    selector: (searchObject, options) {
-      let selector = this.defaultConfiguration().selector(searchObject, options);
+    selector: (searchObject, options, aggregation) {
+      let selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       // filter for the brand if set
       if (options.search.props.brand) {

@@ -41,9 +41,9 @@ let index = new EasySearch.Index({
   fields: ['name'],
   engine: new EasySearch.Minimongo({
     sort: () => ['score'], // sort by score
-    selector: function (searchObject, options) {
+    selector: function (searchObject, options, aggregation) {
       // selector contains the default mongo selector that Easy Search would use
-      let selector = this.defaultConfiguration().selector(searchObject, options);
+      let selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
 
       // modify the selector to only match documents where region equals "New York"
       selector.region = 'New York';
@@ -78,8 +78,8 @@ The functionality of filtering for `minScore` and `maxScore` also needs to be im
 let index = new EasySearch.Index({
   ...
   engine: new EasySearch.Minimongo({
-    selector: function (searchObject, options) {
-      let selector = this.defaultConfiguration().selector(searchObject, options),
+    selector: function (searchObject, options, aggregation) {
+      let selector = this.defaultConfiguration().selector(searchObject, options, aggregation),
         scoreFilter = {};
 
       if (options.search.props.maxScore) {

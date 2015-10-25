@@ -58,7 +58,7 @@ This engine inherits the exact same configuration as MongoDB but does the search
 
 #### Configuration
 
-* __selector(searchObject, options)__: Function that returns a mongo selector
+* __selector(searchObject, options, aggregation)__: Function that returns a mongo selector
 * __selectorPerField(field, searchString)__: Function that returns a sub selector for each field
 * __aggregation__: String that defines the [logical query operator](http://docs.mongodb.org/manual/reference/operator/query/or/) thats used for the fields. By default it is `$or`
 * __sort(searchObject, options)__: Function that returns a sort specifier
@@ -70,7 +70,7 @@ The MongoTextIndex engine inherits the same configuration as MongoDB but uses a 
 
 #### Configuration
 
-* __selector(searchObject, options)__: Function that returns a mongo selector
+* __selector(searchObject, options, aggregation)__: Function that returns a mongo selector
 * __aggregation__: String that defines the [logical query operator](http://docs.mongodb.org/manual/reference/operator/query/or/) thats used for the fields. By default it is `$or`
 * __sort(searchObject, options)__: Function that returns a sort specifier
 * __fields(searchObject, options)__: Function that returns the fields to return when searching
