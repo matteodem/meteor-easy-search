@@ -13,7 +13,10 @@ let Players = new Meteor.Collection('players'),
     fields: ['name'],
     engine: new EasySearch.MongoDB()
   });
+```
 
+```javascript
+// On Client
 Template.searchBox.helpers({
   playersIndex: () => PlayersIndex
 });
