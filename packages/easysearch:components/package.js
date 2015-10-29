@@ -1,7 +1,7 @@
 Package.describe({
   name: 'easysearch:components',
   summary: "Blaze Components for EasySearch",
-  version: "2.0.1",
+  version: "2.0.2",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });
@@ -19,6 +19,11 @@ Package.onUse(function(api) {
   // Input and Each
   api.addFiles(['lib/input/input.html', 'lib/input/input.js', 'lib/field-input/field-input.html', 'lib/field-input/field-input.js'], 'client');
   api.addFiles(['lib/each/each.html', 'lib/each/each.js'], 'client');
+
+  // Filter component
+  api.addFiles([
+    'lib/filter/filter.html', 'lib/filter/filter.js'
+  ], 'client');
 
   // If Components
   api.addFiles(['lib/if-input-empty/if-input-empty.html', 'lib/if-input-empty/if-input-empty.js'], 'client');
