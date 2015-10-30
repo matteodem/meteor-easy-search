@@ -23,7 +23,7 @@ Index = class Index {
 
     config.name = (config.collection._name  || '').toLowerCase();
 
-    this.config = _.assign(Index.defaultConfiguration, config);
+    this.config = _.extend({}, Index.defaultConfiguration, config);
     this.defaultSearchOptions = _.defaults({}, this.config.defaultSearchOptions, { limit: 10, skip: 0, props: {} });
 
     // Engine specific code on index creation

@@ -10,8 +10,8 @@ Package.onUse(function(api) {
   api.versionsFrom('1.2.0.1');
 
   // Dependencies
-  api.use(['check', 'ecmascript', 'mongo']);
-  api.use(['erasaur:meteor-lodash@3.10.0']);
+  api.use(['check', 'ecmascript', 'mongo', 'underscore']);
+  api.use(['erasaur:meteor-lodash@3.10.0'], {weak: true});
 
   // Core packages
   api.addFiles([
