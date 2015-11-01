@@ -36,7 +36,7 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use(['tinytest', 'mongo', 'tracker', 'ecmascript']);
+  api.use(['tinytest', 'mongo', 'tracker', 'ecmascript', 'audit-argument-checks']);
   api.use('easysearch:core');
 
   // Test Helpers

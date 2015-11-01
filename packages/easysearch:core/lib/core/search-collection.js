@@ -137,6 +137,9 @@ SearchCollection = class SearchCollection {
       collectionName = this.name;
 
     Meteor.publish(collectionName, function (searchDefinition, options) {
+      check(searchDefinition, Match.OneOf(String, Object));
+      check(options, Object);
+
       options.userId = this.userId;
       options.publicationScope = this;
 

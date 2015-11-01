@@ -16,7 +16,7 @@ ddp-common@1.2.1
 ddp-server@1.2.1
 deps@1.0.9
 diff-sequence@1.0.1
-easysearch:components@2.0.0
+easysearch:components@2.0.1
 easysearch:core@2.0.0
 ecmascript@0.1.5
 ecmascript-collections@0.1.6
@@ -27,7 +27,7 @@ html-tools@1.0.5
 htmljs@1.0.5
 id-map@1.0.4
 jquery@1.11.4
-local-test:easysearch:components@2.0.0
+local-test:easysearch:components@2.0.1
 logging@1.0.8
 meteor@1.1.9
 minifiers@1.1.7
