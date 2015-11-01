@@ -11,7 +11,7 @@ Package.onUse(function(api) {
 
   // Dependencies
   api.use(['check', 'ecmascript', 'mongo', 'underscore']);
-  api.use(['erasaur:meteor-lodash@3.10.0'], {weak: true});
+  api.use(['erasaur:meteor-lodash@3.10.0'], { weak: true });
 
   // Core packages
   api.addFiles([

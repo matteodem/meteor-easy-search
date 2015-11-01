@@ -12,7 +12,7 @@ Package.onUse(function(api) {
   // Dependencies
   api.use(['check', 'templating', 'reactive-dict', 'ecmascript', 'random', 'underscore']);
   api.use(['peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
-  api.use(['erasaur:meteor-lodash@3.10.0'], {weak: true});
+  api.use(['erasaur:meteor-lodash@3.10.0'], { weak: true });
 
   // Base Component
   api.addFiles(['lib/base.js', 'lib/single-index.js', 'lib/component-methods.js', 'lib/core.js'], 'client');
