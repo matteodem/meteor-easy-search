@@ -35,7 +35,7 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use(['tinytest', 'ecmascript', 'tracker']);
+  api.use(['tinytest', 'ecmascript', 'tracker', 'underscore']);
   api.use('easysearch:components');
 
   // Test Helpers
