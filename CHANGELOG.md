@@ -1,3 +1,8 @@
+2.0.1
+=====
+
+* Add userId to search options on server side for consistency (since Meteor.userId() does not work in publications)
+
 2.0.0
 =====
 
