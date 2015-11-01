@@ -1,3 +1,10 @@
+2.0.2
+=====
+
+* Fixed #328: Check arguments in search publication
+* Fixed #343: Inherit getFindOptions in text index engine
+* Fixed #332: Add search options to docs
+
 2.0.1
 =====
 
