@@ -1,0 +1,8 @@
+<template name="EasySearch.Filter">
+  <select {{ attrs }}>
+    {{#each options.options}}
+      <option value="{{value}}">{{label}}</option>
+    {{/each}}
+  </select>
+</template>
+

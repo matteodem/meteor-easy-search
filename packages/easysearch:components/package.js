@@ -20,6 +20,11 @@ Package.onUse(function(api) {
   api.addFiles(['lib/input/input.html', 'lib/input/input.js', 'lib/field-input/field-input.html', 'lib/field-input/field-input.js'], 'client');
   api.addFiles(['lib/each/each.html', 'lib/each/each.js'], 'client');
 
+  // Filter component
+  api.addFiles([
+    'lib/filter/filter.html', 'lib/filter/filter.js'
+  ], 'client');
+
   // If Components
   api.addFiles(['lib/if-input-empty/if-input-empty.html', 'lib/if-input-empty/if-input-empty.js'], 'client');
   api.addFiles(['lib/if-no-results/if-no-results.html', 'lib/if-no-results/if-no-results.js'], 'client');
