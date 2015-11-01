@@ -126,7 +126,7 @@ SearchCollection = class SearchCollection {
    * @returns string
    */
   generateId(doc) {
-    return doc._id + doc.__searchDefinition;
+    return doc._id + doc.__searchDefinition + doc.__searchOptions;
   }
 
   /**
@@ -203,6 +203,7 @@ SearchCollection = class SearchCollection {
           doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
           doc = collectionScope.addCustomFields(doc, {
             searchDefinition: definitionString,
+            searchOptions: optionsString,
             sortPosition: toIndex
           });
 
@@ -211,6 +212,7 @@ SearchCollection = class SearchCollection {
           if (beforeDoc) {
             beforeDoc = collectionScope.addCustomFields(beforeDoc, {
               searchDefinition: definitionString,
+              searchOptions: optionsString,
               sortPosition: fromIndex
             });
             this.changed(collectionName, collectionScope.generateId(beforeDoc), beforeDoc);
@@ -220,7 +222,7 @@ SearchCollection = class SearchCollection {
         },
         removedAt: (doc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('removedAt', doc, atIndex);
-          doc = collectionScope.addCustomFields(doc, { searchDefinition: definitionString });
+          doc = collectionScope.addCustomFields(doc, { searchDefinition: definitionString, searchOptions: optionsString });
           this.removed(collectionName, collectionScope.generateId(doc));
         }
       });
