@@ -96,16 +96,18 @@ SearchCollection = class SearchCollection {
    * Get the mongo cursor.
    *
    * @param {Object} searchDefinition Search definition
+   * @param {Object} options          Search options
    *
    * @returns {Cursor}
    * @private
    */
-  _getMongoCursor(searchDefinition) {
+  _getMongoCursor(searchDefinition, options) {
     return this._collection.find(
-      { __searchDefinition: JSON.stringify(searchDefinition) },
+      { __searchDefinition: JSON.stringify(searchDefinition), __searchOptions: JSON.stringify(options) },
       {
         transform: (doc) => {
           delete doc.__searchDefinition;
+          delete doc.__searchOptions;
           delete doc.__sortPosition;
 
           this.engine.config.transform(doc);
@@ -124,7 +126,22 @@ SearchCollection = class SearchCollection {
    * @returns string
    */
   generateId(doc) {
-    return doc._id + doc.__searchDefinition;
+    return doc._id + doc.__searchDefinition + doc.__searchOptions;
+  }
+
+  /**
+   * Add custom fields to the given document
+   *
+   * @param {Document} doc
+   * @param {Object}   data
+   * @returns {*}
+   */
+  addCustomFields(doc, data) {
+    _.forEach(data, function (val, key) {
+      doc['__' + key] = val;
+    });
+
+    return doc;
   }
 
   /**
@@ -137,6 +154,12 @@ SearchCollection = class SearchCollection {
       collectionName = this.name;
 
     Meteor.publish(collectionName, function (searchDefinition, options) {
+      check(searchDefinition, Match.OneOf(String, Object));
+      check(options, Object);
+
+      let definitionString = JSON.stringify(searchDefinition),
+        optionsString = JSON.stringify(options);
+
       options.userId = this.userId;
       options.publicationScope = this;
 
@@ -151,37 +174,47 @@ SearchCollection = class SearchCollection {
         index: collectionScope._indexConfiguration
       });
 
-      let definitionString = JSON.stringify(searchDefinition);
-
       this.added(collectionName, 'searchCount' + definitionString, { count: cursor.count() });
 
       let resultsHandle = cursor.mongoCursor.observe({
         addedAt: (doc, atIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);
-          doc.__searchDefinition = definitionString;
-          doc.__sortPosition = atIndex;
-          doc.__originalId = doc._id;
+          doc = collectionScope.addCustomFields(doc, {
+            searchDefinition: definitionString,
+            searchOptions: optionsString,
+            sortPosition: atIndex,
+            originalId: doc._id
+          });
 
           this.added(collectionName, collectionScope.generateId(doc), doc);
         },
         changedAt: (doc, oldDoc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('changedAt', doc, oldDoc, atIndex);
-          doc.__searchDefinition = definitionString;
-          doc.__sortPosition = atIndex;
-          doc.__originalId = doc._id;
+          doc = collectionScope.addCustomFields(doc, {
+            searchDefinition: definitionString,
+            searchOptions: optionsString,
+            sortPosition: atIndex,
+            originalId: doc._id
+          });
 
           this.changed(collectionName, collectionScope.generateId(doc), doc)
         },
         movedTo: (doc, fromIndex, toIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
-          doc.__sortPosition = toIndex;
-          doc.__searchDefinition = definitionString;
+          doc = collectionScope.addCustomFields(doc, {
+            searchDefinition: definitionString,
+            searchOptions: optionsString,
+            sortPosition: toIndex
+          });
 
           let beforeDoc = collectionScope._indexConfiguration.collection.findOne(before);
 
           if (beforeDoc) {
-            beforeDoc.__sortPosition = fromIndex;
-            beforeDoc.__searchDefinition = definitionString;
+            beforeDoc = collectionScope.addCustomFields(beforeDoc, {
+              searchDefinition: definitionString,
+              searchOptions: optionsString,
+              sortPosition: fromIndex
+            });
             this.changed(collectionName, collectionScope.generateId(beforeDoc), beforeDoc);
           }
 
@@ -189,7 +222,7 @@ SearchCollection = class SearchCollection {
         },
         removedAt: (doc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('removedAt', doc, atIndex);
-          doc.__searchDefinition = definitionString;
+          doc = collectionScope.addCustomFields(doc, { searchDefinition: definitionString, searchOptions: optionsString });
           this.removed(collectionName, collectionScope.generateId(doc));
         }
       });

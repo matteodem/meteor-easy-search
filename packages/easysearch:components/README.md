@@ -41,3 +41,5 @@ and customization in mind. The `easy:search` package wraps this package together
 cd /path/to/project
 meteor add easysearch:components
 ```
+
+NB: This package will use the `erasaur:meteor-lodash` package if it is already installed in your application, else it will fallback to the standard Meteor `underscore` package 

@@ -26,3 +26,5 @@ Tracker.autorun(() => {
 cd /path/to/project
 meteor add easysearch:core
 ```
+
+NB: This package will use the `erasaur:meteor-lodash` package if it is already installed in your application, else it will fallback to the standard Meteor `underscore` package.

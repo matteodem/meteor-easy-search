@@ -1,7 +1,7 @@
 Package.describe({
   name: 'easysearch:core',
   summary: "Javascript Core for EasySearch",
-  version: "2.0.1",
+  version: "2.0.2",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });
@@ -36,7 +36,7 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use(['tinytest', 'mongo', 'tracker', 'ecmascript', 'underscore']);
+  api.use(['tinytest', 'mongo', 'tracker', 'ecmascript', 'audit-argument-checks', 'underscore']);
   api.use('easysearch:core');
 
   // Test Helpers

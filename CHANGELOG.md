@@ -1,3 +1,16 @@
+2.0.2
+=====
+
+* Fixed #328: Check arguments in search publication
+* Fixed #343: Inherit getFindOptions in text index engine
+* Fixed #332: Add search options to docs
+* Fixed #331: Upgrade blaze components dependency to 0.15.1
+
+2.0.1
+=====
+
+* Add userId to search options on server side for consistency (since Meteor.userId() does not work in publications)
+
 2.0.0
 =====
 

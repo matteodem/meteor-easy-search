@@ -70,3 +70,4 @@ MongoTextIndexEngine = class MongoTextIndexEngine extends ReactiveEngine {
 
 // Explicitely inherit getSearchCursor method functionality
 MongoTextIndexEngine.prototype.getSearchCursor = MongoDBEngine.prototype.getSearchCursor;
+MongoTextIndexEngine.prototype.getFindOptions = MongoDBEngine.prototype.getFindOptions;
