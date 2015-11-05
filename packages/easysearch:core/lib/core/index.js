@@ -21,10 +21,11 @@ Index = class Index {
       throw new Meteor.Error('invalid-engine', 'engine needs to be instanceof Engine');
     }
 
-    config.name = (config.collection._name  || '').toLowerCase();
+    if (!config.name)
+      config.name = (config.collection._name || '').toLowerCase();
 
     this.config = _.extend(Index.defaultConfiguration, config);
-    this.defaultSearchOptions = _.defaults({}, this.config.defaultSearchOptions(), { limit: 10, skip: 0, props: {} });
+    this.defaultSearchOptions = _.defaults({}, this.config.defaultSearchOptions, { limit: 10, skip: 0, props: {} });
 
     // Engine specific code on index creation
     config.engine.onIndexCreate(this.config);
@@ -38,7 +39,7 @@ Index = class Index {
   static get defaultConfiguration() {
     return {
       permission: () => true,
-      defaultSearchOptions: () => {}
+      defaultSearchOptions: {}
     };
   }
 

@@ -73,10 +73,12 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
    */
   events() {
     return [{
-      'click .page:not(.disabled)' : function () {
+      'click .page:not(.disabled)' : function (e) {
         let currentPage = this.currentData().page;
         this.dict.set('currentPage', currentPage);
         this.paginate(currentPage);
+
+        e.preventDefault();
       }
     }];
   }
