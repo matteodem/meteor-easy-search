@@ -161,7 +161,7 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
       body: body,
       size: options.search.limit,
       from: options.search.skip
-    }, (error, data) => {
+    }, Meteor.bindEnvironment((error, data) => {
       if (error) {
         console.log('Had an error while searching!');
         console.log(error);
@@ -182,7 +182,7 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
       }
 
       fut['return'](new EasySearch.Cursor(cursor, total));
-    });
+    }));
 
     return fut.wait();
   }

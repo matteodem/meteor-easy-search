@@ -1,3 +1,10 @@
+2.0.3
+=====
+
+* Fixed #330: Allow custom index names to allow multiple indexes for one MongoDB collection
+* Merged #346 from [@rjsmith](https://github.com/rjsmith): Downgrade lodash as a weak dependency for core and components, use underscore instead
+* Fixed #322: Meteor error when using ElasticSearch engine
+
 2.0.2
 =====
 
