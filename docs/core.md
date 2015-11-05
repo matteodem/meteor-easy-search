@@ -17,13 +17,14 @@ There are three levels on which you can customize your search.
 
 The index is the only part that requires you to add configuration for it to work. You need to specify an __engine__ for the search logic,
 the __collection__ that contains the data that you want to search and the __fields__ to search over. You can optionally specify permission
-to restrict general access to your index.
+to restrict general access to your index. You can also specify a __name__ if you want to create several indexes for the same collection.
 
 ```javascript
 let index = new EasySearch.Index({
   collection: someCollection,
   fields: ['name'],
   engine: new EasySearch.MongoTextIndex(),
+  name: 'myAwesomeIndex',
   permission: (options) => {
     return userHasAccess(options.userId); // always return true or false here
   }

@@ -7,7 +7,7 @@ Easy Search is a simple and flexible solution for adding Search Components to yo
 
 ```javascript
 // On Client and Server
-let Players = new Meteor.Collection('players'),
+let Players = new Mongo.Collection('players'),
   PlayersIndex = new EasySearch.Index({
     collection: Players,
     fields: ['name'],

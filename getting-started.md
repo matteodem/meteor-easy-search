@@ -22,7 +22,7 @@ Let's create an index to see how searching works with Easy Search. First add a f
 
 ```javascript
 // On Client and Server
-Players = new Meteor.Collection('players');
+Players = new Mongo.Collection('players');
 
 PlayersIndex = new EasySearch.Index({
   collection: Players,
