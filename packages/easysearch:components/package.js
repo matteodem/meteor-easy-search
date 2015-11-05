@@ -10,8 +10,9 @@ Package.onUse(function(api) {
   api.versionsFrom('1.2.0.1');
 
   // Dependencies
-  api.use(['check', 'templating', 'reactive-dict', 'ecmascript', 'random']);
-  api.use(['erasaur:meteor-lodash@3.10.0', 'peerlibrary:blaze-components@0.15.1', 'easysearch:core@2.0.0']);
+  api.use(['check', 'templating', 'reactive-dict', 'ecmascript', 'random', 'underscore']);
+  api.use(['peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
+  api.use(['erasaur:meteor-lodash@3.10.0'], { weak: true });
 
   // Base Component
   api.addFiles(['lib/base.js', 'lib/single-index.js', 'lib/component-methods.js', 'lib/core.js'], 'client');
@@ -34,7 +35,7 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use(['tinytest', 'ecmascript', 'tracker']);
+  api.use(['tinytest', 'ecmascript', 'tracker', 'underscore']);
   api.use('easysearch:components');
 
   // Test Helpers

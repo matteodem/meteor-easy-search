@@ -15,14 +15,14 @@ Tinytest.addAsync('EasySearch - Unit - Core - Index', function (test, done) {
 
   index.config.engine.search = function (searchDefinition, options) {
     test.equal(searchDefinition, 'testSearch');
-    test.equal(options.search, { limit: 200, skip: 20, props: {} });
+    test.equal(options.search, { limit: 200, skip: 20, props: {} })
   };
 
   index.search('testSearch', { limit: 200, skip: 20 });
 
   index.config.engine.search = function (searchDefinition, options) {
     test.equal(searchDefinition, 'testSearch');
-    test.equal(options.search, { limit: 10, skip: 0, props: { custom: 'property' } });
+    test.equal(options.search, { props: { custom: 'property' }, limit: 10, skip: 0 })
     done();
   };
 
