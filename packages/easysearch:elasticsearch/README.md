@@ -19,7 +19,7 @@ let Players = new Meteor.Collection('players'),
 ## Configuration
 
 The client doesn't require any configuration if ElasticSearch runs locally on port `9200`.
-The configuration options that can be passed to `EasSearch.ElasticSearch` as an object are following.
+The configuration options that can be passed to `EasySearch.ElasticSearch` as an object are following.
 
 * __client__: Object of [client configuration](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/quick-start.html) (such as the `host` and so on)
 * __fieldsToIndex__: Array of document fields to index, by default all fields
@@ -27,6 +27,8 @@ The configuration options that can be passed to `EasSearch.ElasticSearch` as an 
 * __sort(searchObject, options)__: Function that returns the sort parameter, by default the index `fields`
 * __getElasticSearchDoc(doc, fields)__: Function that returns the document to index, fieldsToIndex by default
 * __body(body)__: Function that returns the ElasticSearch body to send when searching
+* __indexName__: String, name of the elasticsearch index to use (default: 'easysearch')
+* __indexType__: String, name of the index type to use (default: collection name)
 
 ## Mapping, Analyzers and so on
 

@@ -25,7 +25,7 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   /**
    * Setup component on created.
    */
-  onCreated() {
+  onRendered() {
     let index = this.getData().index,
       indexes = [index];
 

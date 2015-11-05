@@ -7,8 +7,8 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
   /**
    * Setup input onCreated.
    */
-  onCreated() {
-    super.onCreated(...arguments);
+  onRendered() {
+    super.onRendered(...arguments);
 
     this.search(this.inputAttributes().value);
 

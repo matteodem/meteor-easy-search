@@ -128,8 +128,8 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
     if (Meteor.isServer) {
       indexConfig.elasticSearchClient = new elasticsearch.Client(this.config.client);
       indexConfig.elasticSearchSyncer = new ElasticSearchDataSyncer({
-        indexName: 'easysearch',
-        indexType: indexConfig.name,
+        indexName: indexConfig.indexName || 'easysearch',
+        indexType: indexConfig.indexType || indexConfig.name,
         collection: indexConfig.collection,
         client: indexConfig.elasticSearchClient,
         beforeIndex: (doc) => this.callConfigMethod('getElasticSearchDoc', doc, this.callConfigMethod('fieldsToIndex', indexConfig))
@@ -146,6 +146,7 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
   getSearchCursor(searchDefinition, options) {
     let fut = new Future(),
       body = {};
+    var self = this;
 
     searchDefinition = EasySearch.MongoDB.prototype.transformSearchDefinition(searchDefinition, options);
 
@@ -156,19 +157,19 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
     body = this.callConfigMethod('body', body);
 
     options.index.elasticSearchClient.search({
-      index: 'easysearch',
-      type: options.index.name,
+      index: options.index.indexName || 'easysearch',
+      type: options.index.indexType || options.index.name,
       body: body,
       size: options.search.limit,
       from: options.search.skip
-    }, (error, data) => {
+    }, Meteor.bindEnvironment(function (error, data) {
       if (error) {
         console.log('Had an error while searching!');
         console.log(error);
         return;
       }
 
-      let { total, ids } = this.getCursorData(data),
+      let { total, ids } = self.getCursorData(data),
         cursor;
 
       if (ids.length > 0) {
@@ -182,7 +183,7 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
       }
 
       fut['return'](new EasySearch.Cursor(cursor, total));
-    });
+    }));
 
     return fut.wait();
   }
