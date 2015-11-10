@@ -120,6 +120,7 @@ Renders a `<button>` tag that loads more documents if there are more than curren
 
 * __content__: The content of the button
 * __attributes__: Object with the button attributes (e.g. `{ class: "load-more-button" }`)
+* __count__: Number of documents to load
 
 ### Pagination
 
