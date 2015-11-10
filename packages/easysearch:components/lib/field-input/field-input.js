@@ -8,11 +8,11 @@ EasySearch.FieldInputComponent = class FieldInputComponent extends EasySearch.In
    * Setup component on created.
    */
   onCreated() {
+    super.onCreated();
+
     if (_.isEmpty(this.getData().field)) {
       throw new Meteor.Error('no-field', 'Please provide a field for your field input component');
     }
-
-    super.onCreated();
   }
 
   /**
@@ -30,8 +30,10 @@ EasySearch.FieldInputComponent = class FieldInputComponent extends EasySearch.In
         throw new Meteor.Error('You can either EasySearch.FieldInput or EasySearch.Input');
       }
 
-      searchDefinition[this.options.field] = searchString;
-      index.getComponentMethods(name).search(searchDefinition);
+      if (this.options.field) {
+        searchDefinition[this.options.field] = searchString;
+        index.getComponentMethods(name).search(searchDefinition);
+      }
     });
   }
 };

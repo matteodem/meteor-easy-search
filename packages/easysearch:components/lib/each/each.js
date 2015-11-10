@@ -4,7 +4,6 @@
  * @type {EachComponent}
  */
 EasySearch.EachComponent = class EachComponent extends SingleIndexComponent {
-
   /**
    * Return the mongo cursor for the search.
    *

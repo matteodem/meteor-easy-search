@@ -2,7 +2,8 @@ Tinytest.addAsync('EasySearch Components - Unit - FieldInput', function (test, d
   let index = new EasySearch.Index({
     collection: new Meteor.Collection(null),
     engine: new EasySearch.Minimongo(),
-    fields: ['test']
+    fields: ['test'],
+    allowedFields: ['test', 'name', 'score']
   });
 
   let component = TestHelpers.createComponent(EasySearch.FieldInputComponent, {

@@ -6,7 +6,6 @@ EasySearch._getComponentMethods = function (dict, index) {
      * @param {Object|String} searchDefinition Search definition
      */
     search: (searchDefinition) => {
-      dict.set('searching', searchDefinition.length > 0);
       dict.set('searchOptions', {
         props: (dict.get('searchOptions') || {}).props
       });

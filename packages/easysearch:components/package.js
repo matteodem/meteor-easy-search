@@ -10,7 +10,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.2.0.1');
 
   // Dependencies
-  api.use(['check', 'templating', 'reactive-dict', 'ecmascript', 'random', 'underscore']);
+  api.use(['check', 'templating', 'reactive-dict', 'ecmascript', 'random', 'underscore', 'tracker']);
   api.use(['peerlibrary:blaze-components@0.13.0', 'easysearch:core@2.0.0']);
   api.use(['erasaur:meteor-lodash@3.10.0'], { weak: true });
 

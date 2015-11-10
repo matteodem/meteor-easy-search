@@ -66,7 +66,7 @@ Index = class Index {
     };
 
     if (!this.config.permission(options.search)) {
-      throw new Meteor.Error('not-allowed', "You're not allowed to search this index!");
+      throw new Meteor.Error('not-allowed', "Not allowed to search this index!");
     }
 
     return this.config.engine.search(searchDefinition, options);
