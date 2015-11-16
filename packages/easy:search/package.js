@@ -9,7 +9,7 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.2.0.1');
 
-  api.use(['easysearch:core@2.0.0', 'easysearch:components@2.0.0']);
+  api.use(['easysearch:core@2.0.3', 'easysearch:components@2.0.4']);
 
   api.export('EasySearch');
 });
