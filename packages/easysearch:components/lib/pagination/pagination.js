@@ -7,8 +7,8 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
   /**
    * Setup component on created.
    */
-  onCreated() {
-    super.onCreated();
+  onRendered() {
+    super.onRendered();
     this.dict.set('currentPage', 1);
   }
 

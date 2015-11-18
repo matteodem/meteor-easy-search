@@ -25,6 +25,38 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   /**
    * Setup component on created.
    */
+  onCreated() {
+    let index = this.getData().index,
+      indexes = [index];
+
+    if (!index) {
+      indexes = this.getData().indexes;
+    }
+
+    if (_.isEmpty(indexes)) {
+      throw new Meteor.Error('no-index', 'Please provide an index for your component');
+    }
+
+    if (indexes.filter((index) => index instanceof EasySearch.Index).length != indexes.length) {
+      throw new Meteor.Error(
+        'invalid-configuration',
+        `Did not receive an index or an array of indexes: "${indexes.toString()}"`
+      );
+    }
+
+    this.indexes = indexes;
+    this.options = _.defaults({}, _.omit(this.getData(), ...BaseComponent.reserveredProperties), this.defaultOptions);
+
+    check(this.name, Match.Optional(String));
+    check(this.options, Object);
+
+    this.eachIndex(function (index, name) {
+      if (!index.getComponentDict(name)) {
+        index.registerComponent(name);
+      }
+    });
+  }
+
   onRendered() {
     let index = this.getData().index,
       indexes = [index];

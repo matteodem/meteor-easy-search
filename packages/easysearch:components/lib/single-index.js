@@ -7,8 +7,8 @@ SingleIndexComponent = class SingleIndexComponent extends BaseComponent {
   /**
    * Setup component on created.
    */
-  onCreated() {
-    super.onCreated();
+  onRendered() {
+    super.onRendered();
 
     if (this.indexes.length > 1) {
       throw new Meteor.Error('only-single-index', 'Can only specify one index');

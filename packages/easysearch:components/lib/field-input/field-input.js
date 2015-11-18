@@ -7,12 +7,12 @@ EasySearch.FieldInputComponent = class FieldInputComponent extends EasySearch.In
   /**
    * Setup component on created.
    */
-  onCreated() {
+  onRendered() {
     if (_.isEmpty(this.getData().field)) {
       throw new Meteor.Error('no-field', 'Please provide a field for your field input component');
     }
 
-    super.onCreated();
+    super.onRendered();
   }
 
   /**

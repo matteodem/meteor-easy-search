@@ -11,6 +11,7 @@ EasySearch.EachComponent = class EachComponent extends SingleIndexComponent {
    * @returns {Mongo.Cursor}
    */
   doc() {
+      if (this.index)  {
     let stopPublication = this.index
       .getComponentDict(this.name)
       .get('stopPublication')
@@ -24,6 +25,8 @@ EasySearch.EachComponent = class EachComponent extends SingleIndexComponent {
     ;
 
     return this.cursor.mongoCursor;
+      }
+      else { return null }
   }
 };
 
