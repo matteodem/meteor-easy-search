@@ -1,8 +1,6 @@
 Easy Search [![Build Status](https://travis-ci.org/matteodem/meteor-easy-search.svg?branch=master)](https://travis-ci.org/matteodem/meteor-easy-search)
 =====================
 
-[![Meteor Icon](http://icon.meteor.com/package/easy:search)](https://atmospherejs.com/easy/search)
-
 Easy Search is a simple and flexible solution for adding search functionality to your Meteor App. Use the Blaze Components + Javascript API to [get started](http://matteodem.github.io/meteor-easy-search/getting-started).
 
 ```javascript
