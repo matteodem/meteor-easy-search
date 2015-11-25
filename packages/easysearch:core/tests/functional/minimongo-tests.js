@@ -16,6 +16,7 @@ var index = new EasySearch.Index({
     },
     transform(doc) {
       doc.what = 'what';
+
       return doc;
     }
   }),

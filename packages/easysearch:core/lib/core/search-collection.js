@@ -110,7 +110,8 @@ SearchCollection = class SearchCollection {
           delete doc.__searchOptions;
           delete doc.__sortPosition;
 
-          this.engine.config.transform(doc);
+          doc = this.engine.config.transform(doc);
+
           return doc;
         },
         sort: ['__sortPosition']

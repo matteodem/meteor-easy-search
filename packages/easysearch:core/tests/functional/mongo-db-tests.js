@@ -42,6 +42,22 @@ var index = new EasySearch.Index({
   allowedFields: ['name', 'otherName']
 });
 
+var customDocObjectIndex = new EasySearch.Index({
+  name: 'secondIndex',
+  engine: new EasySearch.MongoDB({
+    transform(doc) {
+      console.log('in here');
+      return new (function (data) {
+        this.getData = function () {
+          return data;
+        };
+      })(doc);
+    }
+  }),
+  collection: collection,
+  fields: ['name']
+});
+
 function getExpectedDocs(count) {
   var docs = [];
 
@@ -160,3 +176,23 @@ Tinytest.add('EasySearch - Functional - MongoDB - failing searches', function (t
     index.search({ score: 10 });
   });
 });
+
+if (Meteor.isClient) {
+  Tinytest.addAsync('EasySearch - Functional - MongoDB - Transform custom object instances', function (test, done) {
+    Tracker.autorun(function (c) {
+      var docs = customDocObjectIndex.search('publish').fetch();
+
+      if (docs.length === 1) {
+        var expectedDoc = { _id: 'beforePublishDoc', sortField: -1, name: 'publishdoc' },
+          firstActualDoc = docs[0];
+
+        test.isTrue("function" == typeof firstActualDoc.getData);
+        test.equal(firstActualDoc.getData().sortField, -1);
+        test.equal(firstActualDoc.getData().name, 'publishdoc');
+
+        done();
+        c.stop();
+      }
+    });
+  });
+}
