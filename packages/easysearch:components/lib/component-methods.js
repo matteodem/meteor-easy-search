@@ -111,7 +111,7 @@ EasySearch._getComponentMethods = function (dict, index) {
 
       if (_.isObject(args[0])) {
         options.props = _.extend(options.props, args[0]);
-      } else if (_.isString(args[0]) && _.isString(args[1])) {
+      } else if (_.isString(args[0])) {
         options.props[args[0]] = args[1];
       }
 
