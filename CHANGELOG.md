@@ -1,3 +1,10 @@
+2.0.5
+====
+
+* Fixed #326: Transform only on client side
+* Fixed #367: Allow other things than strings in addProps component method
+* Fixed #375: Destroy tracker / collection cursors on input destroyed event
+
 2.0.4
 =====
 
