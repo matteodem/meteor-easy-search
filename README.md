@@ -32,7 +32,7 @@ Template.searchBox.helpers({
 </template>
 ```
 
-Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have a look at the [Documentation](http://matteodem.github.io/meteor-easy-search/) for more information.
+Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have a look at the [current documentation](http://matteodem.github.io/meteor-easy-search/) ([v1 docs](https://github.com/matteodem/meteor-easy-search/tree/gh-pages/_v1docs)) for more information.
 
 ## How to install
 
