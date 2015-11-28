@@ -31,7 +31,7 @@ The MongoDB engine searches the specified collection directly with MongoDB on th
 * __aggregation__: String that defines the [logical query operator](http://docs.mongodb.org/manual/reference/operator/query/or/) thats used for the fields. By default it is `$or`
 * __sort(searchObject, options)__: Function that returns a sort specifier
 * __fields(searchObject, options)__: Function that returns the fields to return when searching
-* __transform(document)__: Function that returns a transformed document
+* __transform(document)__: Function that returns a transformed document (only executed on the client)
 * __beforePublish(event, doc)__: Function that returns a document before being published
 
 You might notice that there is a `searchObject` parameter for `selector` and a `searchString` for `selectorPerField`. That's because MongoDB allows you to search only in specified fields. That means if you use `search` with a string it gets converted into an object where the keys are all
@@ -66,7 +66,7 @@ This engine inherits the exact same configuration as MongoDB but does the search
 
 ### MongoTextIndex
 
-The MongoTextIndex engine inherits the same configuration as MongoDB but uses a more modern feature of MongoDB which are [text indexes](http://docs.mongodb.org/manual/core/index-text/) that offer a more mature approach to searching. It does only support searching with strings, not by specific fields (with search objects). That is because the `$text` operator searches on all text-indexed fields for the collection.
+The MongoTextIndex engine inherits the same configuration as MongoDB but uses a more modern feature of MongoDB which are [text indexes](http://docs.mongodb.org/manual/core/index-text/). This offers a more mature approach to searching. It does only support searching with strings, not by specific fields (with search objects). That is because the `$text` operator searches on all text-indexed fields for the collection.
 
 #### Configuration
 
@@ -74,7 +74,7 @@ The MongoTextIndex engine inherits the same configuration as MongoDB but uses a 
 * __aggregation__: String that defines the [logical query operator](http://docs.mongodb.org/manual/reference/operator/query/or/) thats used for the fields. By default it is `$or`
 * __sort(searchObject, options)__: Function that returns a sort specifier
 * __fields(searchObject, options)__: Function that returns the fields to return when searching
-* __transform(document)__: Function that returns a transformed document
+* __transform(document)__: Function that returns a transformed document (only executed on the client)
 * __beforePublish(event, doc)__: Function that returns a document before being published
 
 ### ElasticSearch

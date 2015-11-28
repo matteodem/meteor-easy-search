@@ -5,26 +5,42 @@ order: 4
 ---
 
 This is a cookbook containing recipes on how to use EasySearch for different scenarios in your app.
+This article assumes you have read the [Getting started](../../getting-started/) page beforehand.
 
-## Accessing user data
+## Filtering with user data
 
 Since EasySearch runs your code on both on the server and the client (if the engine searches on the server), you cannot always use
-`Meteor.userId()` inside your code. EasySearch sets the userId in the options object at a consistent place for you.
+`Meteor.userId()` inside your code. EasySearch sets the userId in the options object at a consistent place for you. Let's assume you want
+to only make docs searchable that belong to the logged in user. With `MongoDB` you would rewrite the default selector like following.
+
+For the following code to work you need to use one of the [accounts packages](https://atmospherejs.com/packages/accounts) in your app.
 
 ```javascript
 // Client and Server
 let index = new EasySearch.Index({
   ...
-  engine: new MongoDB({
+  engine: new EasySearch.MongoDB({
     selector(searchDefinition, options) {
-      console.log(options.search.userId); // contains the userId
+      // retrieve the default selector
+      let selector = this
+        .defaultConfiguration()
+        .selector(searchObject, options, aggregation)
+      ;
+
+      // options.search.userId contains the userId of the logged in user
+      selector.owner = options.search.userId;
+
+      return selector;
     }
   }),
   permission(options) {
-    console.log(options.userId); // contains the userId
+    return options.userId; // only allow searching when the user is logged in
   }
 });
 ```
+
+`permission` is configured to only let logged in user search and the `selector` method filters searchable docs where `owner` equals the
+logged in userId.
 
 ## Modifying search results
 
@@ -45,12 +61,14 @@ Tracker.autorun(function () {
   }
 })
 
-
 ```
+
+This has to do with internal logic that EasySearch applies to keep search results and their orders separate from the collection that
+they come from.
 
 ## Searching user mails
 
-If you want to search through the mails of `Meteor.users` you can do it by using a custom selector with `$elemMatch`.
+If you want to search through the mails of `Meteor.users` you can do it by using a custom mongo selector called `$elemMatch`.
 
 ```javascript
 let index = new EasySearch.Index({

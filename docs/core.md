@@ -6,7 +6,7 @@ order: 1
 
 The core provides you with a basic set of Javascript classes and methods to implement search. `easy:search` wraps the core and components package, but if
 you only want to use the Javascript part of Easy Search you can add `easysearch:core` to your app. It provides you with reactive search and a set of
-[engines](../engines/) to choose from.
+[engines](../engines/) to choose from. This article assumes you have read the [Getting started](../../getting-started/) page beforehand.
 
 ## Customization
 
@@ -16,7 +16,7 @@ There are three levels on which you can customize your search.
 ### Index
 
 The index is the only part that requires you to add configuration for it to work. You need to specify an __engine__ for the search logic,
-the __collection__ that contains the data that you want to search and the __fields__ to search over. You can optionally specify permission
+the __collection__ that contains the documents that you want to search and the __fields__ to search over. You can optionally specify permission
 to restrict general access to your index. You can also specify a __name__ if you want to create several indexes for the same collection.
 
 ```javascript
@@ -57,7 +57,7 @@ let index = new EasySearch.Index({
 
 ### search
 
-It is possible to pass in an object as the second argument when using `search` in your application. This enables you to use custom props
+It is possible to pass in an options object as the second argument when using `search` in your application. This enables you to use custom props
 to change behavior for app specific data. One example would be to have facet values in there so you can filter
 result sets.
 

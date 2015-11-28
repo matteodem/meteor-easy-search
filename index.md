@@ -11,7 +11,7 @@ let Players = new Mongo.Collection('players'),
   PlayersIndex = new EasySearch.Index({
     collection: Players,
     fields: ['name'],
-    engine: new EasySearch.MongoDB()
+    engine: new EasySearch.Minimongo()
   });
 ```
 
@@ -36,6 +36,7 @@ Template.searchBox.helpers({
 ```
 
 Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) for a project implemented with EasySearch.
+Documentation for v1 can be found [here](https://github.com/matteodem/meteor-easy-search/tree/gh-pages/_v1docs).
 
 ## How to install
 

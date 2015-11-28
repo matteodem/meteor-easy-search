@@ -6,7 +6,7 @@ order: 2
 
 The Blaze components provide you with an input, the results view, logic to add loading spinners and more. Those are also customizable
 and should be sufficient for most use cases. The components can be used in the `easy:search` package which wraps the core and
-`easysearch:components` into one.
+`easysearch:components` into one. This article assumes you have read the [Getting started](../../getting-started/) page beforehand.
 
 ## List of components
 
@@ -145,13 +145,13 @@ You can retrieve component values, such as the current search string by using th
 
 ```javascript
 // Assuming you either use EasySearch.Input or EasySearch.FieldInput inside your app
-
-Template.searchBox.onRendered(() => {
+Template.searchBox.helpers({
+  searchCount: () => {
   // index instanceof EasySearch.index
   let dict = index.getComponentDict(/* optional name */);
 
   // get the total count of search results, useful when displaying additional information
-  console.log(dict.get('count'));
+  return dict.get('count');
 });
 ```
 
@@ -165,10 +165,60 @@ The components use the dictionary themselves to store reactive state. You can re
 * __currentCount__: Count of currently displayed search results
 * __searching__: True if components are searching
 
+## Using multiple indexes
+
+If you want to work with multiple indexes on your components, you can simply specify `indexes` instead of `index` on the component.
+This is where the `logic` parameter that each if component has becomes helpful.
+
+```javascript
+let indexOne = new EasySearch.Index({
+    ...
+  }),
+  indexTwo = new EasySearch.Index({
+    ...
+  });
+
+Template.searchBox.helpers({
+  searchIndexes: () => [indexOne, indexTwo],
+  indexOne: () => indexOne,
+  indexTwo: () => indexTwo
+});
+```
+
+```html
+{% raw %}
+<template name="searchBox">
+  {{> EasySearch.Input indexes=searchIndexes }}
+
+  {{#EasySearch.IfNoResults indexes=searchIndexes logic="AND" }}
+    <div>No search results found</div>
+  {{/EasySearch.IfNoResults}}
+
+  {{#EasySearch.IfSearching indexes=searchIndexes logic="OR" }}
+    <div>Indexes are searching...</div>
+  {{/EasySearch.IfSearching}}
+
+  {{#EasySearch.Each index=indexOne }}
+    ...
+  {{/EasySearch.Each}}
+
+  {{#EasySearch.Each index=indexTwo }}
+    ...
+  {{/EasySearch.Each}}
+</template>
+{% endraw %}
+```
+
+This is a basic example using multiple indexes. Note how all components except `EasySearch.Each` use `indexes` as it's parameter. This is
+because `EasySearch.Each` does only associate documents of one index, because otherwise there would be some merging logic between different
+document structure which would be quite nasty. The `logic` parameter decides how to apply the logic across the given indexes. For example
+when searching it displays the **Indexes are searching...** content when *one of the indexes* searches, whereas the **No search results found**
+is only showed when *all of the indexes* have no results.
+
 ## Using component methods
 
-The components also use component methods that contain the core logic, such as searching with an input and so on. The index method
-`getComponentMethods` exposes those.
+Components use component methods that contain the core logic, such as searching with an input and so on. The index method
+`getComponentMethods` exposes those and makes it possible to add custom logic to your app.
 
 ```javascript
 Template.filterBox.events({
@@ -181,8 +231,10 @@ Template.filterBox.events({
 });
 ```
 
-This code adds a custom property that is called `countryFilter` and the value of a country code.
-You can log the object that `getComponentMethods` returns to see the complete list of available methods.
+This code adds a custom property that is called `countryFilter` and the value of a country code. Everytime somebody executes a search
+(by either searching through an `EasySearch.Input` or calling the `search` method itself with the component methods) this countryFilter prop
+can be used to filter the searchable documents. You can log the object that `getComponentMethods` returns to see the
+complete list of available methods.
 
 ## Extensibility
 
