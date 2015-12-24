@@ -16,9 +16,9 @@ ddp-common@1.2.2
 ddp-server@1.2.2
 deps@1.0.9
 diff-sequence@1.0.1
-easy:search@2.0.4
-easysearch:components@2.0.4
-easysearch:core@2.0.3
+easy:search@2.0.5
+easysearch:components@2.0.6
+easysearch:core@2.0.5
 ecmascript@0.1.6
 ecmascript-runtime@0.2.6
 ejson@1.0.7
@@ -37,8 +37,10 @@ npm-mongo@1.4.39_1
 observe-sequence@1.0.7
 ordered-dict@1.0.4
 peerlibrary:assert@0.2.5
-peerlibrary:base-component@0.10.0
-peerlibrary:blaze-components@0.13.0
+peerlibrary:base-component@0.14.0
+peerlibrary:blaze-components@0.15.1
+peerlibrary:computed-field@0.3.1
+peerlibrary:reactive-field@0.1.0
 promise@0.5.1
 random@1.0.5
 reactive-dict@1.1.3
