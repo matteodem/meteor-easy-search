@@ -20,7 +20,7 @@ For the following code to work you need to use one of the [accounts packages](ht
 let index = new EasySearch.Index({
   ...
   engine: new EasySearch.MongoDB({
-    selector(searchDefinition, options) {
+    selector(searchDefinition, options, aggregation) {
       // retrieve the default selector
       let selector = this
         .defaultConfiguration()
