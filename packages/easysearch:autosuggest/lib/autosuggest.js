@@ -7,7 +7,7 @@ Template['EasySearch.Autosuggest'].onRendered(function () {
    *
    * @return {*}
    */
-  let getDataValue = (val, defaultVal) => this.data[val] || defaultVal;
+  const getDataValue = (val, defaultVal) => this.data[val] || defaultVal;
 
   if (!this.data.index) {
     throw new Meteor.Error('no-index', 'Please provide an index for your component');
@@ -27,7 +27,7 @@ Template['EasySearch.Autosuggest'].onRendered(function () {
       getDataValue('renderSuggestion', 'EasySarch.Autogguest.DefaultRenderSuggestion')
     ];
 
-  this.$('select').selectize(changeConfiguration({
+  const select = this.$('select').selectize(changeConfiguration({
     valueField,
     labelField,
     searchField,
@@ -54,6 +54,7 @@ Template['EasySearch.Autosuggest'].onRendered(function () {
         }
 
         handle = setTimeout(() => {
+          select[0].selectize.clearOptions();
           callback(docs);
         }, 100);
       });

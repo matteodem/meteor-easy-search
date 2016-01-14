@@ -1,3 +1,8 @@
+2.0.6
+====
+
+ * Fixed #416: Duplicated items in autosuggest component
+
 2.0.5
 ====
 
