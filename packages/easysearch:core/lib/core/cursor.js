@@ -8,9 +8,10 @@ Cursor = class Cursor {
   /**
    * Constructor
    *
-   * @param {Mongo.Cursor} mongoCursor Referenced mongo cursor
-   * @param {Number}       count       Count of all documents found
-   * @param {Boolean}      isReady     Cursor is ready
+   * @param {Mongo.Cursor} mongoCursor   Referenced mongo cursor
+   * @param {Number}       count         Count of all documents found
+   * @param {Boolean}      isReady       Cursor is ready
+   * @param {Object}       publishHandle Publish handle to stop if on client
    *
    * @constructor
    *

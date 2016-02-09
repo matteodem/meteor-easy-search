@@ -8,24 +8,11 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
    * Setup input onCreated.
    */
   onCreated() {
-    let componentScope = this;
-
     super.onCreated(...arguments);
 
     this.search(this.inputAttributes().value);
 
     // create a reactive dependency to the cursor
-    Tracker.autorun((trackerCursor) => {
-      this.eachIndex((index, name) => {
-        if (componentScope.cursorHandle) {
-          componentScope.cursorHandle.stop();
-        }
-
-        componentScope.cursorHandle = index.getComponentMethods(name).getCursor();
-        componentScope.lastTrackerCursor = trackerCursor;
-      });
-    });
-
     this.debouncedSearch = _.debounce((searchString) => {
       searchString = searchString.trim();
 
@@ -40,21 +27,6 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
       }
 
     }, this.options.timeout);
-  }
-
-  /**
-   * Destroy input cursors onDestroyed.
-   */
-  onDestroyed() {
-    super.onDestroyed(...arguments);
-
-    if (this.cursorHandle) {
-      this.cursorHandle.stop();
-    }
-
-    if (this.lastTrackerCursor) {
-      this.lastTrackerCursor.stop();
-    }
   }
 
   /**

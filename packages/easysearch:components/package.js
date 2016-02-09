@@ -1,7 +1,7 @@
 Package.describe({
   name: 'easysearch:components',
   summary: "Blaze Components for EasySearch",
-  version: "2.0.7",
+  version: "2.0.8",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });
@@ -12,7 +12,7 @@ Package.onUse(function(api) {
   // Dependencies
   api.use(['check', 'reactive-dict', 'ecmascript', 'random', 'underscore', 'tracker']);
   api.use(['peerlibrary:blaze-components@0.16.0', 'easysearch:core@2.0.5']);
-  api.use(['erasaur:meteor-lodash@3.10.0'], { weak: true });
+  api.use(['erasaur:meteor-lodash@4.0.0'], { weak: true });
 
   // Base Component
   api.addFiles(['lib/base.js', 'lib/single-index.js', 'lib/component-methods.js', 'lib/core.js'], 'client');

@@ -1,7 +1,7 @@
 Package.describe({
   name: 'easysearch:core',
   summary: "Javascript Core for EasySearch",
-  version: "2.0.5",
+  version: "2.0.6",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });
@@ -11,7 +11,7 @@ Package.onUse(function(api) {
 
   // Dependencies
   api.use(['check', 'ecmascript', 'mongo', 'underscore']);
-  api.use(['erasaur:meteor-lodash@3.10.0'], { weak: true });
+  api.use(['erasaur:meteor-lodash@4.0.0'], { weak: true });
 
   // Core packages
   api.addFiles([

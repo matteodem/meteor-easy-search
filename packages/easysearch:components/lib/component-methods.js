@@ -19,12 +19,12 @@ EasySearch._getComponentMethods = function (dict, index) {
      * @returns {Cursor}
      */
     getCursor: () => {
-      let searchDefinition = dict.get('searchDefinition') || '',
+      const searchDefinition = dict.get('searchDefinition') || '',
         options = dict.get('searchOptions');
 
       check(options, Match.Optional(Object));
 
-      let cursor = index.search(searchDefinition, options),
+      const cursor = index.search(searchDefinition, options),
         searchOptions = index._getSearchOptions(options);
 
       dict.set('count', cursor.count());
