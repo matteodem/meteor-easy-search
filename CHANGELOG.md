@@ -1,3 +1,8 @@
+2.0.8
+====
+
+* Fixed #432: Updated lodash version 
+
 2.0.6
 ====
 
