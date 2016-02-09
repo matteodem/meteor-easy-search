@@ -5,7 +5,7 @@ Easy Search is a simple and flexible solution for adding search functionality to
 
 ```javascript
 // On Client and Server
-let Players = new Mongo.Collection('players'),
+const Players = new Mongo.Collection('players'),
   PlayersIndex = new EasySearch.Index({
     collection: Players,
     fields: ['name'],
