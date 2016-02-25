@@ -1,0 +1,31 @@
+{
+  "name": "easy-search",
+  "version": "1.0.0",
+  "description": "Easy Search [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Build Status](https://travis-ci.org/matteodem/meteor-easy-search.svg?branch=master)](https://travis-ci.org/matteodem/meteor-easy-search) =====================",
+  "main": "index.js",
+  "dependencies": {
+    "conventional-changelog": "^1.0.1",
+    "cz-conventional-changelog": "^1.1.5"
+  },
+  "devDependencies": {
+    "cz-conventional-changelog": "^1.1.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matteodem/meteor-easy-search.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matteodem/meteor-easy-search/issues"
+  },
+  "homepage": "https://github.com/matteodem/meteor-easy-search#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
