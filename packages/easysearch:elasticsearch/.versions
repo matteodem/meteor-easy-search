@@ -13,8 +13,8 @@ ddp-common@1.2.2
 ddp-server@1.2.2
 deps@1.0.9
 diff-sequence@1.0.1
-easysearch:core@2.0.6
-easysearch:elasticsearch@2.0.8
+easysearch:core@2.0.9
+easysearch:elasticsearch@2.0.9
 ecmascript@0.1.6
 ecmascript-runtime@0.2.6
 ejson@1.0.7
@@ -24,7 +24,7 @@ html-tools@1.0.5
 htmljs@1.0.5
 id-map@1.0.4
 jquery@1.11.4
-local-test:easysearch:elasticsearch@2.0.8
+local-test:easysearch:elasticsearch@2.0.9
 logging@1.0.8
 meteor@1.1.10
 minimongo@1.0.10

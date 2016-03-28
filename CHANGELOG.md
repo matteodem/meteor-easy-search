@@ -1,5 +1,12 @@
+2.0.9
+=====
+
+* Added #374: Do not clear previous results on load more
+* Added #399: Add show no documents by default option to input
+* Fixed #348: customRenderPagination pagination component option 
+
 2.0.8
-====
+=====
 
 * Fixed #432 and #442: Updated lodash version 
 

@@ -1,7 +1,7 @@
 Package.describe({
   name: 'easysearch:elasticsearch',
   summary: "Elasticsearch Engine for EasySearch",
-  version: "2.0.8",
+  version: "2.0.9",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });
@@ -15,7 +15,7 @@ Package.onUse(function(api) {
 
   // Dependencies
   api.use(['check', 'ecmascript']);
-  api.use(['easysearch:core@2.0.0', 'erasaur:meteor-lodash@4.0.0']);
+  api.use(['easysearch:core@2.0.9', 'erasaur:meteor-lodash@4.0.0']);
 
   api.addFiles([
     'lib/data-syncer.js',
