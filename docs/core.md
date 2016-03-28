@@ -41,7 +41,7 @@ let index = new EasySearch.Index({
   collection: someCollection,
   fields: ['name'],
   engine: new EasySearch.Minimongo({
-    sort: () => ['score'], // sort by score
+    sort: () => { score: 1 }, // sort by score
     selector: function (searchObject, options, aggregation) {
       // selector contains the default mongo selector that Easy Search would use
       let selector = this.defaultConfiguration().selector(searchObject, options, aggregation);

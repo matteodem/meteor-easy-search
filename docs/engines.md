@@ -11,7 +11,7 @@ Engines contain the core functionality of EasySearch. They can be re-used for mu
 let index = new EasySearch.Index({
   ...
   engine: new EasySearch.MongoDB({
-    sort: () => ['score']
+    sort: () => { score: 1 }
   })
 });
 ```
