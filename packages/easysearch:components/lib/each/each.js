@@ -1,5 +1,5 @@
 /**
- * The EachComponent allows to loop through the search results found with the InputComponent.
+ * The EachComponent allows to loop through the search results found.
  *
  * @type {EachComponent}
  */
@@ -10,7 +10,7 @@ EasySearch.EachComponent = class EachComponent extends SingleIndexComponent {
    * @returns {Mongo.Cursor}
    */
   doc() {
-    let stopPublication = this.index
+    const stopPublication = this.index
       .getComponentDict(this.name)
       .get('stopPublication')
     ;

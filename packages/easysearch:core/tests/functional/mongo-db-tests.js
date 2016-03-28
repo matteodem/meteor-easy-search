@@ -46,7 +46,6 @@ var customDocObjectIndex = new EasySearch.Index({
   name: 'secondIndex',
   engine: new EasySearch.MongoDB({
     transform(doc) {
-      console.log('in here');
       return new (function (data) {
         this.getData = function () {
           return data;

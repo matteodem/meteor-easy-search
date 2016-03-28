@@ -74,8 +74,14 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   search(searchString) {
     check(searchString, String);
 
+    const showDocuments = !this.getData().noDocumentsOnEmpty || 0 < searchString.length;
+
     this.eachIndex(function (index, name) {
-      index.getComponentMethods(name).search(searchString);
+      index.getComponentDict(name).set('showDocuments', showDocuments);
+
+      if (showDocuments) {
+        index.getComponentMethods(name).search(searchString);
+      }
     });
   }
 

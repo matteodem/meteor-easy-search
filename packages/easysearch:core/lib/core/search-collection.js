@@ -103,7 +103,7 @@ SearchCollection = class SearchCollection {
    */
   _getMongoCursor(searchDefinition, options) {
     return this._collection.find(
-      { __searchDefinition: JSON.stringify(searchDefinition), __searchOptions: JSON.stringify(options) },
+      { __searchDefinition: JSON.stringify(searchDefinition), __searchOptions: JSON.stringify(options.props) },
       {
         transform: (doc) => {
           delete doc.__searchDefinition;
@@ -159,7 +159,7 @@ SearchCollection = class SearchCollection {
       check(options, Object);
 
       let definitionString = JSON.stringify(searchDefinition),
-        optionsString = JSON.stringify(options);
+        optionsString = JSON.stringify(options.props);
 
       options.userId = this.userId;
       options.publicationScope = this;
@@ -175,7 +175,9 @@ SearchCollection = class SearchCollection {
         index: collectionScope._indexConfiguration
       });
 
-      this.added(collectionName, 'searchCount' + definitionString, { count: cursor.count() });
+      const count = cursor.count();
+
+      this.added(collectionName, 'searchCount' + definitionString, { count: count });
 
       let resultsHandle = cursor.mongoCursor.observe({
         addedAt: (doc, atIndex, before) => {

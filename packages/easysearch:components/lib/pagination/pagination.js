@@ -34,7 +34,7 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
   }
 
   customRenderPagination() {
-    return this.getData().renderPagination;
+    return this.getData().customRenderPagination;
   }
 
   /**
