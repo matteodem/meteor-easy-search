@@ -30,6 +30,7 @@ Allows to use multiple indexes.
 * __attributes__: Object containing input attributes (e.g. `{ placeholder: "Search..." }`)
 * __timeout__: Number of ms to wait until search starts
 * __event__: Can be `enter`, if it only should search on enter
+* __noDocumentsOnEmpty__: Boolean indicating if no documents should be displayed when input is empty
 
 
 ### FieldInput
