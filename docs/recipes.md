@@ -7,7 +7,7 @@ order: 4
 This is a cookbook containing recipes on how to use EasySearch for different scenarios in your app.
 This article assumes you have read the [Getting started](../../getting-started/) page beforehand.
 
-## Filtering with user data
+## Filtering user data
 
 Since EasySearch runs your code on both on the server and the client (if the engine searches on the server), you cannot always use
 `Meteor.userId()` inside your code. EasySearch sets the userId in the options object at a consistent place for you. Let's assume you want
@@ -119,7 +119,7 @@ This let's you use all the functionality of EasySearch but without the need of o
 If you want to add relations to your documents you can use `beforePublish` that is used on the server side before the document is actually published. There is also the `transform` configuration that is useful if you want the existing document data to be transformed. Both of those configurations are on the engine level.
 
 ```javascript
-let index = new EasySearch.Index({
+const index = new EasySearch.Index({
   ...
   engine: new EasySearch.MongoDB({
     beforePublish: (action, doc) {
@@ -138,7 +138,7 @@ let index = new EasySearch.Index({
       return doc;
     }
   })
-})
+});
 ```
 
 ## Adding facets to your search app
@@ -147,7 +147,7 @@ Adding facets to your application to filter out certain result sets is easy. Fir
 that you want to use to determine what to filter for.
 
 ```Javascript
-let index = new EasySearch.Index({
+const index = new EasySearch.Index({
   ...
   engine: new EasySearch.MongoDB({
     selector: (searchObject, options, aggregation) {
@@ -189,3 +189,162 @@ Template.filters.events({
 ```
 
 Since the index is configured to filter for the brand if set this is enough to have a simple brand facet.
+
+## Adding sorting to your app
+
+Adding sorting to your search app is very similiar to how facets would be implemented.
+
+```javascript
+// On Client and Server
+const carSearchIndex = new EasySearch.Index({
+  collection: carCollection,
+  fields: ['name', 'companyName'],
+  defaultSearchOptions: {
+    sortBy: 'relevance'
+  },
+  engine: new EasySearch.MongoDB({
+    sort: function (searchObject, options) {
+      const sortBy = options.search.props.sortBy;
+
+      // return a mongo sort specifier
+      if ('relevance' === sortBy) {
+        return {
+          relevance: -1
+        };
+      } else if ('newest' === sortBy) {
+        return {
+          createdAt: -1
+        };
+      } else if ('bestScore' === sortBy) {
+        return {
+          averageScore: -1
+        };
+      } else {
+        throw new Meteor.Error('Invalid sort by prop passed');
+      }
+    }
+  })
+});
+```
+
+This code creates a `carSearchIndex` that checks if a sortBy prop is passed to the search query and throws an `Meteor.Error` if an invalid string is passed. Be sure to add the `defaultSearchOptions` so that there's no initial error when loading the components.
+
+```html
+{% raw %}
+<template name="mySearchPage">
+  {{> EasySearch.Input index=carsIndex}}
+
+  <select class="sorting">
+    <option value="relevance">Relevance</option>
+    <option value="newest">Newest</option>
+    <option value="bestScore">Score</option>
+  </select>
+
+  {{#EasySearch.Each index=carsIndex}}
+    ...
+  {{/EasySearch.Each}}
+</template>
+{% endraw %}
+```
+
+```js
+// On Client
+Template.mySearchPage.helpers({
+  carsIndex: () => carSearchIndex
+});
+
+Template.mySearchPage.events({
+  'change .sorting': (e) => {
+    carSearchIndex
+      .getComponentMethods()
+      .addProps('sortBy', $(e.target).val())
+    ;
+  }
+});
+```
+
+This following code executes code when the sorting select box is changed and adds the `sortBy` props which are used in the
+index configuration to determine how to sort your search results. The `addProps` method also retriggers the search automatically.
+
+## Using custom pagination
+
+If you want to use custom pagination, use the `customRenderPagination` parameter for `EasySearch.Pagination`.
+
+
+```html
+{% raw %}
+<template name="mySearchPage">
+  {{> EasySearch.Input index=myIndex}}
+
+  {{#EasySearch.Each index=myIndex}}
+    ...
+  {{/EasySearch.Each}}
+
+
+  {{> EasySearch.Pagination index=myIndex customRenderPagination="myPagination"}}
+</template>
+
+<template name="myPagination">
+  <ul class="pagination">
+    {{#each page}} 
+      <li class="page {{pageClasses this}}"> {{content}} </li>
+     {{/each}}
+  </ul>
+</template>
+{% endraw %}
+```
+
+As long as each page has a class called `page` the custom pagination will work as expected.
+
+## Adding custom attributes to components
+
+If you want to have custom attributes such as a html placeholder you can use the `attributes` property on some [components](../components).
+
+```html
+{% raw %}
+<template name="mySearchPage">
+  ...
+  {{> EasySearch.Input index=myIndex attributes=inputAttributes}}
+</template>
+{% endraw %}
+```
+
+```js
+// On Client
+Template.mySearchPage.helpers({
+  inputAttributes: () => {
+    return {
+      placeholder: 'Start searching with a number',
+      type: 'number'
+    };
+  }
+});
+```
+
+## Searching on composite fields
+
+Let's say you have a field that is made up of several other fields. A good example for this would be a name, which is
+made of the first name and surname. There's multiple ways to go about this, the simple solution would be to store the composite field denormalized in your collection.
+
+```js
+// On Client and Server
+// using https://atmospherejs.com/matb33/collection-hooks
+
+const myCollection = new Mongo.Collection('myCollection');
+
+myCollection.before.insert(function (userId, doc) {
+    if (doc.firstName && doc.lastName) {
+      doc.fullName = doc.firstName + ' ' + doc.lastName;
+    }
+
+    return doc;
+});
+
+const myCollectionIndex = new EasySearch.Index({
+  collection: myCollection,
+  fields: ['fullName'],
+  engine: new EasySearch.MongoDB()
+});
+```
+
+If you're dealing with more complex data it might be better to create a read model such as a **separate search collection** or have an **ElasticSearch index** that's optimized for search.
