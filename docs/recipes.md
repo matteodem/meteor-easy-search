@@ -332,12 +332,19 @@ made of the first name and surname. There's multiple ways to go about this, the 
 
 const myCollection = new Mongo.Collection('myCollection');
 
+const getFullName = doc => doc.firstName + ' ' + doc.lastName;
+
 myCollection.before.insert(function (userId, doc) {
     if (doc.firstName && doc.lastName) {
-      doc.fullName = doc.firstName + ' ' + doc.lastName;
+      doc.fullName = getFullName(doc);
     }
+});
 
-    return doc;
+myCollection.before.update(function (userId, doc, fieldNames, modifier) {
+  if (doc.firstName && doc.lastName) {
+    modifier.$set = modifier.$set || {};
+    modifier.$set.fullName = getFullName(doc);
+  }
 });
 
 const myCollectionIndex = new EasySearch.Index({
