@@ -88,7 +88,7 @@ let index = new EasySearch.Index({
       }
 
       if (options.search.props.minScore) {
-        selector.scoreFilter.$gt =  options.search.props.minScore;
+        scoreFilter.$gt =  options.search.props.minScore;
       }
 
       if (scoreFilter.$gt || scoreFilter.$lt) {
