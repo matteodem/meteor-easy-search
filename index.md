@@ -7,8 +7,9 @@ Easy Search is a simple and flexible solution for adding Search Components to yo
 
 ```javascript
 // On Client and Server
-let Players = new Mongo.Collection('players'),
-  PlayersIndex = new EasySearch.Index({
+const Players = new Mongo.Collection('players');
+
+const PlayersIndex = new EasySearch.Index({
     collection: Players,
     fields: ['name'],
     engine: new EasySearch.Minimongo()

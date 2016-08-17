@@ -16,9 +16,9 @@ Let's create one to see how searching works with Easy Search. First add a file t
 
 ```javascript
 // On Client and Server
-Players = new Mongo.Collection('players');
+const Players = new Mongo.Collection('players');
 
-PlayersIndex = new EasySearch.Index({
+const PlayersIndex = new EasySearch.Index({
   collection: Players,
   fields: ['name', 'score'],
   engine: new EasySearch.Minimongo()
