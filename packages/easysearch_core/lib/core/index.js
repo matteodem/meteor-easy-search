@@ -14,7 +14,8 @@ Index = class Index {
    */
   constructor(config) {
     check(config, Object);
-    check(config.collection, Meteor.Collection);
+    if (!config.specialCollection) check(config.collection, Meteor.Collection);
+    else Match.Where(() => config.collection instanceof config.specialCollection);
     check(config.fields, [String]);
 
     if (!(config.engine instanceof Engine)) {
