@@ -7,25 +7,27 @@ Template['EasySearch.Autosuggest'].onRendered(function () {
    *
    * @return {*}
    */
-  const getDataValue = (val, defaultVal) => this.data[val] || defaultVal;
+  const getDataValue = (val, defaultVal) => this.data[val] || defaultVal
 
   if (!this.data.index) {
-    throw new Meteor.Error('no-index', 'Please provide an index for your component');
+    throw new Meteor.Error('no-index', 'Please provide an index for your component')
   }
 
   if (this.data.indexes) {
-    throw new Meteor.Error('only-single-index', 'Can only specify one index');
+    throw new Meteor.Error('only-single-index', 'Can only specify one index')
   }
 
-  let handle, computation,
-    index = this.data.index,
-    valueField = getDataValue('valueField', '_id'),
-    labelField = getDataValue('labelField', index.config.fields[0]),
-    searchField = getDataValue('searchField', labelField),
-    changeConfiguration = getDataValue('changeConfiguration', (c) => c),
-    suggestionTemplate = Template[
-      getDataValue('renderSuggestion', 'EasySarch.Autogguest.DefaultRenderSuggestion')
-    ];
+  let handle
+  let computation
+
+  const index = this.data.index
+  const valueField = getDataValue('valueField', '_id')
+  const labelField = getDataValue('labelField', index.config.fields[0])
+  const searchField = getDataValue('searchField', labelField)
+  const changeConfiguration = getDataValue('changeConfiguration', (c) => c)
+  const suggestionTemplate = Template[
+    getDataValue('renderSuggestion', 'EasySarch.Autogguest.DefaultRenderSuggestion')
+  ]
 
   const select = this.$('select').selectize(changeConfiguration({
     valueField,
@@ -42,22 +44,22 @@ Template['EasySearch.Autosuggest'].onRendered(function () {
     },
     load: (query, callback) => {
       if (computation) {
-        computation.stop();
+        computation.stop()
       }
 
       computation = Tracker.autorun(() => {
-        let cursor = index.search(query),
-          docs = cursor.fetch();
+        const cursor = index.search(query)
+        const docs = cursor.fetch()
 
         if (handle) {
-          clearTimeout(handle);
+          clearTimeout(handle)
         }
 
         handle = setTimeout(() => {
-          select[0].selectize.clearOptions();
-          callback(docs);
-        }, 100);
-      });
+          select[0].selectize.clearOptions()
+          callback(docs)
+        }, 100)
+      })
     }
-  }));
-});
+  }))
+})

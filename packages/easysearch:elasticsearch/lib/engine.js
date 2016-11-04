@@ -1,3 +1,5 @@
+import ElasticSearchDataSyncer from './data-syncer'
+
 if (Meteor.isServer) {
   var Future = Npm.require('fibers/future'),
     elasticsearch = Npm.require('elasticsearch');
@@ -8,7 +10,7 @@ if (Meteor.isServer) {
  *
  * @type {ElasticSearchEngine}
  */
-EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.ReactiveEngine {
+ class ElasticSearchEngine extends EasySearch.ReactiveEngine {
   /**
    * Constructor.
    */
@@ -200,4 +202,8 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
       total: data.hits.total
     };
   }
-};
+}
+
+EasySearch.ElasticSearch = ElasticSearchEngine
+
+export default ElasticSearchEngine
