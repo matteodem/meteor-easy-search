@@ -1,10 +1,13 @@
+import SearchCollection from './search-collection'
+import Engine from './engine'
+
 /**
  * A ReactiveEngine handles the reactive logic, such as subscribing
  * and publishing documents into a self contained collection.
  *
  * @type {ReactiveEngine}
  */
-ReactiveEngine = class ReactiveEngine extends Engine {
+class ReactiveEngine extends Engine {
   /**
    * Constructor.
    *
@@ -107,4 +110,6 @@ ReactiveEngine = class ReactiveEngine extends Engine {
       );
     }
   }
-};
+}
+
+export default ReactiveEngine;

@@ -4,7 +4,7 @@
  *
  * @type {Engine}
  */
-Engine = class Engine {
+class Engine {
   /**
    * Constructor
    *
@@ -70,4 +70,6 @@ Engine = class Engine {
       indexConfig.allowedFields = indexConfig.fields;
     }
   }
-};
+}
+
+export default Engine;

@@ -1,9 +1,13 @@
+import Engine from '../core/engine';
+import ReactiveEngine from '../core/reactive-engine';
+import MongoDBEngine from './mongo-db';
+
 /**
  * The MinimongEngine lets you search the index on the client-side.
  *
  * @type {MinimongoEngine}
  */
-MinimongoEngine = class MinimongoEngine extends Engine {
+class MinimongoEngine extends Engine {
   /**
    * Return default configuration.
    *
@@ -31,7 +35,7 @@ MinimongoEngine = class MinimongoEngine extends Engine {
     // check() calls are in getSearchCursor method
     return MongoDBEngine.prototype.getSearchCursor.apply(this, [searchDefinition, options]);
   }
-};
+}
 
 MinimongoEngine.prototype.checkSearchParam = ReactiveEngine.prototype.checkSearchParam;
 MinimongoEngine.prototype.transformSearchDefinition = ReactiveEngine.prototype.transformSearchDefinition;
@@ -43,3 +47,5 @@ MinimongoEngine.prototype.getFindOptions = function (...args) {
 
   return findOptions;
 };
+
+export default MinimongoEngine;

@@ -1,10 +1,13 @@
+import Cursor from './cursor'
+import ReactiveEngine from './reactive-engine'
+
 /**
  * A search collection represents a reactive collection on the client,
  * which is used by the ReactiveEngine for searching.
  *
  * @type {SearchCollection}
  */
-SearchCollection = class SearchCollection {
+class SearchCollection {
   /**
    * Constructor
    *
@@ -237,4 +240,6 @@ SearchCollection = class SearchCollection {
       this.ready();
     });
   }
-};
+}
+
+export default SearchCollection;

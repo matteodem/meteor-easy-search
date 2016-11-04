@@ -1,20 +1,22 @@
 Easy Search Core
 =====================
 
-The core package allows you to search indexes with configured engines through the Javascript API. The `easy:search` package wraps this package together with `easysearch:components` for convenience. 
+The core package allows you to search indexes with configured engines through the Javascript API. The `easy:search` package wraps this package together with `easysearch:components` for convenience.
 
 ```javascript
+import { Index, MongoDBEngine } from 'easysearch:core';
+
 // On Client and Server
-let Players = new Meteor.Collection('players'),
-  PlayersIndex = new EasySearch.Index({
+const Players = new Meteor.Collection('players'),
+  PlayersIndex = new Index({
     collection: Players,
     fields: ['name'],
-    engine: new EasySearch.MongoDB()
+    engine: new MongoDBEngine()
   });
 
 Tracker.autorun(() => {
-  let cursor = PlayersIndex.search('Peter');
-  
+  const cursor = PlayersIndex.search('Peter');
+
   console.log(cursor.fetch()); // logs the documents
   console.log(cursor.count()); // logs the count of all matched documents
 });
