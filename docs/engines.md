@@ -32,7 +32,7 @@ The MongoDB engine searches the specified collection directly with MongoDB on th
 * __selectorPerField(field, searchString)__: Function that returns a sub selector for each field
 * __aggregation__: String that defines the [logical query operator](http://docs.mongodb.org/manual/reference/operator/query/or/) thats used for the fields. By default it is `$or`
 * __sort(searchObject, options)__: Function that returns a sort specifier
-* __fields(searchObject, options)__: Function that returns the fields to return when searching
+* __fields(searchObject, options)__: Function that returns the [fields](http://docs.meteor.com/api/collections.html#fieldspecifiers) to return when searching
 * __transform(document)__: Function that returns a transformed document (only executed on the client)
 * __beforePublish(event, doc)__: Function that returns a document before being published
 
@@ -66,7 +66,7 @@ This engine inherits the exact same configuration as MongoDB but does the search
 * __selectorPerField(field, searchString)__: Function that returns a sub selector for each field
 * __aggregation__: String that defines the [logical query operator](http://docs.mongodb.org/manual/reference/operator/query/or/) thats used for the fields. By default it is `$or`
 * __sort(searchObject, options)__: Function that returns a sort specifier
-* __fields(searchObject, options)__: Function that returns the fields to return when searching
+* __fields(searchObject, options)__: Function that returns the [fields](http://docs.meteor.com/api/collections.html#fieldspecifiers) to return when searching
 * __transform(document)__: Function that returns a transformed document (only executed on the client)
 
 ### MongoTextIndex
@@ -77,7 +77,7 @@ The MongoTextIndex engine inherits the same configuration as MongoDB but uses a 
 
 * __selector(searchObject, options, aggregation)__: Function that returns a mongo selector
 * __sort(searchObject, options)__: Function that returns a sort specifier
-* __fields(searchObject, options)__: Function that returns the fields to return when searching
+* __fields(searchObject, options)__: Function that returns the [fields](http://docs.meteor.com/api/collections.html#fieldspecifiers) to return when searching
 * __transform(document)__: Function that returns a transformed document (only executed on the client)
 * __beforePublish(event, doc)__: Function that returns a document before being published
 
