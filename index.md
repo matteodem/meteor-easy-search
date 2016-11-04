@@ -6,21 +6,22 @@ title: Home
 Easy Search is a simple and flexible solution for adding Search Components to your Meteor App. Read the documentation to [get started](getting-started).
 
 ```javascript
-// On Client and Server
-const Players = new Mongo.Collection('players');
+import { Index, MinimongoEngine } from 'meteor/easy:search'
 
-const PlayersIndex = new EasySearch.Index({
-    collection: Players,
-    fields: ['name'],
-    engine: new EasySearch.Minimongo()
-  });
+// On Client and Server
+const Players = new Mongo.Collection('players')
+const PlayersIndex = new Index({
+  collection: Players,
+  fields: ['name'],
+  engine: new MinimongoEngine()
+})
 ```
 
 ```javascript
 // On Client
 Template.searchBox.helpers({
-  playersIndex: () => PlayersIndex
-});
+  playersIndex: () => PlayersIndex,
+})
 ```
 
 ```html

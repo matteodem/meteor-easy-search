@@ -148,12 +148,13 @@ You can retrieve component values, such as the current search string by using th
 // Assuming you either use EasySearch.Input or EasySearch.FieldInput inside your app
 Template.searchBox.helpers({
   searchCount: () => {
-  // index instanceof EasySearch.index
-  let dict = index.getComponentDict(/* optional name */);
+    // index instanceof EasySearch.index
+    let dict = index.getComponentDict(/* optional name */)
 
-  // get the total count of search results, useful when displaying additional information
-  return dict.get('count');
-});
+    // get the total count of search results, useful when displaying additional information
+    return dict.get('count')
+  }
+})
 ```
 
 The components use the dictionary themselves to store reactive state. You can retrieve following values through the dictionary.
@@ -172,18 +173,20 @@ If you want to work with multiple indexes on your components, you can simply spe
 This is where the `logic` parameter that each if component has becomes helpful.
 
 ```javascript
-let indexOne = new EasySearch.Index({
-    ...
-  }),
-  indexTwo = new EasySearch.Index({
-    ...
-  });
+import { Index } from 'meteor/easy:search'
+
+const indexOne = new Index({
+  ...
+})
+const indexTwo = new Index({
+  ...
+})
 
 Template.searchBox.helpers({
   searchIndexes: () => [indexOne, indexTwo],
   indexOne: () => indexOne,
-  indexTwo: () => indexTwo
-});
+  indexTwo: () => indexTwo,
+})
 ```
 
 ```html
@@ -227,9 +230,8 @@ Template.filterBox.events({
     // index instanceof EasySearch.index
     index.getComponentMethods(/* optional name */)
       .addProps('countryFilter', $(e.target).val())
-    ;
-  }
-});
+  },
+})
 ```
 
 This code adds a custom property that is called `countryFilter` and the value of a country code. Everytime somebody executes a search
@@ -259,12 +261,10 @@ use the `getComponentMethods` method that's on the index.
 Template.MySelectFilter.events({
   'change select': function () {
     // myIndex instanceof EasySearch.Index
-    myIndex
-      .getComponentMethods()
+    myIndex.getComponentMethods()
       .addProps('awesomeFilter', $(e.target).val().trim())
-    ;
-  }
-});
+  },
+})
 ```
 
 The above example would be useable by just calling `{% raw %}{{> MySelectFilter}}{% endraw %}` in your code. With Blaze Components you could create a component
@@ -275,20 +275,18 @@ class MySelectFilterComponent extends EasySearch.BaseComponent {
   events() {
     return [{
       'change select' : function (e) {
-        let selectedValue = $(e.target).val().trim();
+        const selectedValue = $(e.target).val().trim()
 
         this.eachIndex((index, name) => {
-          index
-            .getComponentMethods(name)
+          index.getComponentMethods(name)
             .addProps('awesomeFilter', selectedValue)
-          ;
-        });
-      }
-    }];
+        })
+      },
+    }]
   }
 }
 
-MySelectFilterComponent.register('MySelectFilter');
+MySelectFilterComponent.register('MySelectFilter')
 ```
 
 This could be used by calling `{% raw %}{{> MySelectFilter index=index}}{% endraw %}` or with multiple indexes.

@@ -15,14 +15,15 @@ Let's create one to see how searching works with Easy Search. First add a file t
 (for example `./indexes.js`).
 
 ```javascript
+import { Index, MinimongoEngine } from 'meteor/easy:search'
 // On Client and Server
-const Players = new Mongo.Collection('players');
+const Players = new Mongo.Collection('players')
 
-const PlayersIndex = new EasySearch.Index({
+const PlayersIndex = new Index({
   collection: Players,
   fields: ['name', 'score'],
-  engine: new EasySearch.Minimongo()
-});
+  engine: new MinimongoEngine(),
+})
 ```
 
 There are three parts of configuration that need to be specified when creating an index:
@@ -43,11 +44,11 @@ Now that we got the index setup you can start searching through it.
 ```javascript
 // On Client
 Tracker.autorun(function () {
-  let cursor = PlayersIndex.search('Marie'); // search all docs that contain "Marie" in the name or score field
+  let cursor = PlayersIndex.search('Marie') // search all docs that contain "Marie" in the name or score field
 
-  console.log(cursor.fetch()); // log found documents with default search limit
-  console.log(cursor.count()); // log count of all found documents
-});
+  console.log(cursor.fetch()) // log found documents with default search limit
+  console.log(cursor.count()) // log count of all found documents
+})
 ```
 
 This code snippet searches for "Marie" in the Players collection. Notice that this can only be executed on the client, because Minimongo
@@ -58,7 +59,7 @@ specified collection. It is also possible to provide custom options when calling
 
 ```javascript
 Tracker.autorun(function () {
-  console.log(PlayersIndex.search('Marie', { limit: 5, skip: 10 }).fetch());
+  console.log(PlayersIndex.search('Marie', { limit: 5, skip: 10 }).fetch())
 });
 ```
 
@@ -93,8 +94,8 @@ functionality by using the Core Javascript API (that has been explained in _Crea
 
 ```javascript
 Template.search.helpers({
-  playersIndex: () => PlayersIndex // instanceof EasySearch.Index
-});
+  playersIndex: () => PlayersIndex, // instanceof EasySearch.Index
+})
 ```
 
 This compact blaze snippet provides you with a fully functional

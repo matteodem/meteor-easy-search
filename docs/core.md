@@ -20,15 +20,15 @@ the __collection__ that contains the documents that you want to search and the _
 to restrict general access to your index. You can also specify a __name__ if you want to create several indexes for the same collection.
 
 ```javascript
-let index = new EasySearch.Index({
+import { Index, MongoTextIndexEngine } from 'meteor/easy:search'
+
+const index = new Index({
   collection: someCollection,
   fields: ['name'],
-  engine: new EasySearch.MongoTextIndex(),
+  engine: new MongoTextIndex(),
   name: 'myAwesomeIndex',
-  permission: (options) => {
-    return userHasAccess(options.userId); // always return true or false here
-  }
-});
+  permission: (options) => userHasAccess(options.userId), // always return true or false here
+})
 ```
 
 ### Engine
@@ -37,22 +37,24 @@ If you want to customize or extend the way your Engine searches, then you can ad
 The `EasySearch.Minimongo` engine for example allows you to rewrite or extend the selector and add sorting.
 
 ```javascript
-let index = new EasySearch.Index({
+import { Index, MinimongoEngine } from 'meteor/easy:search'
+
+const index = new Index({
   collection: someCollection,
   fields: ['name'],
-  engine: new EasySearch.Minimongo({
+  engine: new MinimongoEngine({
     sort: () => { score: 1 }, // sort by score
     selector: function (searchObject, options, aggregation) {
       // selector contains the default mongo selector that Easy Search would use
-      let selector = this.defaultConfiguration().selector(searchObject, options, aggregation);
+      let selector = this.defaultConfiguration().selector(searchObject, options, aggregation)
 
       // modify the selector to only match documents where region equals "New York"
-      selector.region = 'New York';
+      selector.region = 'New York'
 
-      return selector;
-    }
-  })
-});
+      return selector
+    },
+  }),
+})
 ```
 
 ### search
@@ -76,29 +78,31 @@ index.search('Peter', {
 The functionality of filtering for `minScore` and `maxScore` also needs to be implemented for the props to work.
 
 ```javascript
-let index = new EasySearch.Index({
+import { Index } from 'meteor/easy:search'
+
+const index = new EasySearch.Index({
   ...
   engine: new EasySearch.Minimongo({
     selector: function (searchObject, options, aggregation) {
-      let selector = this.defaultConfiguration().selector(searchObject, options, aggregation),
-        scoreFilter = {};
+      const selector = this.defaultConfiguration().selector(searchObject, options, aggregation)
+      const scoreFilter = {}
 
       if (options.search.props.maxScore) {
-        scoreFilter.$lt = options.search.props.maxScore;
+        scoreFilter.$lt = options.search.props.maxScore
       }
 
       if (options.search.props.minScore) {
-        scoreFilter.$gt =  options.search.props.minScore;
+        scoreFilter.$gt =  options.search.props.minScore
       }
 
       if (scoreFilter.$gt || scoreFilter.$lt) {
-        selector.score = scoreFilter;
+        selector.score = scoreFilter
       }
 
-      return selector;
-    }
-  })
-});
+      return selector
+    },
+  }),
+})
 ```
 
 Have a look at the [API Reference](../api-reference/) or [Engines section](../engines/) to see all possible configuration values.
@@ -109,8 +113,8 @@ Searching is easy. Simply call the index `search` method with an appropriate sea
 
 ```javascript
 // index instanceof EasySearch.Index
-let cursor = index.search('Marie'),
-  docs = cursor.fetch();
+const cursor = index.search('Marie')
+const docs = cursor.fetch()
 
 // do stuff
 ```
@@ -121,28 +125,30 @@ possible to write custom publications.
 
 ```javascript
 Meteor.publish('carSearch', (searchString) {
-  check(searchString, String);
+  check(searchString, String)
 
   // index instanceof EasySearch.Index
-  return index.search(searchString).mongoCursor;
+  return index.search(searchString).mongoCursor
 })
 ```
 
 Certain engines also allow to search by objects as your searchDefinition, specifying the fields that are searched.
 
 ```javascript
-let index = new EasySearch.Index({
+import { Index, MongoDBEngine } from 'meteor/easy:search'
+
+const index = new Index({
   ...
   fields: ['name'],
   allowedFields: ['name', 'score'],
-  engine: new EasySearch.MongoDB()
+  engine: new MongoDBEngine(),
 });
 
 // only search for the name
-let docs = index.search({ name: 'Marie' }).fetch();
+const docs = index.search({ name: 'Marie' }).fetch()
 
 // will fail, since allowedFields does not contain that field
-let fail = index.search({ password: '1234' }).fetch();
+const fail = index.search({ password: '1234' }).fetch()
 ```
 
 By default the specified index `fields` are searchable but you can specify your own `allowedFields` that are checked inside the engines
@@ -154,7 +160,9 @@ If the configuration possibilities that EasySearch provide aren't sufficient the
 be when creating your own engine. The following code extends the `EasySearch.MongoDB` to call a method `doSomeStuff` when an index is being created.
 
 ```javascript
-class MyCustomEngine extends EasySearch.MongoDB {
+import { MongoDBEngine } from 'meteor/easy:search'
+
+class MyCustomEngine extends MongoDBEngine {
   onIndexCreate(indexConfig) {
     super.onIndexCreate(indexConfig);
     // indexConfig is the configuration object passed when creating a new index
@@ -167,8 +175,10 @@ You could now use that engine when creating an index. Don't forget that the code
 on both the server and client.
 
 ```javascript
-let index = new EasySearch.Index({
+import { Index } from 'meteor/easy:search'
+
+const index = new Index({
   ...
   engine: new MyCustomEngine()
-});
+})
 ```

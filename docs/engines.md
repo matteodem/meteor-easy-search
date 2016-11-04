@@ -7,12 +7,14 @@ order: 3
 Engines contain the core functionality of EasySearch. They can be re-used for multiple indexes, as long as it doesn't hold configuration specific to an index. The default set of engines all use mongo, either on the client or server side. Engines that search on the server do not conflict with existing publications, as EasySearch creates _fake collections_ to synchronize data. Every engine allows you to pass in an optional configuration object to change it's behaviour.
 
 ```javascript
+import { Index, MongoDBEngine } from 'meteor/easy:search'
+
 // Client and Server
-let index = new EasySearch.Index({
+const index = new Index({
   ...
-  engine: new EasySearch.MongoDB({
-    sort: () => { score: 1 }
-  })
+  engine: new MongoDBEngine({
+    sort: () => { score: 1 },
+  }),
 });
 ```
 
@@ -39,15 +41,17 @@ the configured `fields` on your index and the value is the search string used.
 
 
 ```javascript
-let index = new EasySearch.Index({
+import { Index } from 'meteor/easy:search'
+
+const index = new Index({
   ...
-  fields: ['name', 'fullName', 'address']
+  fields: ['name', 'fullName', 'address'],
 });
 
-index.search('Peter');
+index.search('Peter')
 // transforms into: { name: 'Peter', fullName: 'Peter', address: 'Peter' }
 
-index.search({ name: 'Peter', address: 'Awesomestreet' });
+index.search({ name: 'Peter', address: 'Awesomestreet' })
 // stays the same: { name: 'Peter', address: 'Awesomestreet' }
 
 ```
