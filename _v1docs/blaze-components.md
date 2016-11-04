@@ -48,7 +48,7 @@ more with the provided Components.
 * type (not required, type of the input)
 * event (not required, the event to listen on (only "enter" or "keyup" for now))
 * timeout (not required, when to start the search after keyup)
-* allDocsOnEmpty (not required, define if all docs should be returned if the input field is empty)
+* noDocumentsOnEmpty (not required, define if all docs should be returned if the input field is empty)
 * value (not required, default search value for the input)
 
 esInput provides you with a text input field. It doesn't make a lot of sense unless you use it together

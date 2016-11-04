@@ -28,13 +28,14 @@ const index = new Index({
   engine: new MongoTextIndex(),
   name: 'myAwesomeIndex',
   permission: (options) => userHasAccess(options.userId), // always return true or false here
+  defaultSearchOptions: { limit: 25 }, // default options when searching
 })
 ```
 
 ### Engine
 
 If you want to customize or extend the way your Engine searches, then you can add an engine configuration in form of an object.
-The `EasySearch.Minimongo` engine for example allows you to rewrite or extend the selector and add sorting.
+The `MinimongoEngine` engine for example allows you to rewrite or extend the selector and add sorting.
 
 ```javascript
 import { Index, MinimongoEngine } from 'meteor/easy:search'
@@ -64,7 +65,7 @@ to change behavior for app specific data. One example would be to have facet val
 result sets.
 
 ```javascript
-// index instanceof EasySearch.Index
+// index instanceof Index
 index.search('Peter', {
   limit: 20
   props: {
@@ -78,11 +79,11 @@ index.search('Peter', {
 The functionality of filtering for `minScore` and `maxScore` also needs to be implemented for the props to work.
 
 ```javascript
-import { Index } from 'meteor/easy:search'
+import { Index, MinimongoEngine } from 'meteor/easy:search'
 
-const index = new EasySearch.Index({
+const index = new Index({
   ...
-  engine: new EasySearch.Minimongo({
+  engine: new MinimongoEngine({
     selector: function (searchObject, options, aggregation) {
       const selector = this.defaultConfiguration().selector(searchObject, options, aggregation)
       const scoreFilter = {}
@@ -112,14 +113,14 @@ Have a look at the [API Reference](../api-reference/) or [Engines section](../en
 Searching is easy. Simply call the index `search` method with an appropriate search definition (mostly strings) and options if needed.
 
 ```javascript
-// index instanceof EasySearch.Index
+// index instanceof Index
 const cursor = index.search('Marie')
 const docs = cursor.fetch()
 
 // do stuff
 ```
 
-The `search` method always returns an EasySearch.Cursor, no matter if on the server or client. It basically wraps a mongo cursor and provides
+The `search` method always returns an EasySearch Cursor, no matter if on the server or client. It basically wraps a mongo cursor and provides
 you with methods such as `fetch` and `count` and let's you access the underlying cursor with a property called `mongoCursor`. This makes it
 possible to write custom publications.
 
@@ -127,7 +128,7 @@ possible to write custom publications.
 Meteor.publish('carSearch', (searchString) {
   check(searchString, String)
 
-  // index instanceof EasySearch.Index
+  // index instanceof Index
   return index.search(searchString).mongoCursor
 })
 ```
@@ -157,7 +158,7 @@ when searched with objects
 ## Extensibility
 
 If the configuration possibilities that EasySearch provide aren't sufficient then you can extend the core classes. One example would
-be when creating your own engine. The following code extends the `EasySearch.MongoDB` to call a method `doSomeStuff` when an index is being created.
+be when creating your own engine. The following code extends the `MongoDBEngine` to call a method `doSomeStuff` when an index is being created.
 
 ```javascript
 import { MongoDBEngine } from 'meteor/easy:search'

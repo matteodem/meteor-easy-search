@@ -9,7 +9,9 @@ order: 6
 ### Index
 
 ```javascript
-new EasySearch.Index(configuration)
+import { Index } from 'meteor/easysearch:core'
+
+new Index(configuration)
 ```
 
 Constructor for creating an index.

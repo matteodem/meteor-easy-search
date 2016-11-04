@@ -71,7 +71,7 @@ If you want to search through the mails of `Meteor.users` you can do it by using
 ```javascript
 import { Index, MongoDBEngine } from 'meteor/easy:search'
 
-const index = new EasySearch.Index({
+const index = new Index({
   ...
   fields: ['username', 'emails'],
   engine: new MongoDBEngine({
