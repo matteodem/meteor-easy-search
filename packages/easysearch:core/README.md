@@ -7,19 +7,19 @@ The core package allows you to search indexes with configured engines through th
 import { Index, MongoDBEngine } from 'easysearch:core';
 
 // On Client and Server
-const Players = new Meteor.Collection('players'),
-  PlayersIndex = new Index({
-    collection: Players,
-    fields: ['name'],
-    engine: new MongoDBEngine()
-  });
+const Players = new Meteor.Collection('players')
+const PlayersIndex = new Index({
+  collection: Players,
+  fields: ['name'],
+  engine: new MongoDBEngine(),
+})
 
 Tracker.autorun(() => {
-  const cursor = PlayersIndex.search('Peter');
+  const cursor = PlayersIndex.search('Peter')
 
-  console.log(cursor.fetch()); // logs the documents
-  console.log(cursor.count()); // logs the count of all matched documents
-});
+  console.log(cursor.fetch()) // logs the documents
+  console.log(cursor.count()) // logs the count of all matched documents
+})
 ```
 
 ## How to install

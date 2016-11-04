@@ -5,18 +5,18 @@ This package adds an `EasySearch.ElasticSearch` engine to EasySearch. EasySearch
 __easysearch__, with types based on the collection name.
 
 ```javascript
-import { Index } from 'meteor/easy:search';
-import { ElasticSearchEngine } from 'meteor/easysearch:elasticsearch';
+import { Index } from 'meteor/easy:search'
+import { ElasticSearchEngine } from 'meteor/easysearch:elasticsearch'
 
 // On Client and Server
-const Players = new Meteor.Collection('players'),
-  PlayersIndex = new Index({
-    collection: Players,
-    fields: ['name'],
-    engine: new ElasticSearchEngine({
-      body: () => { ... } // modify the body that's sent when searching
-    })
-  });
+const Players = new Meteor.Collection('players')
+const PlayersIndex = new Index({
+  collection: Players,
+  fields: ['name'],
+  engine: new ElasticSearchEngine({
+    body: () => { ... } // modify the body that's sent when searching
+  }),
+})
 ```
 
 ## Configuration
