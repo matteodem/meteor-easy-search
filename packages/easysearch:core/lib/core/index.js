@@ -1,10 +1,12 @@
+import Engine from './engine'
+
 /**
  * An Index represents the main entry point for searching with EasySearch. It relies on
  * the given engine to have the search functionality and defines the data that should be searchable.
  *
  * @type {Index}
  */
-Index = class Index {
+class Index {
   /**
    * Constructor
    *
@@ -82,4 +84,6 @@ Index = class Index {
   _getSearchOptions(options) {
     return _.defaults(( Meteor.userId ? { userId: Meteor.userId() } : {} ), options, this.defaultSearchOptions);
   }
-};
+}
+
+export default Index;

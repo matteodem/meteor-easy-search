@@ -1,9 +1,12 @@
+import ReactiveEngine from '../core/reactive-engine';
+import MongoDBEngine from './mongo-db';
+
 /**
  * The MongoTextIndexEngine lets you search the index with Mongo text indexes.
  *
  * @type {MongoTextIndexEngine}
  */
-MongoTextIndexEngine = class MongoTextIndexEngine extends ReactiveEngine {
+class MongoTextIndexEngine extends ReactiveEngine {
   /**
    * Return default configuration.
    *
@@ -66,8 +69,10 @@ MongoTextIndexEngine = class MongoTextIndexEngine extends ReactiveEngine {
   checkSearchParam(search) {
     check(search, String);
   }
-};
+}
 
 // Explicitely inherit getSearchCursor method functionality
 MongoTextIndexEngine.prototype.getSearchCursor = MongoDBEngine.prototype.getSearchCursor;
 MongoTextIndexEngine.prototype.getFindOptions = MongoDBEngine.prototype.getFindOptions;
+
+export default MongoTextIndexEngine;

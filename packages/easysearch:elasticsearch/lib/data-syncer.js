@@ -3,7 +3,7 @@
  *
  * @type {ElasticSearchDataSyncer}
  */
-ElasticSearchDataSyncer = class ElasticSearchDataSyncer {
+class ElasticSearchDataSyncer {
   /**
    * Constructor.
    *
@@ -50,4 +50,6 @@ ElasticSearchDataSyncer = class ElasticSearchDataSyncer {
       body : doc
     });
   }
-};
+}
+
+export default ElasticSearchDataSyncer

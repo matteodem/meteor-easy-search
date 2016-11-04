@@ -1,10 +1,13 @@
+import Cursor from '../core/cursor';
+import ReactiveEngine from '../core/reactive-engine';
+
 /**
  * The MongoDBEngine lets you search the index on the server side with MongoDB. Subscriptions and publications
  * are handled within the Engine.
  *
  * @type {MongoDBEngine}
  */
-MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
+class MongoDBEngine extends ReactiveEngine {
   /**
    * Return default configuration.
    *
@@ -76,7 +79,11 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
    * @param {Object} options          Search and index options
    */
   getSearchCursor(searchDefinition, options) {
-    let selector = this.callConfigMethod('selector', searchDefinition, options, this.config.aggregation),
+    const selector = this.callConfigMethod(
+        'selector',
+        searchDefinition,
+        options,
+      this.config.aggregation),
       findOptions = this.getFindOptions(searchDefinition, options),
       collection = options.index.collection;
 
@@ -89,4 +96,6 @@ MongoDBEngine = class MongoDBEngine extends ReactiveEngine {
       collection.find(selector).count()
     );
   }
-};
+}
+
+export default MongoDBEngine;
