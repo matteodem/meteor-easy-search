@@ -7,6 +7,20 @@ order: 4
 This is a cookbook containing recipes on how to use EasySearch for different scenarios in your app.
 This article assumes you have read the [Getting started](../../getting-started/) page beforehand.
 
+## Advanced search (multiple keywords)
+
+While the mongo engines provided by default are good enough for simple usecases, they have flaws when it comes to advanced searching techniques.
+You might wish that a search for `cafe` to return documents with the text `café` in them (special character).
+Or that your search string is split up by whitespace and those terms being searched across all fields.
+
+You should consider using a search engine like [ElasticSearch](https://www.elastic.co/de/products/elasticsearch) for your
+[search](https://github.com/matteodem/meteor-easy-search/tree/master/packages/easysearch:elasticsearch) if you have these usecases. ElasticSearch
+allows you to configure precisely how your fields are being searched. One way you can do that is by analyzing your data, so that searching itself is as fast as possible.
+
+Have a look at [tokenizers](https://www.elastic.co/guide/en/elasticsearch/reference/5.0/analysis-tokenizers.html),
+[analyzers](https://www.elastic.co/guide/en/elasticsearch/reference/5.0/analysis-analyzers.html) and the [Getting started guide](https://www.elastic.co/guide/en/elasticsearch/reference/5.0/getting-started.html) page
+if you're interested to learn more.
+
 ## Filtering user data
 
 Since EasySearch runs your code on both on the server and the client (if the engine searches on the server), you cannot always use
@@ -40,7 +54,7 @@ const index = new Index({
 `permission` is configured to only let logged in user search and the `selector` method filters searchable docs where `owner` equals the
 logged in userId.
 
-## Modifying search results
+## Modifying collection data
 
 EasySearch returns documents when using `search` that have the same fields as the original ones, but the `_id` is different.
 If you want to perform changes on search result documents by the id you can use the `__originalId` which contains the original `_id`
