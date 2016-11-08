@@ -4,7 +4,7 @@ All the EasySearch components use the api that is [defined here](https://github.
 things such as `search`, `loadMore` or `paginate` and render them by using `EasySearch.Each` (and other components).
 
 ```js 
-import { peopleIndex } from './search/people-index`
+import { peopleIndex } from './search/people-index'
 // instanceof EasySearch Index
 
 const methods = peopleIndex.getComponentMethods(/* optional name */)
