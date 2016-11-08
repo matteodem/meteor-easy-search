@@ -3,7 +3,7 @@
 All the EasySearch components use the api that is [defined here](https://github.com/matteodem/meteor-easy-search/blob/master/packages/easysearch:components/lib/component-methods.js#L1). You can do
 things such as `search`, `loadMore` or `paginate` and render them by using `EasySearch.Each` (and other components).
 
-```
+```js 
 import { peopleIndex } from './search/people-index`
 // instanceof EasySearch Index
 
