@@ -222,7 +222,7 @@ is only showed when *all of the indexes* have no results.
 ## Using component methods
 
 Components use component methods that contain the core logic, such as searching with an input and so on. The index method
-`getComponentMethods` exposes those and makes it possible to add custom logic to your app.
+`getComponentMethods` exposes them as a public Javascript API and makes it possible to add custom logic to your app.
 
 ```javascript
 Template.filterBox.events({
@@ -236,8 +236,7 @@ Template.filterBox.events({
 
 This code adds a custom property that is called `countryFilter` and the value of a country code. Everytime somebody executes a search
 (by either searching through an `EasySearch.Input` or calling the `search` method itself with the component methods) this countryFilter prop
-can be used to filter the searchable documents. You can log the object that `getComponentMethods` returns to see the
-complete list of available methods.
+can be used to filter the searchable documents. See the [docs](https://github.com/matteodem/meteor-easy-search/blob/master/packages/easysearch:components/component_methods.md) for more information.
 
 ## Extensibility
 
