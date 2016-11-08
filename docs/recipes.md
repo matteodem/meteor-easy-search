@@ -7,7 +7,7 @@ order: 4
 This is a cookbook containing recipes on how to use EasySearch for different scenarios in your app.
 This article assumes you have read the [Getting started](../../getting-started/) page beforehand.
 
-## Advanced search (multiple keywords)
+## Advanced search 
 
 While the mongo engines provided by default are good enough for simple usecases, they have flaws when it comes to advanced searching techniques.
 You might wish that a search for `cafe` returns documents with the text `café` in them (special character).
