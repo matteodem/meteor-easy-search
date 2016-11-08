@@ -10,8 +10,8 @@ This article assumes you have read the [Getting started](../../getting-started/)
 ## Advanced search (multiple keywords)
 
 While the mongo engines provided by default are good enough for simple usecases, they have flaws when it comes to advanced searching techniques.
-You might wish that a search for `cafe` to return documents with the text `café` in them (special character).
-Or that your search string is split up by whitespace and those terms being searched across all fields.
+You might wish that a search for `cafe` returns documents with the text `café` in them (special character).
+Or that your search string is split up by whitespace and those terms used to search across multiple fields.
 
 You should consider using a search engine like [ElasticSearch](https://www.elastic.co/de/products/elasticsearch) for your
 [search](https://github.com/matteodem/meteor-easy-search/tree/master/packages/easysearch:elasticsearch) if you have these usecases. ElasticSearch
