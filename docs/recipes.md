@@ -354,18 +354,9 @@ const myCollection = new Mongo.Collection('myCollection')
 
 const getFullName = doc => doc.firstName + ' ' + doc.lastName
 
-myCollection.before.insert(function (userId, doc) {
-    if (doc.firstName && doc.lastName) {
-      doc.fullName = getFullName(doc)
-    }
-})
+myCollection.before.insert(function () { /* apply logic to doc */ })
 
-myCollection.before.update(function (userId, doc, fieldNames, modifier) {
-  if (doc.firstName && doc.lastName) {
-    modifier.$set = modifier.$set || {}
-    modifier.$set.fullName = getFullName(doc)
-  }
-})
+myCollection.before.update(function () { /* apply logic to doc */ })
 
 const myCollectionIndex = new Index({
   collection: myCollection,
