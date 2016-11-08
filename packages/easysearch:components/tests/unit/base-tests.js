@@ -2,7 +2,7 @@ Tinytest.add('EasySearch Components - Unit - Base', function (test) {
   var component = TestHelpers.createComponent(EasySearch.BaseComponent, {
     name: 'customName',
     index: new EasySearch.Index({
-      collection: new Meteor.Collection('baseIndexCollection'),
+      collection: new Mongo.Collection('baseIndexCollection'),
       engine: new EasySearch.Minimongo(),
       fields: ['test']
     }),

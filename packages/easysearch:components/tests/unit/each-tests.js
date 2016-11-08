@@ -1,7 +1,7 @@
 Tinytest.add('EasySearch Components - Unit - Each', function (test) {
   var component = TestHelpers.createComponent(EasySearch.EachComponent, {
     index: new EasySearch.Index({
-      collection: new Meteor.Collection(null),
+      collection: new Mongo.Collection(null),
       engine: new EasySearch.Minimongo(),
       fields: ['test']
     })
@@ -29,7 +29,7 @@ Tinytest.add('EasySearch Components - Unit - Each', function (test) {
   test.throws(function () {
     TestHelpers.createComponent(EasySearch.EachComponent, {
       indexes: [new EasySearch.Index({
-        collection: new Meteor.Collection(null),
+        collection: new Mongo.Collection(null),
         engine: new EasySearch.Minimongo(),
         fields: ['test']
       })]

@@ -9,7 +9,7 @@ import { Index } from 'meteor/easy:search'
 import { ElasticSearchEngine } from 'meteor/easysearch:elasticsearch'
 
 // On Client and Server
-const Players = new Meteor.Collection('players')
+const Players = new Mongo.Collection('players')
 const PlayersIndex = new Index({
   collection: Players,
   fields: ['name'],

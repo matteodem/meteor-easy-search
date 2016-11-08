@@ -23,7 +23,7 @@ TestHelpers = {
   },
   createIndex: function () {
     return new EasySearch.Index({
-      collection: new Meteor.Collection(null),
+      collection: new Mongo.Collection(null),
       fields: ['testField'],
       engine: new (TestHelpers.createEngine({ search: function () {} }))()
     });

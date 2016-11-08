@@ -2,7 +2,7 @@ Tinytest.addAsync('EasySearch Components - Unit - Input', function (test, done) 
   var component = TestHelpers.createComponent(EasySearch.InputComponent, {
     attributes: { type: 'number' },
     indexes: [new EasySearch.Index({
-      collection: new Meteor.Collection(null),
+      collection: new Mongo.Collection(null),
       engine: new EasySearch.Minimongo(),
       fields: ['test']
     })]

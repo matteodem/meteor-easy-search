@@ -1,4 +1,4 @@
-var collection = new Meteor.Collection(null);
+var collection = new Mongo.Collection(null);
 
 if (Meteor.isServer) {
   collection.insert({ _id: 'testId', name: 'testName' });

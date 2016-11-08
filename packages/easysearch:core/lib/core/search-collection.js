@@ -1,3 +1,4 @@
+import { Mongo } from 'meteor/mongo'
 import Cursor from './cursor'
 import ReactiveEngine from './reactive-engine'
 
@@ -29,7 +30,7 @@ class SearchCollection {
     this._engine = engine;
 
     if (Meteor.isClient) {
-      this._collection = new Meteor.Collection(this._name);
+      this._collection = new Mongo.Collection(this._name);
     } else if (Meteor.isServer) {
       this._setUpPublication();
     }

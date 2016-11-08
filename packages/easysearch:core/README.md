@@ -7,7 +7,7 @@ The core package allows you to search indexes with configured engines through th
 import { Index, MongoDBEngine } from 'meteor/easysearch:core'
 
 // On Client and Server
-const Players = new Meteor.Collection('players')
+const Players = new Mongo.Collection('players')
 const PlayersIndex = new Index({
   collection: Players,
   fields: ['name'],

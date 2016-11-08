@@ -1,6 +1,6 @@
 Tinytest.add('EasySearch Components - Unit - Component Methods - addProps / removeProps', function (test) {
   let index = new EasySearch.Index({
-    collection: new Meteor.Collection('setPropsCollection'),
+    collection: new Mongo.Collection('setPropsCollection'),
     engine: new EasySearch.Minimongo(),
     fields: ['test']
   });

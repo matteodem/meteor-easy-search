@@ -1,7 +1,7 @@
 Tinytest.add('EasySearch Components - Unit - IfInputEmpty', function (test) {
   var component = TestHelpers.createComponent(EasySearch.IfInputEmptyComponent, {
     index: new EasySearch.Index({
-      collection: new Meteor.Collection(null),
+      collection: new Mongo.Collection(null),
       engine: new EasySearch.Minimongo(),
       fields: ['test']
     })
@@ -25,7 +25,7 @@ Tinytest.add('EasySearch Components - Unit - IfInputEmpty', function (test) {
 Tinytest.add('EasySearch Components - Unit - IfNoResults', function (test) {
   var component = TestHelpers.createComponent(EasySearch.IfNoResultsComponent, {
     index: new EasySearch.Index({
-      collection: new Meteor.Collection(null),
+      collection: new Mongo.Collection(null),
       engine: new EasySearch.Minimongo(),
       fields: ['test']
     })
@@ -49,7 +49,7 @@ Tinytest.add('EasySearch Components - Unit - IfNoResults', function (test) {
 Tinytest.add('EasySearch Components - Unit - IfSearching', function (test) {
   var component = TestHelpers.createComponent(EasySearch.IfSearchingComponent, {
     index: new EasySearch.Index({
-      collection: new Meteor.Collection(null),
+      collection: new Mongo.Collection(null),
       engine: new EasySearch.Minimongo(),
       fields: ['test']
     })

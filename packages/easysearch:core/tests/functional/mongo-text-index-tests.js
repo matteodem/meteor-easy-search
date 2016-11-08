@@ -1,4 +1,4 @@
-var collection = new Meteor.Collection('easysearch_testcollection');
+var collection = new Mongo.Collection('easysearch_testcollection');
 
 if (Meteor.isServer) {
   collection.remove({ });

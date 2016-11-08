@@ -1,4 +1,4 @@
-var collection = new Meteor.Collection(null),
+var collection = new Mongo.Collection(null),
   index = new EasySearch.Index({
   collection: collection,
   engine: new EasySearch.Minimongo(),

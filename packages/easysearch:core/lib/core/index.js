@@ -1,3 +1,4 @@
+import { Mongo } from 'meteor/mongo'
 import Engine from './engine'
 
 /**
@@ -16,7 +17,7 @@ class Index {
    */
   constructor(config) {
     check(config, Object);
-    check(config.collection, Meteor.Collection);
+    check(config.collection, Mongo.Collection);
     check(config.fields, [String]);
 
     if (!(config.engine instanceof Engine)) {
