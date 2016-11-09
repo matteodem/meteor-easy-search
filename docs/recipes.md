@@ -7,7 +7,7 @@ order: 4
 This is a cookbook containing recipes on how to use EasySearch for different scenarios in your app.
 This article assumes you have read the [Getting started](../../getting-started/) page beforehand.
 
-## Advanced search 
+## Advanced search
 
 While the mongo engines provided by default are good enough for simple usecases, they have flaws when it comes to advanced searching techniques.
 You might wish that a search for `cafe` returns documents with the text `café` in them (special character).
@@ -362,7 +362,31 @@ const myCollectionIndex = new Index({
   collection: myCollection,
   fields: ['fullName'],
   engine: new MongoDBEngine(),
-});
+})
+```
+
+## Usage with Astronomy
+
+You can use astronomy quite easily with Easy Search.
+
+
+```js
+import { Index, MongoDBEngine } from 'easy:search'
+
+const MyAstronomyClass = Class.create({ /* ... */ }) // astronomy code
+
+const myCollectionIndex = new Index({
+  collection: myCollection,
+  fields: ['fullName'],
+  engine: new MongoDBEngine({
+    transform(doc) {
+      return new MyAstronomyClass(doc, {
+        clone: false
+      });
+    }
+  }),
+})
+
 ```
 
 If you're dealing with more complex data it might be better to create a read model such as a **separate search collection** or have an **ElasticSearch index** that's optimized for search.
