@@ -83,7 +83,11 @@ class Index {
    * @returns {Object}
    */
   _getSearchOptions(options) {
-    return _.defaults(( Meteor.userId ? { userId: Meteor.userId() } : {} ), options, this.defaultSearchOptions);
+    return _.defaults(
+      (Meteor.userId ? { userId: Meteor.userId() } : {}),
+      options,
+      this.defaultSearchOptions
+    );
   }
 }
 

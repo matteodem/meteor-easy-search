@@ -12,7 +12,7 @@ Package.onUse(function(api) {
   api.use([
     'ecmascript',
     'easysearch:core@2.1.2',
-    'easysearch:components@2.1.0',
+    'easysearch:components@2.1.2',
   ]);
 
   api.export('EasySearch');

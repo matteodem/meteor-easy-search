@@ -113,13 +113,14 @@ EasySearch._getComponentMethods = function (dict, index) {
         limit = dict.get('limit');
 
       options.skip = limit * (page - 1);
+      dict.set('currentPage', page);
       dict.set('searchOptions', options);
       dict.set('stopPublication', true);
     },
     /**
      * Add custom properties for search.
      */
-    addProps: (...args) => {
+    addProps(...args) {
       let options = dict.get('searchOptions') || {};
 
       options.props = options.props || {};
@@ -131,11 +132,12 @@ EasySearch._getComponentMethods = function (dict, index) {
       }
 
       dict.set('searchOptions', options);
+      this.paginate(1);
     },
     /**
      * Remove custom properties for search.
      */
-    removeProps: (...args) => {
+    removeProps(...args) {
       let options = dict.get('searchOptions') || {};
 
       if (!_.isEmpty(args)) {
@@ -145,6 +147,7 @@ EasySearch._getComponentMethods = function (dict, index) {
       }
 
       dict.set('searchOptions', options);
+      this.paginate(1);
     }
   };
 };
