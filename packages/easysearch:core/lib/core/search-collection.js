@@ -183,6 +183,17 @@ class SearchCollection {
 
       this.added(collectionName, 'searchCount' + definitionString, { count: count });
 
+      const intervalID = Meteor.setInterval(() => this.changed(
+        collectionName,
+        'searchCount' + definitionString,
+        { count: cursor.mongoCursor.count() }
+      ), 500);
+
+      this.onStop(function () {
+        Meteor.clearInterval(intervalID);
+        resultsHandle.stop();
+      });
+
       let resultsHandle = cursor.mongoCursor.observe({
         addedAt: (doc, atIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);

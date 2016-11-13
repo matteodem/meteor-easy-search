@@ -28,12 +28,12 @@ class MongoDBEngine extends ReactiveEngine {
     return {
       aggregation: '$or',
       selector(searchObject, options, aggregation) {
-        let selector = {};
+        const selector = {};
 
         selector[aggregation] = [];
 
         _.each(searchObject, (searchString, field) => {
-          let fieldSelector = engineScope.callConfigMethod(
+          const fieldSelector = engineScope.callConfigMethod(
             'selectorPerField', field, searchString, options
           );
 
@@ -45,11 +45,12 @@ class MongoDBEngine extends ReactiveEngine {
         return selector;
       },
       selectorPerField(field, searchString) {
-        let selector = {};
+        const selector = {};
 
+        searchString = searchString.replace(/(\W{1})/g, '\\$1');
         selector[field] = { '$regex' : `.*${searchString}.*`, '$options' : 'i'};
 
-        return selector
+        return selector;
       },
       sort(searchObject, options) {
         return options.index.fields;
