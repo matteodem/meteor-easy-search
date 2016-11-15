@@ -390,3 +390,21 @@ const myCollectionIndex = new Index({
 ```
 
 If you're dealing with more complex data it might be better to create a read model such as a **separate search collection** or have an **ElasticSearch index** that's optimized for search.
+
+## Usage with collection-helpers
+
+You need to call the hidden transform method if you want to use easy search with collection helpers.
+
+```js
+import { Index, MongoDBEngine } from 'easy:search'
+
+const myCollectionIndex = new Index({
+  collection: myCollection,
+  fields: ['fullName'],
+  engine: new MongoDBEngine({
+    transform: (doc) => myCollection._transform(doc)
+  }),
+})
+```
+
+The `_transform` function is [applied](https://github.com/dburles/meteor-collection-helpers/blob/master/collection-helpers.js#L10) by collection helpers.
