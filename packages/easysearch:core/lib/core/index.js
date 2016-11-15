@@ -60,12 +60,13 @@ class Index {
     check(options, {
       limit: Match.Optional(Number),
       skip: Match.Optional(Number),
-      props: Match.Optional(Object)
+      props: Match.Optional(Object),
+      userId: Match.Optional(Match.OneOf(String, null)),
     });
 
     options = {
       search: this._getSearchOptions(options),
-      index: this.config
+      index: this.config,
     };
 
     if (!this.config.permission(options.search)) {
@@ -83,11 +84,15 @@ class Index {
    * @returns {Object}
    */
   _getSearchOptions(options) {
-    return _.defaults(
-      (Meteor.userId ? { userId: Meteor.userId() } : {}),
-      options,
-      this.defaultSearchOptions
-    );
+    if (!Meteor.isServer) {
+      delete options.userId;
+    }
+
+    if (typeof options.userId === "undefined" && Meteor.userId) {
+      options.userId = Meteor.userId();
+    }
+
+    return _.defaults(options, this.defaultSearchOptions);
   }
 }
 
