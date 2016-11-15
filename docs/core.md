@@ -127,9 +127,10 @@ possible to write custom publications.
 ```javascript
 Meteor.publish('carSearch', (searchString) {
   check(searchString, String)
+  const { userId } = this
 
   // index instanceof Index
-  return index.search(searchString).mongoCursor
+  return index.search(searchString, { userId }).mongoCursor
 })
 ```
 
