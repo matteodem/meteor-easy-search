@@ -191,7 +191,7 @@ class SearchCollection {
 
       this.onStop(function () {
         Meteor.clearInterval(intervalID);
-        resultsHandle.stop();
+        resultsHandle && resultsHandle.stop();
       });
 
       let resultsHandle = cursor.mongoCursor.observe({
