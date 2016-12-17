@@ -24,6 +24,20 @@ EasySearch.EachComponent = class EachComponent extends SingleIndexComponent {
 
     return this.cursor.mongoCursor;
   }
+
+  /**
+   * Return the datascope for each document.
+   *
+   * @param {Object} scope
+   * @param {Number} index
+   *
+   * @returns {Object}
+   */
+  dataScope(scope, index) {
+    scope['@index'] = index
+
+    return scope
+  }
 };
 
 EasySearch.EachComponent.register('EasySearch.Each');
