@@ -1,24 +1,29 @@
 Package.describe({
   name: 'easysearch:autosuggest',
   summary: "Selectize Autosuggest Component for EasySearch",
-  version: "2.1.0",
+  version: "2.1.6",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.2.0.1');
+  api.versionsFrom('1.4.2');
 
   // Dependencies
   api.use(['check', 'ecmascript', 'templating', 'blaze']);
-  api.use(['easysearch:core@2.1.0', 'jeremy:selectize@0.12.1_4']);
+  api.use([
+    'easysearch:core@2.1.4',
+    'easysearch:components@2.1.5',
+    'jeremy:selectize@0.12.1_4',
+  ]);
 
   api.use(['erasaur:meteor-lodash@4.0.0']);
 
   api.addFiles([
     'lib/autosuggest.html',
-    'lib/autosuggest.js'
   ], 'client');
+
+  api.mainModule('lib/autosuggest.js', 'client');
 });
 
 Package.onTest(function(api) {
