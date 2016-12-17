@@ -10,7 +10,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.4.2');
 
   // Dependencies
-  api.use(['check', 'ecmascript', 'templating', 'blaze']);
+  api.use(['check', 'ecmascript', 'templating@1.2.15', 'blaze@2.2.0']);
   api.use([
     'easysearch:core@2.1.4',
     'easysearch:components@2.1.5',
