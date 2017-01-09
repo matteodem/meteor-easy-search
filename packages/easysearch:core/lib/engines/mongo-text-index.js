@@ -42,7 +42,7 @@ class MongoTextIndexEngine extends ReactiveEngine {
       });
 
       if (indexConfig.weights) {
-        textIndexesConfig.weights = options.weights();
+        textIndexesConfig.weights = indexConfig.weights;
       }
 
       indexConfig.collection._ensureIndex(textIndexesConfig);
