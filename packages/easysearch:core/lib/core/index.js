@@ -42,7 +42,8 @@ class Index {
   static get defaultConfiguration() {
     return {
       permission: () => true,
-      defaultSearchOptions: {}
+      defaultSearchOptions: {},
+      countUpdateIntervalMs: 2000,
     };
   }
 

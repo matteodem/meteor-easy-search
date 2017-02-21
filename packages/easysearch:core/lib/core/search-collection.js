@@ -181,16 +181,23 @@ class SearchCollection {
 
       const count = cursor.count();
 
-      this.added(collectionName, 'searchCount' + definitionString, { count: count });
+      this.added(collectionName, 'searchCount' + definitionString, { count });
 
-      const intervalID = Meteor.setInterval(() => this.changed(
-        collectionName,
-        'searchCount' + definitionString,
-        { count: cursor.mongoCursor.count() }
-      ), 500);
+      let intervalID;
+
+      if (collectionScope._indexConfiguration.countUpdateIntervalMs) {
+        intervalID = Meteor.setInterval(
+          () => this.changed(
+            collectionName,
+            'searchCount' + definitionString,
+            { count: cursor.mongoCursor.count() }
+          ),
+          collectionScope._indexConfiguration.countUpdateIntervalMs
+        );
+      }
 
       this.onStop(function () {
-        Meteor.clearInterval(intervalID);
+        intervalID && Meteor.clearInterval(intervalID);
         resultsHandle && resultsHandle.stop();
       });
 
