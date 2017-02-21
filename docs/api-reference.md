@@ -23,6 +23,7 @@ Constructor for creating an index.
 * __engine__: Required, engine to use for search
 * __permission(options)__: Manage permission by returning a boolean
 * __defaultSearchOptions__: The default search options as an object
+* __countUpdateIntervalMs__: Update interval of search count (if false => not reactive)
 
 ```javascript
 index.search(searchDefinition, [options])
