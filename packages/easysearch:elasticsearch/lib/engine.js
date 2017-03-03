@@ -155,7 +155,7 @@ if (Meteor.isServer) {
     body.sort = this.callConfigMethod('sort', searchDefinition, options);
     body.fields = ['_id'];
 
-    body = this.callConfigMethod('body', body);
+    body = this.callConfigMethod('body', body, options);
 
     options.index.elasticSearchClient.search({
       index: 'easysearch',
