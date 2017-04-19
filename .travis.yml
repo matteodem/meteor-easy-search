@@ -7,4 +7,3 @@ before_install:
   - "npm install -g spacejam"
 
 script: "sh ./scripts/test-packages.sh"
-
