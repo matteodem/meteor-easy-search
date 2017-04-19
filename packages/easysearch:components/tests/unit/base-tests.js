@@ -1,3 +1,5 @@
+
+
 Tinytest.add('EasySearch Components - Unit - Base', function (test) {
   var component = TestHelpers.createComponent(EasySearch.BaseComponent, {
     name: 'customName',

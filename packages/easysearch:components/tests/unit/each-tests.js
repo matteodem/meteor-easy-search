@@ -18,6 +18,7 @@ Tinytest.add('EasySearch Components - Unit - Each', function (test) {
   };
 
   component.dict.set('searchDefinition', 'hans');
+  component.dict.set('searchOptions', {});
 
   var cursor = component.doc();
 

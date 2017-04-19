@@ -10,7 +10,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.4.2');
 
   // Dependencies
-  api.use(['check', 'reactive-dict', 'ecmascript', 'random', 'underscore', 'tracker']);
+  api.use(['check', 'reactive-dict', 'ecmascript', 'random', 'underscore', 'tracker', 'mongo']);
   api.use(['peerlibrary:blaze-components@0.16.0', 'easysearch:core@2.1.2']);
   api.use(['erasaur:meteor-lodash@4.0.0'], { weak: true });
 
@@ -37,7 +37,7 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use(['tinytest', 'ecmascript', 'tracker', 'underscore']);
+  api.use(['tinytest', 'ecmascript', 'tracker', 'underscore', 'mongo']);
   api.use('easysearch:components');
 
   // Test Helpers

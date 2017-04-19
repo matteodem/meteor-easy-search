@@ -1,12 +1,8 @@
 language: node_js
 node_js:
-  - "0.12"
+  - "4.8.1"
 before_install:
-  - "curl -L http://git.io/ejPSng | /bin/sh"
-sudo: required
-env:
-  - PACKAGES=./packages/easysearch:core PACKAGE_DIRS=./packages/
-  - PACKAGES=./packages/easysearch:components PACKAGE_DIRS=./packages/
-  - PACKAGES=./packages/easysearch:elasticsearch PACKAGE_DIRS=./packages/
-  - PACKAGES=./packages/easysearch:autosuggest PACKAGE_DIRS=./packages/
+  - "curl https://install.meteor.com | /bin/sh"
+  - "npm install -g spacejam"
+script: "sh ./scripts/test-packages.sh"
 
