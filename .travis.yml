@@ -3,6 +3,8 @@ node_js:
   - "4.8.1"
 before_install:
   - "curl https://install.meteor.com | /bin/sh"
+  - export PATH="$HOME/.meteor:$PATH"
   - "npm install -g spacejam"
+
 script: "sh ./scripts/test-packages.sh"
 
