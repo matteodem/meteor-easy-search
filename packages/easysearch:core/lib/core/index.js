@@ -17,8 +17,8 @@ class Index {
    */
   constructor(config) {
     check(config, Object);
-    check(config.collection, Mongo.Collection);
     check(config.fields, [String]);
+    if(!config.ignoreCollectionCheck) check(config.collection, Mongo.Collection);
 
     if (!(config.engine instanceof Engine)) {
       throw new Meteor.Error('invalid-engine', 'engine needs to be instanceof Engine');

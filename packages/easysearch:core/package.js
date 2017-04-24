@@ -1,7 +1,7 @@
 Package.describe({
   name: 'easysearch:core',
   summary: "Javascript Core for EasySearch",
-  version: "2.1.7",
+  version: "2.1.8",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });
