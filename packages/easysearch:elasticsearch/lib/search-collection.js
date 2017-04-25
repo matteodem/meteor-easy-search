@@ -16,8 +16,9 @@ class ESSearchCollection extends SearchCollection {
    *
    * @constructor
    */
-  constructor() {
-    super(...arguments, false);
+  constructor(indexConfig, engine) {
+    super(indexConfig, engine, false);
+    this.indexName = engine.config.indexName;
   }
 
   /**

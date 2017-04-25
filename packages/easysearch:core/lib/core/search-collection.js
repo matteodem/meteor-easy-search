@@ -27,9 +27,16 @@ class SearchCollection {
     }
 
     this._indexConfiguration = indexConfiguration;
-    this._name = `${indexConfiguration.name}/easySearch`;
     this._engine = engine;
     this.mongoCount = mongoCount;
+
+    this.indexName = engine.config.indexName;
+
+    if (this.indexName) {
+      this._name = `${indexConfiguration.name}/${this.indexName}`;
+    } else {
+      this._name = `${indexConfiguration.name}/easySearch`;
+    }
 
     if (Meteor.isClient) {
       this._collection = new Mongo.Collection(this._name);

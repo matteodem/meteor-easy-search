@@ -16,8 +16,9 @@ if (Meteor.isServer) {
   /**
    * Constructor.
    */
-  constructor() {
-    super(...arguments);
+  constructor(config) {
+    super(config);
+    this.indexName = config.indexName || 'easysearch';
   }
 
   /**
@@ -137,7 +138,7 @@ if (Meteor.isServer) {
     if (Meteor.isServer) {
       indexConfig.elasticSearchClient = new elasticsearch.Client(this.config.client);
       indexConfig.elasticSearchSyncer = new ElasticSearchDataSyncer({
-        indexName: 'easysearch',
+        indexName: this.indexName,
         indexType: indexConfig.name,
         collection: indexConfig.collection,
         client: indexConfig.elasticSearchClient,
@@ -165,7 +166,7 @@ if (Meteor.isServer) {
     body = this.callConfigMethod('body', body, options);
 
     options.index.elasticSearchClient.search({
-      index: 'easysearch',
+      index: this.indexName,
       type: options.index.name,
       body: body,
       size: options.search.limit,
