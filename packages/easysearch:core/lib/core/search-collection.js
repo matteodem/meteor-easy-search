@@ -17,9 +17,10 @@ class SearchCollection {
    *
    * @constructor
    */
-  constructor(indexConfiguration, engine) {
+  constructor(indexConfiguration, engine, mongoCount = true) {
     check(indexConfiguration, Object);
     check(indexConfiguration.name, Match.OneOf(String, null));
+    check(mongoCount, Boolean);
 
     if (!(engine instanceof ReactiveEngine)) {
       throw new Meteor.Error('invalid-engine', 'engine needs to be instanceof ReactiveEngine');
@@ -28,6 +29,7 @@ class SearchCollection {
     this._indexConfiguration = indexConfiguration;
     this._name = `${indexConfiguration.name}/easySearch`;
     this._engine = engine;
+    this.mongoCount = mongoCount;
 
     if (Meteor.isClient) {
       this._collection = new Mongo.Collection(this._name);
@@ -184,20 +186,47 @@ class SearchCollection {
       this.added(collectionName, 'searchCount' + definitionString, { count });
 
       let intervalID;
-
       if (collectionScope._indexConfiguration.countUpdateIntervalMs) {
+        intervalID = Meteor.setInterval(() => {
+            let newCount;
+            if (this.mongoCount) {
+              newCount = cursor.mongoCursor.count();
+            } else {
+              newCount = cursor.count && cursor.count() || 0
+            }
+
+            this.changed(
+              collectionName,
+              'searchCount' + definitionString,
+              { count: newCount }
+            );
+          },
+          collectionScope._indexConfiguration.countUpdateIntervalMs
+        );
+      }
+
+      const aggs = cursor._aggs;
+
+      if (aggs) {
+        this.added(collectionName, 'aggs' + definitionString, { aggs });
+      }
+
+      let intervalAggsID;
+
+      if (aggs && collectionScope._indexConfiguration.aggsUpdateIntervalMs) {
         intervalID = Meteor.setInterval(
           () => this.changed(
             collectionName,
-            'searchCount' + definitionString,
-            { count: cursor.mongoCursor.count() }
+            'aggs' + definitionString,
+            { aggs }
           ),
-          collectionScope._indexConfiguration.countUpdateIntervalMs
+          collectionScope._indexConfiguration.aggsUpdateIntervalMs
         );
       }
 
       this.onStop(function () {
         intervalID && Meteor.clearInterval(intervalID);
+        intervalAggsID && Meteor.clearInterval(intervalAggsID);
         resultsHandle && resultsHandle.stop();
       });
 

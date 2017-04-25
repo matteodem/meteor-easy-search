@@ -1,4 +1,6 @@
 import ElasticSearchDataSyncer from './data-syncer'
+import ESCursor from './cursor'
+import ESSearchCollection from './search-collection'
 
 if (Meteor.isServer) {
   var Future = Npm.require('fibers/future'),
@@ -125,7 +127,12 @@ if (Meteor.isServer) {
    * @param {Object} indexConfig Index configuration
    */
   onIndexCreate(indexConfig) {
-    super.onIndexCreate(indexConfig);
+    if (!indexConfig.allowedFields) {
+      indexConfig.allowedFields = indexConfig.fields;
+    }
+
+    indexConfig.searchCollection = new ESSearchCollection(indexConfig, this);
+    indexConfig.mongoCollection = indexConfig.searchCollection._collection;
 
     if (Meteor.isServer) {
       indexConfig.elasticSearchClient = new elasticsearch.Client(this.config.client);
@@ -170,7 +177,7 @@ if (Meteor.isServer) {
         return;
       }
 
-      let { total, ids } = this.getCursorData(data),
+      let { total, ids, aggs } = this.getCursorData(data),
         cursor;
 
       if (ids.length > 0) {
@@ -180,10 +187,10 @@ if (Meteor.isServer) {
           })
         }, { limit: options.search.limit });
       } else {
-        cursor = EasySearch.Cursor.emptyCursor;
+        cursor = ESCursor.emptyCursor;
       }
 
-      fut['return'](new EasySearch.Cursor(cursor, total));
+      fut['return'](new ESCursor(cursor, total, true, null, aggs));
     }));
 
     return fut.wait();
@@ -198,8 +205,9 @@ if (Meteor.isServer) {
    */
   getCursorData(data) {
     return {
-      ids : _.map(data.hits.hits, (resultSet) => resultSet._id),
-      total: data.hits.total
+      ids: _.map(data.hits.hits, (resultSet) => resultSet._id),
+      total: data.hits.total,
+      aggs: data.aggregations || {}
     };
   }
 }
