@@ -17,8 +17,8 @@ class Index {
    */
   constructor(config) {
     check(config, Object);
-    check(config.collection, Mongo.Collection);
     check(config.fields, [String]);
+    if(!config.ignoreCollectionCheck) check(config.collection, Mongo.Collection);
 
     if (!(config.engine instanceof Engine)) {
       throw new Meteor.Error('invalid-engine', 'engine needs to be instanceof Engine');
@@ -28,7 +28,11 @@ class Index {
       config.name = (config.collection._name || '').toLowerCase();
 
     this.config = _.extend(Index.defaultConfiguration, config);
-    this.defaultSearchOptions = _.defaults({}, this.config.defaultSearchOptions, { limit: 10, skip: 0, props: {} });
+    this.defaultSearchOptions = _.defaults(
+      {},
+      this.config.defaultSearchOptions,
+      { limit: 10, skip: 0, props: {} },
+    );
 
     // Engine specific code on index creation
     config.engine.onIndexCreate(this.config);

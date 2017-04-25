@@ -41,7 +41,11 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
           return;
         }
 
-        this.debouncedSearch($(e.target).val());
+        const value = $(e.target).val();
+
+        if (value.length >= this.options.charLimit) {
+          this.debouncedSearch($(e.target).val());
+        }
       }
     }];
   }
@@ -74,7 +78,8 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
    */
   get defaultOptions() {
     return {
-      timeout: 50
+      timeout: 50,
+      charLimit: 0
     };
   }
 };
