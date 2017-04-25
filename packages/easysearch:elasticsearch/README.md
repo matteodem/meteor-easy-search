@@ -33,12 +33,24 @@ The configuration options that can be passed to `EasSearch.ElasticSearch` as an 
 
 ## Mapping, Analyzers and so on
 
-To make changes to the mapping and other custom ElasticSearch actions you can use the exposed [nodejs client](https://www.npmjs.com/package/elasticsearch) on your index.
+To make changes to the mapping you can use the mapping setting which will set the mapping when creating a new index.
 
 ```javascript
-index.config.elasticSearchClient.putMapping({
-  // define custom mapping
-});
+const PlayersIndex = new Index({
+  collection: Players,
+  name: 'players',
+  fields: ['name'],
+  mapping: {
+    players: {
+      properties: {
+        name: {
+          type: 'string'
+        }
+      }
+    }
+  }
+  ...
+})
 ```
 
 ## How to run ElasticSearch
