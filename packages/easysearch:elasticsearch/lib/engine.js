@@ -61,9 +61,12 @@ if (Meteor.isServer) {
 
         _.each(searchObject, function (searchString, field) {
           query.bool.should.push({
-            "fuzzy_like_this": {
-              "fields": [field],
-              "like_text": searchString
+            match: {
+              [field]: {
+                query: searchString,
+                fuzziness: 'AUTO',
+                operator:  'or'
+              }
             }
           });
         });
