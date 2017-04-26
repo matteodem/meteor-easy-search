@@ -279,7 +279,7 @@ class SearchCollection {
           this.removed(collectionName, collectionScope.generateId(doc));
 
           observedDocs = observedDocs.filter(
-            d => collectionScope.generateId(d) !== collectionScope.generateId(doc),
+            d => collectionScope.generateId(d) !== collectionScope.generateId(doc)
           );
         }
       });
