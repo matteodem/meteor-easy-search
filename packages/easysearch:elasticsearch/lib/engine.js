@@ -214,7 +214,7 @@ if (Meteor.isServer) {
         return;
       }
 
-      let { total, ids } = this.getCursorData(data),
+      let { total, ids, hits } = this.getCursorData(data),
         cursor;
 
       if (ids.length > 0) {
@@ -222,7 +222,15 @@ if (Meteor.isServer) {
           $or: _.map(ids, (_id) => {
             return { _id };
           })
-        }, { limit: options.search.limit });
+        }, {
+          limit: options.search.limit,
+          transform (doc) {
+            let hit = _.find(hits, { _id : doc._id });
+            doc._sort = hit.sort;
+            doc._score = hit._score;
+            return doc;
+          }
+        });
       } else {
         cursor = EasySearch.Cursor.emptyCursor;
       }
@@ -243,7 +251,8 @@ if (Meteor.isServer) {
   getCursorData(data) {
     return {
       ids : _.map(data.hits.hits, (resultSet) => resultSet._id),
-      total: data.hits.total
+      hits : data.hits.hits,
+      total : data.hits.total
     };
   }
 }
