@@ -203,15 +203,18 @@ class SearchCollection {
 
       let observedDocs = [];
 
+      const updateDocWithCustomFields = (doc, sortPosition) => collectionScope
+        .addCustomFields(doc, {
+          originalId: doc._id,
+          sortPosition,
+          searchDefinition: definitionString,
+          searchOptions: optionsString,
+        });
+
       let resultsHandle = cursor.mongoCursor.observe({
         addedAt: (doc, atIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);
-          doc = collectionScope.addCustomFields(doc, {
-            searchDefinition: definitionString,
-            searchOptions: optionsString,
-            sortPosition: atIndex,
-            originalId: doc._id
-          });
+          doc = updateDocWithCustomFields(doc, atIndex);
 
           this.added(collectionName, collectionScope.generateId(doc), doc);
 
@@ -227,7 +230,7 @@ class SearchCollection {
                 this.changed(
                   collectionName,
                   collectionScope.generateId(doc),
-                  doc,
+                  doc
                 );
               }
             }
@@ -250,11 +253,7 @@ class SearchCollection {
         },
         movedTo: (doc, fromIndex, toIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
-          doc = collectionScope.addCustomFields(doc, {
-            searchDefinition: definitionString,
-            searchOptions: optionsString,
-            sortPosition: toIndex
-          });
+          doc = updateDocWithCustomFields(doc, toIndex);
 
           let beforeDoc = collectionScope._indexConfiguration.collection.findOne(before);
 
