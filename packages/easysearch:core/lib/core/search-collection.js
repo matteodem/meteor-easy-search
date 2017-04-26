@@ -215,27 +215,25 @@ class SearchCollection {
 
           this.added(collectionName, collectionScope.generateId(doc), doc);
 
-          // reorder all observed docs if the document isn't appended
-          if (observedDocs.map(d => d.__sortPosition).includes(atIndex)) {
-            observedDocs = observedDocs.map((doc, docIndex) => {
-              if (doc.__sortPosition >= atIndex) {
-                doc = collectionScope.addCustomFields(doc, {
-                  sortPosition: doc.__sortPosition + 1,
-                });
+          // reorder all observed docs to keep valid sorting
+          observedDocs = observedDocs.map((doc, docIndex) => {
+            if (doc.__sortPosition >= atIndex) {
+              doc = collectionScope.addCustomFields(doc, {
+                sortPosition: doc.__sortPosition + 1,
+              });
 
-                // do not throw changed event on last doc as it will be removed from cursor
-                if (docIndex < observedDocs.length) {
-                  this.changed(
-                    collectionName,
-                    collectionScope.generateId(doc),
-                    doc,
-                  );
-                }
+              // do not throw changed event on last doc as it will be removed from cursor
+              if (docIndex < observedDocs.length) {
+                this.changed(
+                  collectionName,
+                  collectionScope.generateId(doc),
+                  doc,
+                );
               }
+            }
 
-              return doc;
-            })
-          }
+            return doc;
+          });
 
           observedDocs = [...observedDocs , doc];
         },
