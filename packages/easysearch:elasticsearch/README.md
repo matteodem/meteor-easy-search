@@ -30,6 +30,8 @@ The configuration options that can be passed to `EasSearch.ElasticSearch` as an 
 * __sort(searchObject, options)__: Function that returns the sort parameter, by default the index `fields`
 * __getElasticSearchDoc(doc, fields)__: Function that returns the document to index, fieldsToIndex by default
 * __body(body)__: Function that returns the ElasticSearch body to send when searching
+* __indexName__: String for the elasticsearch index name
+* __indexType__: String for the elasticsearch index type
 
 ## Mapping, Analyzers and so on
 
