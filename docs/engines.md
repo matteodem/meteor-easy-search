@@ -32,9 +32,13 @@ The MongoDB engine searches the specified collection directly with MongoDB on th
 * __selectorPerField(field, searchString)__: Function that returns a sub selector for each field
 * __aggregation__: String that defines the [logical query operator](http://docs.mongodb.org/manual/reference/operator/query/or/) thats used for the fields. By default it is `$or`
 * __sort(searchObject, options)__: Function that returns a sort specifier
+* __clientSort(searchObject, options)__: Same as sort config but only called on client 
 * __fields(searchObject, options)__: Function that returns the [fields](http://docs.meteor.com/api/collections.html#fieldspecifiers) to return when searching
 * __transform(document)__: Function that returns a transformed document (only executed on the client)
 * __beforePublish(event, doc)__: Function that returns a document before being published
+* __disableOplog__: Boolean to disable oplog, same as [collection option](http://docs.meteor.com/api/collections.html#Mongo-Collection-find)
+* __pollingIntervalMs__: Polling interval in ms, same as [collection option](http://docs.meteor.com/api/collections.html#Mongo-Collection-find) 
+* __pollingThrottleMs__: Throttle interval in ms, same as [collection option](http://docs.meteor.com/api/collections.html#Mongo-Collection-find) 
 
 You might notice that there is a `searchObject` parameter for `selector` and a `searchString` for `selectorPerField`. That's because MongoDB allows you to search only in specified fields. That means if you use `search` with a string it gets converted into an object where the keys are all
 the configured `fields` on your index and the value is the search string used.
