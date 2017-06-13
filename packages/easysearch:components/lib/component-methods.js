@@ -148,6 +148,14 @@ EasySearch._getComponentMethods = function (dict, index) {
 
       dict.set('searchOptions', options);
       this.paginate(1);
-    }
+    },
+    /**
+     * Reset the search.
+     */
+    reset() {
+      this.search('');
+      this.paginate(1);
+      dict.set('searchOptions', {});
+    },
   };
 };
