@@ -140,7 +140,7 @@ if (Meteor.isServer) {
     }
 
     const { indexName } = this.config
-    const type = this.getIndexType()
+    const type = this.getIndexType(indexConfig)
 
     elasticSearchClient.indices.create({
       updateAllTypes: false,
