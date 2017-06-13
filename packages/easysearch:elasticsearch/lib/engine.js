@@ -34,6 +34,7 @@ if (Meteor.isServer) {
    */
   static defaultElasticsearchConfiguration() {
     return {
+      indexName: 'easysearch',
       /**
        * Return the fields to index in ElasticSearch.
        *
@@ -117,33 +118,36 @@ if (Meteor.isServer) {
        * Default ES client configuration.
        */
       client: {
-        host: 'localhost:9200'
-      }
+        host: 'localhost:9200',
+      },
     };
   }
 
   /**
    * Put mapping according to mapping field provided when creating an EasySearch index
    *
-   * @param {Object} indexConfig Index configuration
+   * @param {Object}   indexConfig Index configuration
+   * @param {Function} cb          callback on finished mapping
    */
   putMapping(indexConfig = {}, cb) {
     const {
       mapping: body,
       elasticSearchClient,
-      name: type
     } = indexConfig;
 
     if (!body) {
       return cb();
     }
 
+    const { indexName } = this.config
+    const type = this.getIndexType(indexConfig)
+
     elasticSearchClient.indices.create({
       updateAllTypes: false,
-      index: 'easysearch'
+      index: indexName,
     }, Meteor.bindEnvironment(() => {
       elasticSearchClient.indices.getMapping({
-        index: 'easysearch',
+        index: indexName,
         type
       }, Meteor.bindEnvironment((err, res) => {
         const isEmpty = Object.keys(res).length === 0 && res.constructor === Object;
@@ -153,12 +157,19 @@ if (Meteor.isServer) {
 
         elasticSearchClient.indices.putMapping({
           updateAllTypes: false,
-          index: 'easysearch',
+          index: indexName,
           type,
           body
         }, cb);
       }));
     }));
+  }
+
+  /**
+   * @returns {String}
+   */
+  getIndexType(indexConfig) {
+    return this.config.indexType || indexConfig.name;
   }
 
   /**
@@ -173,8 +184,8 @@ if (Meteor.isServer) {
       indexConfig.elasticSearchClient = new elasticsearch.Client(this.config.client);
       this.putMapping(indexConfig, Meteor.bindEnvironment(() => {
         indexConfig.elasticSearchSyncer = new ElasticSearchDataSyncer({
-          indexName: 'easysearch',
-          indexType: indexConfig.name,
+          indexName: this.config.indexName,
+          indexType: this.getIndexType(indexConfig),
           collection: indexConfig.collection,
           client: indexConfig.elasticSearchClient,
           beforeIndex: (doc) => this.callConfigMethod('getElasticSearchDoc', doc, this.callConfigMethod('fieldsToIndex', indexConfig))
@@ -202,8 +213,8 @@ if (Meteor.isServer) {
     body = this.callConfigMethod('body', body, options);
 
     options.index.elasticSearchClient.search({
-      index: 'easysearch',
-      type: options.index.name,
+      index: this.config.indexName,
+      type: this.getIndexType(options.index),
       body: body,
       size: options.search.limit,
       from: options.search.skip

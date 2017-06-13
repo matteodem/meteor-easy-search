@@ -20,7 +20,7 @@ EasySearch._getComponentMethods = function (dict, index) {
      */
     getCursor: () => {
       const searchDefinition = dict.get('searchDefinition') || '',
-        options = dict.get('searchOptions'),
+        options = dict.get('searchOptions') || {},
         showDocuments = dict.get('showDocuments');
 
       check(options, Match.Optional(Object));
@@ -148,6 +148,14 @@ EasySearch._getComponentMethods = function (dict, index) {
 
       dict.set('searchOptions', options);
       this.paginate(1);
-    }
+    },
+    /**
+     * Reset the search.
+     */
+    reset() {
+      this.search('');
+      this.paginate(1);
+      dict.set('searchOptions', {});
+    },
   };
 };

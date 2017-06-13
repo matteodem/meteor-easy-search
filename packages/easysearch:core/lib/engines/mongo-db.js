@@ -66,9 +66,12 @@ class MongoDBEngine extends ReactiveEngine {
    */
   getFindOptions(searchDefinition, options) {
     return {
-      sort: this.callConfigMethod('sort', searchDefinition, options),
-      limit: options.search.limit,
       skip: options.search.skip,
+      limit: options.search.limit,
+      disableOplog: this.config.disableOplog,
+      pollingIntervalMs: this.config.pollingIntervalMs,
+      pollingThrottleMs: this.config.pollingThrottleMs,
+      sort: this.callConfigMethod('sort', searchDefinition, options),
       fields: this.callConfigMethod('fields', searchDefinition, options)
     };
   }
@@ -84,7 +87,8 @@ class MongoDBEngine extends ReactiveEngine {
         'selector',
         searchDefinition,
         options,
-      this.config.aggregation),
+        this.config.aggregation
+      ),
       findOptions = this.getFindOptions(searchDefinition, options),
       collection = options.index.collection;
 

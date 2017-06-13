@@ -27,7 +27,9 @@ EasySearch.Index = class Index extends EasySearch.Index {
    * @param {String} componentName Optional name of the component
    */
   registerComponent(componentName = EasySearch.Index.COMPONENT_DEFAULT_NAME) {
-    this.components[componentName] = new ReactiveDict(`easySearchComponent_${this.config.name}_${componentName}_${Random.id()}`);
+    this.components[componentName] = new ReactiveDict(
+      `easySearchComponent_${this.config.name}_${componentName}_${Random.id()}`
+    );
   }
 
   /**

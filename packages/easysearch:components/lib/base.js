@@ -26,6 +26,10 @@ BaseComponent = class BaseComponent extends BlazeComponent {
    * Setup component on created.
    */
   onCreated() {
+    this.autorun(() => this.initializeBase());
+  }
+
+  initializeBase() {
     let index = this.getData().index,
       indexes = [index];
 
@@ -37,7 +41,7 @@ BaseComponent = class BaseComponent extends BlazeComponent {
       throw new Meteor.Error('no-index', 'Please provide an index for your component');
     }
 
-    if (indexes.filter((index) => index instanceof EasySearch.Index).length != indexes.length) {
+    if (indexes.filter((index) => index instanceof EasySearch.Index).length !== indexes.length) {
       throw new Meteor.Error(
         'invalid-configuration',
         `Did not receive an index or an array of indexes: "${indexes.toString()}"`
