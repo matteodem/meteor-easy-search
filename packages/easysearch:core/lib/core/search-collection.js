@@ -221,7 +221,7 @@ class SearchCollection {
           this.added(collectionName, collectionScope.generateId(doc), doc);
 
           /*
-           * Reorder all observed docs to keep valid sorting. Here we adjust adjust the
+           * Reorder all observed docs to keep valid sorting. Here we adjust the
            * sortPosition number field to give space for the newly added doc
            */
           if (observedDocs.map(d => d.__sortPosition).includes(atIndex)) {
