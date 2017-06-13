@@ -218,7 +218,10 @@ class SearchCollection {
 
           this.added(collectionName, collectionScope.generateId(doc), doc);
 
-          // reorder all observed docs to keep valid sorting
+          /*
+           * Reorder all observed docs to keep valid sorting. Here we adjust adjust the
+           * sortPosition number field to give space for the newly added doc
+           */
           if (observedDocs.map(d => d.__sortPosition).includes(atIndex)) {
             observedDocs = observedDocs.map((doc, docIndex) => {
               if (doc.__sortPosition >= atIndex) {
@@ -251,7 +254,6 @@ class SearchCollection {
             originalId: doc._id
           });
 
-          console.log('changed event thrown!');
           this.changed(collectionName, collectionScope.generateId(doc), doc);
         },
         movedTo: (doc, fromIndex, toIndex, before) => {
@@ -281,7 +283,17 @@ class SearchCollection {
             });
           this.removed(collectionName, collectionScope.generateId(doc));
 
-          observedDocs = observedDocs.filter(
+          /*
+           * Adjust sort position for all docs after the removed doc and
+           * remove the doc from the observed docs array
+           */
+          observedDocs = observedDocs.map(doc => {
+            if (doc.__sortPosition > atIndex) {
+              doc.__sortPosition -= 1;
+            }
+
+            return doc;
+          }).filter(
             d => collectionScope.generateId(d) !== collectionScope.generateId(doc)
           );
         }
