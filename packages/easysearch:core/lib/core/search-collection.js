@@ -251,6 +251,7 @@ class SearchCollection {
             originalId: doc._id
           });
 
+          console.log('changed event thrown!');
           this.changed(collectionName, collectionScope.generateId(doc), doc);
         },
         movedTo: (doc, fromIndex, toIndex, before) => {

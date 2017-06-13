@@ -20,7 +20,7 @@ EasySearch._getComponentMethods = function (dict, index) {
      */
     getCursor: () => {
       const searchDefinition = dict.get('searchDefinition') || '',
-        options = dict.get('searchOptions'),
+        options = dict.get('searchOptions') || {},
         showDocuments = dict.get('showDocuments');
 
       check(options, Match.Optional(Object));
