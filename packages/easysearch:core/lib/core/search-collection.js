@@ -97,7 +97,7 @@ class SearchCollection {
   }
 
   /**
-   * Get the mongo cursor.
+   * Get the mongo cursor on the client.
    *
    * @param {Object} searchDefinition Search definition
    * @param {Object} options          Search options
@@ -106,6 +106,8 @@ class SearchCollection {
    * @private
    */
   _getMongoCursor(searchDefinition, options) {
+    const clientSort = this.engine.callConfigMethod('clientSort', searchDefinition, options);
+
     return this._collection.find(
       { __searchDefinition: JSON.stringify(searchDefinition), __searchOptions: JSON.stringify(options.props) },
       {
@@ -118,7 +120,7 @@ class SearchCollection {
 
           return doc;
         },
-        sort: ['__sortPosition']
+        sort: (clientSort ? clientSort : ['__sortPosition'])
       }
     );
   }
