@@ -1,7 +1,7 @@
 Package.describe({
   name: 'easysearch:components',
   summary: "Blaze Components for EasySearch",
-  version: "2.2.0",
+  version: "2.2.1",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });

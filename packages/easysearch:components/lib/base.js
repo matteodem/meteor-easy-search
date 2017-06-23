@@ -71,6 +71,15 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   }
 
   /**
+   * @param {String} searchStr
+   *
+   * @returns {Boolean}
+   */
+  shouldShowDocuments(searchStr) {
+    return !this.getData().noDocumentsOnEmpty || 0 < searchStr.length;
+  }
+
+  /**
    * Search the component.
    *
    * @param {String} searchString String to search for
@@ -78,7 +87,7 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   search(searchString) {
     check(searchString, String);
 
-    const showDocuments = !this.getData().noDocumentsOnEmpty || 0 < searchString.length;
+    const showDocuments = this.shouldShowDocuments(searchString);
 
     this.eachIndex(function (index, name) {
       index.getComponentDict(name).set('showDocuments', showDocuments);

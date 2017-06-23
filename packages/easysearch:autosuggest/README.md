@@ -18,6 +18,7 @@ You can pass in following parameters to the `EasySearch.Autosuggest` component.
 * __labelField__: String that specifies the search result field to display, by default the first of index `fields`
 * __changeConfiguration__: Function to change the configuration that is passed to selectize.
 * __renderSuggestion__: String that specifies a custom template to render the autosuggest, by default `EasySearch_Autosuggest_DefaultRenderSuggestion`
+* __noDocumentsOnEmpty__: Same as for EasySearch.Input
 
 ## How to install
 
