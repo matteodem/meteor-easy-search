@@ -1,19 +1,38 @@
-Easy Search [![Build Status](https://travis-ci.org/matteodem/meteor-easy-search.svg?branch=master)](https://travis-ci.org/matteodem/meteor-easy-search)
+Easy Search 
 =====================
 
 Easy Search is a simple and flexible solution for adding search functionality to your Meteor App. Use the Blaze Components + Javascript API to [get started](http://matteodem.github.io/meteor-easy-search/getting-started).
 
+In this fork we have added some options to the mongo-db engine in order to deal with big queries.
+
 ```javascript
-import { Index, MinimongoEngine } from 'meteor/easy:search'
+import { Index, MongoDBEngine } from 'meteor/easy:search'
 
 // On Client and Server
 const Players = new Mongo.Collection('players')
 const PlayersIndex = new Index({
   collection: Players,
   fields: ['name'],
-  engine: new MinimongoEngine(),
+  engine: new MongoDBEngine({
+    /* sort, and selector as default */
+    /* the following paramters are documented in the meteor docs */
+    disableOplog: true,
+    pollingIntervalMs: 10000,
+    pollingThrottleMs: 1000,
+    maxTimeMs: 30000,
+  }),
+  // added: make the index reactive
+  reactive: false,
+  // make the count updated, only applicable if reactive:true
+  countUpdateIntervalMs: 0,
 })
 ```
+
+The parameters of the `engine` are documented
+[here](https://docs.meteor.com/api/collections.html#Mongo-Collection-find).
+
+The parameters on the index `reactive` is used to indicate reactivity of the queries. If false, the observer handler stops after first completion
+
 
 ```javascript
 // On Client

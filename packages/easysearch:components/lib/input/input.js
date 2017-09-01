@@ -11,7 +11,14 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
     super.onCreated(...arguments);
 
     this.search(this.inputAttributes().value);
-
+    //pre-process text
+    this.preprocess = (searchString) => {
+        if (this.options.matchAll && searchString.trim()) {
+            searchString = _.reduce(s.words(searchString),
+                    function(last, w){ return last + ' ' + s.quote(w)}, '');
+        }
+        return searchString.trim();
+    },
     // create a reactive dependency to the cursor
     this.debouncedSearch = _.debounce((searchString) => {
       searchString = searchString.trim();
@@ -44,11 +51,8 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
             var value = $(e.target).val();
 
             if (value.length >= this.options.charLimit) {
-                if (this.options.matchAll && value.trim()) {
-                    value = _.reduce(s.words(value), function(last, w){ return last + ' ' + s.quote(w)}, '');
-                }
-
-              this.debouncedSearch(value);
+                value = this.preprocess(value);
+                this.debouncedSearch(value);
             }
         }
       }

@@ -186,6 +186,7 @@ class SearchCollection {
       this.added(collectionName, 'searchCount' + definitionString, { count });
 
       let intervalID;
+      let resultsHandle;
 
       if (collectionScope._indexConfiguration.countUpdateIntervalMs) {
         intervalID = Meteor.setInterval(
@@ -213,99 +214,106 @@ class SearchCollection {
           searchOptions: optionsString,
         });
 
-      let resultsHandle = cursor.mongoCursor.observe({
-        addedAt: (doc, atIndex, before) => {
-          doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);
-          doc = updateDocWithCustomFields(doc, atIndex);
+      resultsHandle = cursor.mongoCursor.observe({
+          addedAt: (doc, atIndex, before) => {
+              doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);
+              doc = updateDocWithCustomFields(doc, atIndex);
 
-          this.added(collectionName, collectionScope.generateId(doc), doc);
+              this.added(collectionName, collectionScope.generateId(doc), doc);
 
-          /*
-           * Reorder all observed docs to keep valid sorting. Here we adjust the
-           * sortPosition number field to give space for the newly added doc
-           */
-          if (observedDocs.map(d => d.__sortPosition).includes(atIndex)) {
-            observedDocs = observedDocs.map((doc, docIndex) => {
-              if (doc.__sortPosition >= atIndex) {
-                doc = collectionScope.addCustomFields(doc, {
-                  sortPosition: doc.__sortPosition + 1,
-                });
+              /*
+               * Reorder all observed docs to keep valid sorting. Here we adjust the
+               * sortPosition number field to give space for the newly added doc
+               */
+              if (observedDocs.map(d => d.__sortPosition).includes(atIndex)) {
+                  observedDocs = observedDocs.map((doc, docIndex) => {
+                      if (doc.__sortPosition >= atIndex) {
+                          doc = collectionScope.addCustomFields(doc, {
+                              sortPosition: doc.__sortPosition + 1,
+                          });
 
-                // do not throw changed event on last doc as it will be removed from cursor
-                if (docIndex < observedDocs.length) {
-                  this.changed(
-                    collectionName,
-                    collectionScope.generateId(doc),
-                    doc
-                  );
-                }
+                          // do not throw changed event on last doc as it will be removed from cursor
+                          if (docIndex < observedDocs.length) {
+                              this.changed(
+                                      collectionName,
+                                      collectionScope.generateId(doc),
+                                      doc
+                                      );
+                          }
+                      }
+
+                      return doc;
+                  });
               }
 
-              return doc;
-            });
+              observedDocs = [...observedDocs , doc];
+          },
+          changedAt: (doc, oldDoc, atIndex) => {
+              doc = collectionScope.engine.config.beforePublish('changedAt', doc, oldDoc, atIndex);
+              doc = collectionScope.addCustomFields(doc, {
+                  searchDefinition: definitionString,
+                  searchOptions: optionsString,
+                  sortPosition: atIndex,
+                  originalId: doc._id
+              });
+
+              this.changed(collectionName, collectionScope.generateId(doc), doc);
+          },
+          movedTo: (doc, fromIndex, toIndex, before) => {
+              doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
+              doc = updateDocWithCustomFields(doc, toIndex);
+
+              let beforeDoc = collectionScope._indexConfiguration.collection.findOne(before);
+
+              if (beforeDoc) {
+                  beforeDoc = collectionScope.addCustomFields(beforeDoc, {
+                      searchDefinition: definitionString,
+                      searchOptions: optionsString,
+                      sortPosition: fromIndex
+                  });
+                  this.changed(collectionName, collectionScope.generateId(beforeDoc), beforeDoc);
+              }
+
+              this.changed(collectionName, collectionScope.generateId(doc), doc);
+          },
+          removedAt: (doc, atIndex) => {
+              doc = collectionScope.engine.config.beforePublish('removedAt', doc, atIndex);
+              doc = collectionScope.addCustomFields(
+                      doc,
+                      {
+                          searchDefinition: definitionString,
+                          searchOptions: optionsString
+                      });
+              this.removed(collectionName, collectionScope.generateId(doc));
+
+              /*
+               * Adjust sort position for all docs after the removed doc and
+               * remove the doc from the observed docs array
+               */
+              observedDocs = observedDocs.map(doc => {
+                  if (doc.__sortPosition > atIndex) {
+                      doc.__sortPosition -= 1;
+                  }
+
+                  return doc;
+              }).filter(
+                  d => collectionScope.generateId(d) !== collectionScope.generateId(doc)
+                  );
           }
-
-          observedDocs = [...observedDocs , doc];
-        },
-        changedAt: (doc, oldDoc, atIndex) => {
-          doc = collectionScope.engine.config.beforePublish('changedAt', doc, oldDoc, atIndex);
-          doc = collectionScope.addCustomFields(doc, {
-            searchDefinition: definitionString,
-            searchOptions: optionsString,
-            sortPosition: atIndex,
-            originalId: doc._id
-          });
-
-          this.changed(collectionName, collectionScope.generateId(doc), doc);
-        },
-        movedTo: (doc, fromIndex, toIndex, before) => {
-          doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
-          doc = updateDocWithCustomFields(doc, toIndex);
-
-          let beforeDoc = collectionScope._indexConfiguration.collection.findOne(before);
-
-          if (beforeDoc) {
-            beforeDoc = collectionScope.addCustomFields(beforeDoc, {
-              searchDefinition: definitionString,
-              searchOptions: optionsString,
-              sortPosition: fromIndex
-            });
-            this.changed(collectionName, collectionScope.generateId(beforeDoc), beforeDoc);
-          }
-
-          this.changed(collectionName, collectionScope.generateId(doc), doc);
-        },
-        removedAt: (doc, atIndex) => {
-          doc = collectionScope.engine.config.beforePublish('removedAt', doc, atIndex);
-          doc = collectionScope.addCustomFields(
-            doc,
-            {
-              searchDefinition: definitionString,
-              searchOptions: optionsString
-            });
-          this.removed(collectionName, collectionScope.generateId(doc));
-
-          /*
-           * Adjust sort position for all docs after the removed doc and
-           * remove the doc from the observed docs array
-           */
-          observedDocs = observedDocs.map(doc => {
-            if (doc.__sortPosition > atIndex) {
-              doc.__sortPosition -= 1;
-            }
-
-            return doc;
-          }).filter(
-            d => collectionScope.generateId(d) !== collectionScope.generateId(doc)
-          );
-        }
       });
 
       this.onStop(function () {
-        resultsHandle.stop();
+          resultsHandle && resultsHandle.stop();
       });
 
       this.ready();
+
+
+        // set timeout to stop results handle
+      //setTimeout(() => resultsHandle.stop(), 30000);
+      if (!collectionScope._indexConfiguration.reactive) {
+          resultsHandle && resultsHandle.stop();
+      }
     });
   }
 }
