@@ -22,6 +22,12 @@ class MongoTextIndexEngine extends ReactiveEngine {
 
       return {};
     };
+    mongoConfiguration.sort = function () {
+      return {"score": { "$meta": "textScore" }};
+    };
+    mongoConfiguration.fields = function () {
+      return {"score": { "$meta": "textScore" }};
+    };
 
     return _.defaults({}, mongoConfiguration, super.defaultConfiguration());
   }
