@@ -87,7 +87,7 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
    */
   get defaultOptions() {
     return {
-      autoSearch: 0,
+      autoSearch: 1,
       matchAll: 1,
       timeout: 50,
       charLimit: 0
