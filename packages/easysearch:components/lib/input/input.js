@@ -12,7 +12,7 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
 
     this.search(this.inputAttributes().value);
     //pre-process text
-    this.preprocess = (searchString) => {
+    this.preprocess = function(searchString) {
         if (this.options.matchAll && searchString.trim()) {
             searchString = _.reduce(s.words(searchString),
                     function(last, w){ return last + ' ' + s.quote(w)}, '');
