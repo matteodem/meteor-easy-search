@@ -40,11 +40,16 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
         if ('enter' == this.getData().event && e.keyCode != 13) {
           return;
         }
+        if (this.options.reactive || e.keyCode == 13){
+            var value = $(e.target).val();
 
-        const value = $(e.target).val();
+            if (value.length >= this.options.charLimit) {
+                if (this.options.matchAll && value.trim()) {
+                    value = _.reduce(s.words(value), function(last, w){ return last + ' ' + s.quote(w)}, '');
+                }
 
-        if (value.length >= this.options.charLimit) {
-          this.debouncedSearch($(e.target).val());
+              this.debouncedSearch(value);
+            }
         }
       }
     }];
@@ -78,6 +83,8 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
    */
   get defaultOptions() {
     return {
+      reactive: 0,
+      matchAll: 1,
       timeout: 50,
       charLimit: 0
     };
