@@ -40,7 +40,7 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
         if ('enter' == this.getData().event && e.keyCode != 13) {
           return;
         }
-        if (this.options.reactive || e.keyCode == 13){
+        if (this.options.autoSearch || e.keyCode == 13){
             var value = $(e.target).val();
 
             if (value.length >= this.options.charLimit) {
@@ -83,7 +83,7 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
    */
   get defaultOptions() {
     return {
-      reactive: 0,
+      autoSearch: 0,
       matchAll: 1,
       timeout: 50,
       charLimit: 0

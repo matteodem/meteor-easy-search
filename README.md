@@ -24,7 +24,7 @@ Template.searchBox.helpers({
 
 ```html
 <template name="searchBox">
-    {{> EasySearch.Input index=playersIndex }}
+    {{> EasySearch.Input index=playersIndex matchAll=1 enterRequired=0}}
 
     <ul>
         {{#EasySearch.Each index=playersIndex }}
@@ -33,6 +33,15 @@ Template.searchBox.helpers({
     </ul>
 </template>
 ```
+
+This fork has added matchAll and reactive options which are not documented on
+the original documentation.
+
+* `matchAll=1`: the search string will be converted to words with quotes. In Mongo
+this implies that ALL the words are required. For example "this is my search"
+will be converted to ""this" "is" "my" "search"".
+
+* `enterRequired=0`: enable or disable the search while writing
 
 Check out the [searchable leaderboard example](https://github.com/matteodem/easy-search-leaderboard) or have a look at the [current documentation](http://matteodem.github.io/meteor-easy-search/) ([v1 docs](https://github.com/matteodem/meteor-easy-search/tree/gh-pages/_v1docs)) for more information.
 
