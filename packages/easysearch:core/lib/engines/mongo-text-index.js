@@ -42,16 +42,17 @@ class MongoTextIndexEngine extends ReactiveEngine {
 
     if (Meteor.isServer) {
       let textIndexesConfig = {};
+      let textIndexesWeights = {};
 
       _.each(indexConfig.fields, function (field) {
         textIndexesConfig[field] = 'text';
       });
 
       if (indexConfig.weights) {
-        textIndexesConfig.weights = options.weights();
+        textIndexesWeights.weights = indexConfig.weights();
       }
 
-      indexConfig.collection._ensureIndex(textIndexesConfig);
+      indexConfig.collection._ensureIndex(textIndexesConfig, textIndexesWeights);
     }
   }
 

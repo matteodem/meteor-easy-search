@@ -33,6 +33,29 @@ The parameters of the `engine` are documented
 
 The parameters on the index `reactive` is used to indicate reactivity of the queries. If false, the observer handler stops after first completion
 
+Now, when using `MongoTextEngine` we can sort by `textScore`, and specify the
+weights for the fields:
+
+```javascript
+import { Index, MongoDBEngine } from 'meteor/easy:search'
+
+// On Client and Server
+const Players = new Mongo.Collection('players')
+const PlayersIndex = new Index({
+  collection: Players,
+  fields: ['name'],
+  engine: new MongoTextIndex({
+    sort: function () {
+      return {"score": { "$meta": "textScore" }, "pub_date": -1};
+    },
+  }),
+  weights: function () {
+      return {"title": 10, "categories": 10, "keywords": 10, "raw_text": 5};
+  },
+)};
+```
+By default, if using `MongoTextIndex` the sort and projection is set to: `{"score": { "$meta": "textScore" }}`
+
 
 ```javascript
 // On Client
