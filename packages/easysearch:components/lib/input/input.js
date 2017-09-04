@@ -4,6 +4,16 @@
  * @type {InputComponent}
  */
 EasySearch.InputComponent = class InputComponent extends BaseComponent {
+   /**
+    * Pre-process the input text to be and AND operator
+    */
+   preprocess(searchString) {
+       if (this.options.matchAll && searchString.trim()) {
+           searchString = _.reduce(s.words(searchString),
+                   function(last, w){ return last + ' ' + s.quote(w)}, '');
+       }
+       return searchString.trim();
+   }
   /**
    * Setup input onCreated.
    */
@@ -11,14 +21,6 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
     super.onCreated(...arguments);
 
     this.search(this.inputAttributes().value);
-    //pre-process text
-    this.preprocess = function(searchString) {
-        if (this.options.matchAll && searchString.trim()) {
-            searchString = _.reduce(s.words(searchString),
-                    function(last, w){ return last + ' ' + s.quote(w)}, '');
-        }
-        return searchString.trim();
-    },
     // create a reactive dependency to the cursor
     this.debouncedSearch = _.debounce((searchString) => {
       searchString = searchString.trim();
