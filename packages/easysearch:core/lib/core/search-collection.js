@@ -227,8 +227,9 @@ class SearchCollection {
           if (observedDocs.map(d => d.__sortPosition).includes(atIndex)) {
             observedDocs = observedDocs.map((doc, docIndex) => {
               if (doc.__sortPosition >= atIndex) {
+                const newSortPosition = doc.__sortPosition + 1;
                 doc = collectionScope.addCustomFields(doc, {
-                  sortPosition: doc.__sortPosition + 1,
+                  sortPosition: newSortPosition,
                 });
 
                 // do not throw changed event on last doc as it will be removed from cursor
@@ -236,7 +237,7 @@ class SearchCollection {
                   this.changed(
                     collectionName,
                     collectionScope.generateId(doc),
-                    doc
+                    {__sortPosition: newSortPosition}
                   );
                 }
               }
@@ -261,19 +262,35 @@ class SearchCollection {
         movedTo: (doc, fromIndex, toIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
           doc = updateDocWithCustomFields(doc, toIndex);
+          this.changed(collectionName, collectionScope.generateId(doc), doc);
 
-          let beforeDoc = collectionScope._indexConfiguration.collection.findOne(before);
-
-          if (beforeDoc) {
-            beforeDoc = collectionScope.addCustomFields(beforeDoc, {
-              searchDefinition: definitionString,
-              searchOptions: optionsString,
-              sortPosition: fromIndex
-            });
-            this.changed(collectionName, collectionScope.generateId(beforeDoc), beforeDoc);
+          let start = fromIndex, end = toIndex, sortIncrement = -1;
+          if (toIndex < fromIndex) {
+            start = toIndex, end = fromIndex, sortIncrement = 1;
           }
 
-          this.changed(collectionName, collectionScope.generateId(doc), doc);
+          const sortPositions = observedDocs.map(d => d.__sortPosition);
+          if (!(sortPositions.includes(start) || sortPositions.includes(end))) {
+              return;
+          }
+
+          observedDocs = observedDocs.map(observedDoc => {
+            if (observedDoc.__sortPosition >= start && observedDoc.__sortPosition <= end) {
+              const isMovedDoc = doc._id === observedDoc._id;
+              const newSortPosition = isMovedDoc ? toIndex : observedDoc.__sortPosition + sortIncrement;
+              observedDoc = collectionScope.addCustomFields(observedDoc, {
+                sortPosition: newSortPosition,
+              });
+
+              !isMovedDoc && this.changed(
+                collectionName,
+                collectionScope.generateId(observedDoc),
+                {__sortPosition: newSortPosition}
+              );
+            }
+
+            return observedDoc;
+          });
         },
         removedAt: (doc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('removedAt', doc, atIndex);
@@ -311,3 +328,4 @@ class SearchCollection {
 }
 
 export default SearchCollection;
+
