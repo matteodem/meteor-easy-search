@@ -264,10 +264,10 @@ class SearchCollection {
           doc = updateDocWithCustomFields(doc, toIndex);
           this.changed(collectionName, collectionScope.generateId(doc), doc);
 
-          let start = fromIndex, end = toIndex, sortIncrement = -1;
-          if (toIndex < fromIndex) {
-            start = toIndex, end = fromIndex, sortIncrement = 1;
-          }
+          const isReversed = toIndex < fromIndex;
+          const start = isReversed ? toIndex : fromIndex;
+          const end = isReversed ? fromIndex : toIndex;
+          const sortIncrement  = isReversed ? 1 : -1;
 
           const sortPositions = observedDocs.map(d => d.__sortPosition);
           if (!(sortPositions.includes(start) || sortPositions.includes(end))) {
@@ -282,11 +282,13 @@ class SearchCollection {
                 sortPosition: newSortPosition,
               });
 
-              !isMovedDoc && this.changed(
-                collectionName,
-                collectionScope.generateId(observedDoc),
-                {__sortPosition: newSortPosition}
-              );
+              if (!isMovedDoc) {
+                this.changed(
+                  collectionName,
+                  collectionScope.generateId(observedDoc),
+                  {__sortPosition: newSortPosition}
+                );
+              }
             }
 
             return observedDoc;
