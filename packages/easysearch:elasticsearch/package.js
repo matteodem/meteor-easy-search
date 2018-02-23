@@ -20,6 +20,8 @@ Package.onUse(function(api) {
   api.addFiles([
     'lib/data-syncer.js',
     'lib/engine.js',
+    'lib/cursor.js',
+    'lib/search-collection.js'
   ]);
 
   api.export('EasySearch');

@@ -48,6 +48,7 @@ class Index {
       permission: () => true,
       defaultSearchOptions: {},
       countUpdateIntervalMs: 2000,
+      aggsUpdateIntervalMs: 10000
     };
   }
 

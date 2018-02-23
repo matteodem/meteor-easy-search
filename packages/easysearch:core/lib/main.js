@@ -1,6 +1,7 @@
 import Index from './core/index';
 import Engine from './core/engine';
 import ReactiveEngine from './core/reactive-engine';
+import SearchCollection from './core/search-collection';
 import Cursor from './core/cursor';
 import MongoDBEngine from './engines/mongo-db';
 import MinimongoEngine from './engines/minimongo';
@@ -13,5 +14,6 @@ export {
   Cursor,
   MongoDBEngine,
   MinimongoEngine,
-  MongoTextIndexEngine
+  MongoTextIndexEngine,
+  SearchCollection
 };

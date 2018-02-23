@@ -33,7 +33,7 @@ The configuration options that can be passed to `EasSearch.ElasticSearch` as an 
 * __indexName__: String for the elasticsearch index name
 * __indexType__: String for the elasticsearch index type
 
-## Mapping, Analyzers and so on
+## Mapping
 
 To make changes to the mapping you can use the mapping setting which will set the mapping when creating a new index.
 
@@ -53,6 +53,76 @@ const PlayersIndex = new Index({
   }
   ...
 })
+```
+
+## Aggregations
+To define aggregations, inject them inside a `body` helper function like in the example below:
+
+```javascript
+var index = new EasySearch.Index({
+  ...
+  engine: new EasySearch.ElasticSearch({
+    body: function(body, opts) {
+      body.aggs = {
+        tags:{
+          filter: {},
+          aggs: {
+            tags: {
+              terms: { field: 'tags.raw' }
+            }
+          }
+        }
+      };
+      return body;
+    }
+    ...
+  }
+});
+```
+
+The aggregations will be available on the cursor returned by the `search` method:
+
+```javascript
+var cursor = index.search('test');
+
+// get all aggregations
+cursor.getAggregations();
+
+// get aggregation by name
+cursor.getAggregation('tags');
+```
+
+Example filter component populated by ES aggregations:
+
+__filter.html:__
+```html
+<template name="filter">
+  <select class="{{class}}">
+    <option value="">Choose a tag</option>
+    {{ #each tags }}
+      <option value="{{key}}">{{key}}</option>
+    {{ else }}
+      <option value="" disabled>No tags available</option>
+    {{/each}}
+  </select>
+</template>
+```
+
+__filter.js:__
+
+```javascript
+import './filter.html';
+
+import { DocumentIndex } from '../path/to/document_index.js';
+
+Template.filter.helpers({
+
+  tags() {
+    const agg = DocumentIndex.getComponentMethods().getCursor().getAggregation('tags');
+    return agg ? agg.tags.buckets : null;
+  }
+
+});
 ```
 
 ## How to run ElasticSearch
