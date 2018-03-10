@@ -192,7 +192,7 @@ class SearchCollection {
           () => this.changed(
             collectionName,
             'searchCount' + definitionString,
-            { count: cursor.mongoCursor.count && cursor.mongoCursor.count() || 0 }
+            { count: cursor.count && cursor.count() || 0 }
           ),
           collectionScope._indexConfiguration.countUpdateIntervalMs
         );
