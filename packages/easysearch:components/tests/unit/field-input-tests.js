@@ -20,7 +20,7 @@ Tinytest.addAsync('EasySearch Components - Unit - FieldInput', function (test, d
 
   test.equal(EasySearch.InputComponent.defaultAttributes, { type: 'text', value: '' });
   test.equal(component.inputAttributes(), { type: 'text', value: '' });
-  test.equal(component.options, { timeout: 50, field: 'name', charLimit: 0 });
+  test.equal(component.options, { timeout: 50, field: 'name', charLimit: 0, matchAll: 1, autoSearch: 1 });
   test.equal(_.first(component.dicts).get('searchDefinition'), { name: '' });
   test.isFalse(_.first(component.dicts).get('searching'));
 

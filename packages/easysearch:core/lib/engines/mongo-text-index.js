@@ -22,6 +22,12 @@ class MongoTextIndexEngine extends ReactiveEngine {
 
       return {};
     };
+    mongoConfiguration.sort = function () {
+      return {"score": { "$meta": "textScore" }};
+    };
+    mongoConfiguration.fields = function () {
+      return {"score": { "$meta": "textScore" }};
+    };
 
     return _.defaults({}, mongoConfiguration, super.defaultConfiguration());
   }
@@ -36,16 +42,17 @@ class MongoTextIndexEngine extends ReactiveEngine {
 
     if (Meteor.isServer) {
       let textIndexesConfig = {};
+      let textIndexesWeights = {};
 
       _.each(indexConfig.fields, function (field) {
         textIndexesConfig[field] = 'text';
       });
 
       if (indexConfig.weights) {
-        textIndexesConfig.weights = options.weights();
+        textIndexesWeights.weights = indexConfig.weights();
       }
 
-      indexConfig.collection._ensureIndex(textIndexesConfig);
+      indexConfig.collection._ensureIndex(textIndexesConfig, textIndexesWeights);
     }
   }
 

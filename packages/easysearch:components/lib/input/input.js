@@ -4,6 +4,16 @@
  * @type {InputComponent}
  */
 EasySearch.InputComponent = class InputComponent extends BaseComponent {
+   /**
+    * Pre-process the input text to be and AND operator
+    */
+   preprocess(searchString) {
+       if (this.options.matchAll && searchString.trim()) {
+           searchString = _.reduce(s.words(searchString),
+                   function(last, w){ return last + ' ' + s.quote(w)}, '');
+       }
+       return searchString.trim();
+   }
   /**
    * Setup input onCreated.
    */
@@ -11,7 +21,6 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
     super.onCreated(...arguments);
 
     this.search(this.inputAttributes().value);
-
     // create a reactive dependency to the cursor
     this.debouncedSearch = _.debounce((searchString) => {
       searchString = searchString.trim();
@@ -40,11 +49,13 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
         if ('enter' == this.getData().event && e.keyCode != 13) {
           return;
         }
+        if (this.options.autoSearch || e.keyCode == 13){
+            var value = $(e.target).val();
 
-        const value = $(e.target).val();
-
-        if (value.length >= this.options.charLimit) {
-          this.debouncedSearch($(e.target).val());
+            if (value.length >= this.options.charLimit) {
+                value = this.preprocess(value);
+                this.debouncedSearch(value);
+            }
         }
       }
     }];
@@ -78,6 +89,8 @@ EasySearch.InputComponent = class InputComponent extends BaseComponent {
    */
   get defaultOptions() {
     return {
+      autoSearch: 1,
+      matchAll: 1,
       timeout: 50,
       charLimit: 0
     };
