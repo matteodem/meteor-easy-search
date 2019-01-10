@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cd ./packages && spacejam test-packages ./easysearch:core ./easysearch:components
+cd ./packages && spacejam test-packages ./easysearch_core ./easysearch_components
