@@ -1,4 +1,4 @@
-var collection = new Meteor.Collection('minimongoCollection');
+var collection = new Mongo.Collection('minimongoCollection');
 
 if (Meteor.isServer) {
   collection.remove({ });

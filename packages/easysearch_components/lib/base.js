@@ -26,6 +26,10 @@ BaseComponent = class BaseComponent extends BlazeComponent {
    * Setup component on created.
    */
   onCreated() {
+    this.autorun(() => this.initializeBase());
+  }
+
+  initializeBase() {
     let index = this.getData().index,
       indexes = [index];
 
@@ -37,7 +41,7 @@ BaseComponent = class BaseComponent extends BlazeComponent {
       throw new Meteor.Error('no-index', 'Please provide an index for your component');
     }
 
-    if (indexes.filter((index) => index instanceof EasySearch.Index).length != indexes.length) {
+    if (indexes.filter((index) => index instanceof EasySearch.Index).length !== indexes.length) {
       throw new Meteor.Error(
         'invalid-configuration',
         `Did not receive an index or an array of indexes: "${indexes.toString()}"`
@@ -67,6 +71,15 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   }
 
   /**
+   * @param {String} searchStr
+   *
+   * @returns {Boolean}
+   */
+  shouldShowDocuments(searchStr) {
+    return !this.getData().noDocumentsOnEmpty || 0 < searchStr.length;
+  }
+
+  /**
    * Search the component.
    *
    * @param {String} searchString String to search for
@@ -74,8 +87,14 @@ BaseComponent = class BaseComponent extends BlazeComponent {
   search(searchString) {
     check(searchString, String);
 
+    const showDocuments = this.shouldShowDocuments(searchString);
+
     this.eachIndex(function (index, name) {
-      index.getComponentMethods(name).search(searchString);
+      index.getComponentDict(name).set('showDocuments', showDocuments);
+
+      if (showDocuments) {
+        index.getComponentMethods(name).search(searchString);
+      }
     });
   }
 

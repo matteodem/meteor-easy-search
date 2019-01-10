@@ -4,7 +4,7 @@
  *
  * @type {Cursor}
  */
-Cursor = class Cursor {
+class Cursor {
   /**
    * Constructor
    *
@@ -79,6 +79,8 @@ Cursor = class Cursor {
    * @returns {Object}
    */
   static get emptyCursor() {
-    return { fetch: () => [], observe: () => { return { stop: () => null }; } };
+    return { fetch: () => [], observe: () => { return { stop: () => null }; }, stop: () => {} };
   }
-};
+}
+
+export default Cursor;

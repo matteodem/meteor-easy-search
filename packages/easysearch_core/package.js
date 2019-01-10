@@ -1,13 +1,13 @@
 Package.describe({
   name: 'easysearch:core',
   summary: "Javascript Core for EasySearch",
-  version: "2.0.8",
+  version: "2.2.0",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.2.0.1');
+  api.versionsFrom('1.4.2');
 
   // Dependencies
   api.use(['check', 'ecmascript', 'mongo', 'underscore']);
@@ -31,8 +31,9 @@ Package.onUse(function(api) {
 
   // Global
   api.addFiles(['lib/globals.js']);
-
   api.export('EasySearch');
+
+  api.mainModule('lib/main.js');
 });
 
 Package.onTest(function(api) {

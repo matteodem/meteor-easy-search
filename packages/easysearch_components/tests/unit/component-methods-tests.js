@@ -1,6 +1,6 @@
 Tinytest.add('EasySearch Components - Unit - Component Methods - addProps / removeProps', function (test) {
   let index = new EasySearch.Index({
-    collection: new Meteor.Collection('setPropsCollection'),
+    collection: new Mongo.Collection('setPropsCollection'),
     engine: new EasySearch.Minimongo(),
     fields: ['test']
   });
@@ -11,10 +11,12 @@ Tinytest.add('EasySearch Components - Unit - Component Methods - addProps / remo
 
   componentMethods.addProps('customProp', 'customValue');
 
+  console.log(index.getComponentDict().get('searchOptions'));
   test.equal(index.getComponentDict().get('searchOptions'), {
     props: {
       customProp: 'customValue'
-    }
+    },
+    skip: NaN,
   });
 
   componentMethods.addProps({
@@ -27,7 +29,8 @@ Tinytest.add('EasySearch Components - Unit - Component Methods - addProps / remo
       what: 'test',
       aha: 'yeah',
       customProp: 'customValue'
-    }
+    },
+    skip: NaN,
   });
 
   componentMethods.addProps({
@@ -43,12 +46,14 @@ Tinytest.add('EasySearch Components - Unit - Component Methods - addProps / remo
   test.equal(index.getComponentDict().get('searchOptions'), {
     props: {
       what: 'test'
-    }
+    },
+    skip: NaN,
   });
 
   componentMethods.removeProps();
 
   test.equal(index.getComponentDict().get('searchOptions'), {
-    props: {}
+    props: {},
+    skip: NaN,
   });
 });

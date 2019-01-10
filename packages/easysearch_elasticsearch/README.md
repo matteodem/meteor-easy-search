@@ -5,15 +5,18 @@ This package adds an `EasySearch.ElasticSearch` engine to EasySearch. EasySearch
 __easysearch__, with types based on the collection name.
 
 ```javascript
+import { Index } from 'meteor/easy:search'
+import { ElasticSearchEngine } from 'meteor/easysearch:elasticsearch'
+
 // On Client and Server
-let Players = new Meteor.Collection('players'),
-  PlayersIndex = new EasySearch.Index({
-    collection: Players,
-    fields: ['name'],
-    engine: new EasySearch.ElasticSearch({
-      body: () => { ... } // modify the body that's sent when searching
-    })
-  });
+const Players = new Mongo.Collection('players')
+const PlayersIndex = new Index({
+  collection: Players,
+  fields: ['name'],
+  engine: new ElasticSearchEngine({
+    body: () => { ... } // modify the body that's sent when searching
+  }),
+})
 ```
 
 ## Configuration
@@ -27,15 +30,29 @@ The configuration options that can be passed to `EasSearch.ElasticSearch` as an 
 * __sort(searchObject, options)__: Function that returns the sort parameter, by default the index `fields`
 * __getElasticSearchDoc(doc, fields)__: Function that returns the document to index, fieldsToIndex by default
 * __body(body)__: Function that returns the ElasticSearch body to send when searching
+* __indexName__: String for the elasticsearch index name
+* __indexType__: String for the elasticsearch index type
 
 ## Mapping, Analyzers and so on
 
-To make changes to the mapping and other custom ElasticSearch actions you can use the exposed [nodejs client](https://www.npmjs.com/package/elasticsearch) on your index.
+To make changes to the mapping you can use the mapping setting which will set the mapping when creating a new index.
 
 ```javascript
-index.config.elasticSearchClient.putMapping({
-  // define custom mapping
-});
+const PlayersIndex = new Index({
+  collection: Players,
+  name: 'players',
+  fields: ['name'],
+  mapping: {
+    players: {
+      properties: {
+        name: {
+          type: 'string'
+        }
+      }
+    }
+  }
+  ...
+})
 ```
 
 ## How to run ElasticSearch

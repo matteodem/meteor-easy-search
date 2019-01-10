@@ -1,10 +1,13 @@
+import { Mongo } from 'meteor/mongo'
+import Engine from './engine'
+
 /**
  * An Index represents the main entry point for searching with EasySearch. It relies on
  * the given engine to have the search functionality and defines the data that should be searchable.
  *
  * @type {Index}
  */
-Index = class Index {
+class Index {
   /**
    * Constructor
    *
@@ -14,8 +17,8 @@ Index = class Index {
    */
   constructor(config) {
     check(config, Object);
-    check(config.collection, Meteor.Collection);
     check(config.fields, [String]);
+    if(!config.ignoreCollectionCheck) check(config.collection, Mongo.Collection);
 
     if (!(config.engine instanceof Engine)) {
       throw new Meteor.Error('invalid-engine', 'engine needs to be instanceof Engine');
@@ -25,7 +28,11 @@ Index = class Index {
       config.name = (config.collection._name || '').toLowerCase();
 
     this.config = _.extend(Index.defaultConfiguration, config);
-    this.defaultSearchOptions = _.defaults({}, this.config.defaultSearchOptions, { limit: 10, skip: 0, props: {} });
+    this.defaultSearchOptions = _.defaults(
+      {},
+      this.config.defaultSearchOptions,
+      { limit: 10, skip: 0, props: {} },
+    );
 
     // Engine specific code on index creation
     config.engine.onIndexCreate(this.config);
@@ -39,7 +46,8 @@ Index = class Index {
   static get defaultConfiguration() {
     return {
       permission: () => true,
-      defaultSearchOptions: {}
+      defaultSearchOptions: {},
+      countUpdateIntervalMs: 2000,
     };
   }
 
@@ -57,12 +65,13 @@ Index = class Index {
     check(options, {
       limit: Match.Optional(Number),
       skip: Match.Optional(Number),
-      props: Match.Optional(Object)
+      props: Match.Optional(Object),
+      userId: Match.Optional(Match.OneOf(String, null)),
     });
 
     options = {
       search: this._getSearchOptions(options),
-      index: this.config
+      index: this.config,
     };
 
     if (!this.config.permission(options.search)) {
@@ -80,6 +89,16 @@ Index = class Index {
    * @returns {Object}
    */
   _getSearchOptions(options) {
-    return _.defaults(( Meteor.userId ? { userId: Meteor.userId() } : {} ), options, this.defaultSearchOptions);
+    if (!Meteor.isServer) {
+      delete options.userId;
+    }
+
+    if (typeof options.userId === "undefined" && Meteor.userId) {
+      options.userId = Meteor.userId();
+    }
+
+    return _.defaults(options, this.defaultSearchOptions);
   }
-};
+}
+
+export default Index;

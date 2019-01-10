@@ -20,9 +20,21 @@ EasySearch._getComponentMethods = function (dict, index) {
      */
     getCursor: () => {
       const searchDefinition = dict.get('searchDefinition') || '',
-        options = dict.get('searchOptions');
+        options = dict.get('searchOptions') || {},
+        showDocuments = dict.get('showDocuments');
 
       check(options, Match.Optional(Object));
+
+      if (false === showDocuments) {
+        dict.set('count', 0);
+        dict.set('searching', false);
+        dict.set('limit', 0);
+        dict.set('skip', 0);
+        dict.set('currentCount', 0);
+        dict.set('stopPublication', false);
+
+        return EasySearch.Cursor.emptyCursor;
+      }
 
       const cursor = index.search(searchDefinition, options),
         searchOptions = index._getSearchOptions(options);
@@ -52,9 +64,12 @@ EasySearch._getComponentMethods = function (dict, index) {
      * @returns {boolean}
      */
     hasNoResults: () => {
-      let count = dict.get('count');
+      let count = dict.get('count'),
+        showDocuments = dict.get('showDocuments');
 
-      return !_.isNumber(count) || 0 === count;
+      return false !== showDocuments
+        && !dict.get('searching')
+        && (!_.isNumber(count) || 0 === count);
     },
     /**
      * Return true if the component is being searched.
@@ -98,13 +113,14 @@ EasySearch._getComponentMethods = function (dict, index) {
         limit = dict.get('limit');
 
       options.skip = limit * (page - 1);
+      dict.set('currentPage', page);
       dict.set('searchOptions', options);
       dict.set('stopPublication', true);
     },
     /**
      * Add custom properties for search.
      */
-    addProps: (...args) => {
+    addProps(...args) {
       let options = dict.get('searchOptions') || {};
 
       options.props = options.props || {};
@@ -116,11 +132,12 @@ EasySearch._getComponentMethods = function (dict, index) {
       }
 
       dict.set('searchOptions', options);
+      this.paginate(1);
     },
     /**
      * Remove custom properties for search.
      */
-    removeProps: (...args) => {
+    removeProps(...args) {
       let options = dict.get('searchOptions') || {};
 
       if (!_.isEmpty(args)) {
@@ -130,6 +147,15 @@ EasySearch._getComponentMethods = function (dict, index) {
       }
 
       dict.set('searchOptions', options);
-    }
+      this.paginate(1);
+    },
+    /**
+     * Reset the search.
+     */
+    reset() {
+      this.search('');
+      this.paginate(1);
+      dict.set('searchOptions', {});
+    },
   };
 };

@@ -1,10 +1,14 @@
+import { Mongo } from 'meteor/mongo'
+import Cursor from './cursor'
+import ReactiveEngine from './reactive-engine'
+
 /**
  * A search collection represents a reactive collection on the client,
  * which is used by the ReactiveEngine for searching.
  *
  * @type {SearchCollection}
  */
-SearchCollection = class SearchCollection {
+class SearchCollection {
   /**
    * Constructor
    *
@@ -26,7 +30,7 @@ SearchCollection = class SearchCollection {
     this._engine = engine;
 
     if (Meteor.isClient) {
-      this._collection = new Meteor.Collection(this._name);
+      this._collection = new Mongo.Collection(this._name);
     } else if (Meteor.isServer) {
       this._setUpPublication();
     }
@@ -93,7 +97,7 @@ SearchCollection = class SearchCollection {
   }
 
   /**
-   * Get the mongo cursor.
+   * Get the mongo cursor on the client.
    *
    * @param {Object} searchDefinition Search definition
    * @param {Object} options          Search options
@@ -102,8 +106,10 @@ SearchCollection = class SearchCollection {
    * @private
    */
   _getMongoCursor(searchDefinition, options) {
+    const clientSort = this.engine.callConfigMethod('clientSort', searchDefinition, options);
+
     return this._collection.find(
-      { __searchDefinition: JSON.stringify(searchDefinition), __searchOptions: JSON.stringify(options) },
+      { __searchDefinition: JSON.stringify(searchDefinition), __searchOptions: JSON.stringify(options.props) },
       {
         transform: (doc) => {
           delete doc.__searchDefinition;
@@ -114,7 +120,7 @@ SearchCollection = class SearchCollection {
 
           return doc;
         },
-        sort: ['__sortPosition']
+        sort: (clientSort ? clientSort : ['__sortPosition'])
       }
     );
   }
@@ -159,7 +165,7 @@ SearchCollection = class SearchCollection {
       check(options, Object);
 
       let definitionString = JSON.stringify(searchDefinition),
-        optionsString = JSON.stringify(options);
+        optionsString = JSON.stringify(options.props);
 
       options.userId = this.userId;
       options.publicationScope = this;
@@ -175,19 +181,71 @@ SearchCollection = class SearchCollection {
         index: collectionScope._indexConfiguration
       });
 
-      this.added(collectionName, 'searchCount' + definitionString, { count: cursor.count() });
+      const count = cursor.count();
+
+      this.added(collectionName, 'searchCount' + definitionString, { count });
+
+      let intervalID;
+
+      if (collectionScope._indexConfiguration.countUpdateIntervalMs) {
+        intervalID = Meteor.setInterval(
+          () => this.changed(
+            collectionName,
+            'searchCount' + definitionString,
+            { count: cursor.mongoCursor.count && cursor.mongoCursor.count() || 0 }
+          ),
+          collectionScope._indexConfiguration.countUpdateIntervalMs
+        );
+      }
+
+      this.onStop(function () {
+        intervalID && Meteor.clearInterval(intervalID);
+        resultsHandle && resultsHandle.stop();
+      });
+
+      let observedDocs = [];
+
+      const updateDocWithCustomFields = (doc, sortPosition) => collectionScope
+        .addCustomFields(doc, {
+          originalId: doc._id,
+          sortPosition,
+          searchDefinition: definitionString,
+          searchOptions: optionsString,
+        });
 
       let resultsHandle = cursor.mongoCursor.observe({
         addedAt: (doc, atIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);
-          doc = collectionScope.addCustomFields(doc, {
-            searchDefinition: definitionString,
-            searchOptions: optionsString,
-            sortPosition: atIndex,
-            originalId: doc._id
-          });
+          doc = updateDocWithCustomFields(doc, atIndex);
 
           this.added(collectionName, collectionScope.generateId(doc), doc);
+
+          /*
+           * Reorder all observed docs to keep valid sorting. Here we adjust the
+           * sortPosition number field to give space for the newly added doc
+           */
+          if (observedDocs.map(d => d.__sortPosition).includes(atIndex)) {
+            observedDocs = observedDocs.map((doc, docIndex) => {
+              if (doc.__sortPosition >= atIndex) {
+                doc = collectionScope.addCustomFields(doc, {
+                  sortPosition: doc.__sortPosition + 1,
+                });
+
+                // do not throw changed event on last doc as it will be removed from cursor
+                if (docIndex < observedDocs.length) {
+                  this.changed(
+                    collectionName,
+                    collectionScope.generateId(doc),
+                    doc
+                  );
+                }
+              }
+
+              return doc;
+            });
+          }
+
+          observedDocs = [...observedDocs , doc];
         },
         changedAt: (doc, oldDoc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('changedAt', doc, oldDoc, atIndex);
@@ -198,15 +256,11 @@ SearchCollection = class SearchCollection {
             originalId: doc._id
           });
 
-          this.changed(collectionName, collectionScope.generateId(doc), doc)
+          this.changed(collectionName, collectionScope.generateId(doc), doc);
         },
         movedTo: (doc, fromIndex, toIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('movedTo', doc, fromIndex, toIndex, before);
-          doc = collectionScope.addCustomFields(doc, {
-            searchDefinition: definitionString,
-            searchOptions: optionsString,
-            sortPosition: toIndex
-          });
+          doc = updateDocWithCustomFields(doc, toIndex);
 
           let beforeDoc = collectionScope._indexConfiguration.collection.findOne(before);
 
@@ -223,8 +277,27 @@ SearchCollection = class SearchCollection {
         },
         removedAt: (doc, atIndex) => {
           doc = collectionScope.engine.config.beforePublish('removedAt', doc, atIndex);
-          doc = collectionScope.addCustomFields(doc, { searchDefinition: definitionString, searchOptions: optionsString });
+          doc = collectionScope.addCustomFields(
+            doc,
+            {
+              searchDefinition: definitionString,
+              searchOptions: optionsString
+            });
           this.removed(collectionName, collectionScope.generateId(doc));
+
+          /*
+           * Adjust sort position for all docs after the removed doc and
+           * remove the doc from the observed docs array
+           */
+          observedDocs = observedDocs.map(doc => {
+            if (doc.__sortPosition > atIndex) {
+              doc.__sortPosition -= 1;
+            }
+
+            return doc;
+          }).filter(
+            d => collectionScope.generateId(d) !== collectionScope.generateId(doc)
+          );
         }
       });
 
@@ -235,4 +308,6 @@ SearchCollection = class SearchCollection {
       this.ready();
     });
   }
-};
+}
+
+export default SearchCollection;

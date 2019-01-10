@@ -3,7 +3,7 @@
  *
  * @type {ElasticSearchDataSyncer}
  */
-ElasticSearchDataSyncer = class ElasticSearchDataSyncer {
+class ElasticSearchDataSyncer {
   /**
    * Constructor.
    *
@@ -19,12 +19,17 @@ ElasticSearchDataSyncer = class ElasticSearchDataSyncer {
     this.collection = collection;
     this.client = client;
 
+    const removeId = (obj) => {
+      let { _id, ...rest } = obj
+      return rest;
+    }
+
     this.collection.find().observeChanges({
       added: (id, fields) => {
-        this.writeToIndex(beforeIndex(fields), id);
+        this.writeToIndex(removeId(beforeIndex(fields)), id);
       },
       changed: (id) => {
-        this.writeToIndex(beforeIndex(collection.findOne(id)), id);
+        this.writeToIndex(removeId(beforeIndex(collection.findOne(id))), id);
       },
       removed: (id) => {
         this.client.delete({
@@ -50,4 +55,6 @@ ElasticSearchDataSyncer = class ElasticSearchDataSyncer {
       body : doc
     });
   }
-};
+}
+
+export default ElasticSearchDataSyncer

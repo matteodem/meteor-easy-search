@@ -1,6 +1,6 @@
 Tinytest.addAsync('EasySearch Components - Unit - FieldInput', function (test, done) {
   let index = new EasySearch.Index({
-    collection: new Meteor.Collection(null),
+    collection: new Mongo.Collection(null),
     engine: new EasySearch.Minimongo(),
     fields: ['test'],
     allowedFields: ['test', 'name', 'score']
@@ -20,7 +20,7 @@ Tinytest.addAsync('EasySearch Components - Unit - FieldInput', function (test, d
 
   test.equal(EasySearch.InputComponent.defaultAttributes, { type: 'text', value: '' });
   test.equal(component.inputAttributes(), { type: 'text', value: '' });
-  test.equal(component.options, { timeout: 50, field: 'name' });
+  test.equal(component.options, { timeout: 50, field: 'name', charLimit: 0 });
   test.equal(_.first(component.dicts).get('searchDefinition'), { name: '' });
   test.isFalse(_.first(component.dicts).get('searching'));
 

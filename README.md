@@ -1,22 +1,24 @@
-Easy Search [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Build Status](https://travis-ci.org/matteodem/meteor-easy-search.svg?branch=master)](https://travis-ci.org/matteodem/meteor-easy-search)
+Easy Search [![Build Status](https://travis-ci.org/matteodem/meteor-easy-search.svg?branch=master)](https://travis-ci.org/matteodem/meteor-easy-search)
 =====================
 
 Easy Search is a simple and flexible solution for adding search functionality to your Meteor App. Use the Blaze Components + Javascript API to [get started](http://matteodem.github.io/meteor-easy-search/getting-started).
 
 ```javascript
+import { Index, MinimongoEngine } from 'meteor/easy:search'
+
 // On Client and Server
-const Players = new Mongo.Collection('players'),
-  PlayersIndex = new EasySearch.Index({
-    collection: Players,
-    fields: ['name'],
-    engine: new EasySearch.Minimongo()
-  });
+const Players = new Mongo.Collection('players')
+const PlayersIndex = new Index({
+  collection: Players,
+  fields: ['name'],
+  engine: new MinimongoEngine(),
+})
 ```
 
 ```javascript
 // On Client
 Template.searchBox.helpers({
-  playersIndex: () => PlayersIndex
+  playersIndex: () => PlayersIndex,
 });
 ```
 

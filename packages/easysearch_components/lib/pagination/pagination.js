@@ -9,7 +9,7 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
    */
   onCreated() {
     super.onCreated();
-    this.dict.set('currentPage', 1);
+    this.index.getComponentMethods(this.name).paginate(1);
   }
 
   /**
@@ -29,12 +29,19 @@ EasySearch.PaginationComponent = class PaginationComponent extends SingleIndexCo
     }
 
     return this.options.transformPages(
-      EasySearch._getPagesForPagination({ totalCount, pageCount, currentPage, maxPages, prevAndNext })
-    );
+      EasySearch._getPagesForPagination(
+        {
+          totalCount,
+          pageCount,
+          currentPage,
+          maxPages,
+          prevAndNext
+        }
+    ));
   }
 
   customRenderPagination() {
-    return this.getData().renderPagination;
+    return this.getData().customRenderPagination;
   }
 
   /**

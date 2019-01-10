@@ -1,5 +1,5 @@
 <template name="EasySearch.Each">
     {{#each doc}}
-      {{> Template.contentBlock this }}
+      {{> Template.contentBlock (dataScope this @index) }}
     {{/each}}
 </template>

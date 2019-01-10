@@ -1,3 +1,5 @@
+import ElasticSearchDataSyncer from './data-syncer'
+
 if (Meteor.isServer) {
   var Future = Npm.require('fibers/future'),
     elasticsearch = Npm.require('elasticsearch');
@@ -8,7 +10,7 @@ if (Meteor.isServer) {
  *
  * @type {ElasticSearchEngine}
  */
-EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.ReactiveEngine {
+ class ElasticSearchEngine extends EasySearch.ReactiveEngine {
   /**
    * Constructor.
    */
@@ -32,6 +34,7 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
    */
   static defaultElasticsearchConfiguration() {
     return {
+      indexName: 'easysearch',
       /**
        * Return the fields to index in ElasticSearch.
        *
@@ -59,9 +62,12 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
 
         _.each(searchObject, function (searchString, field) {
           query.bool.should.push({
-            "fuzzy_like_this": {
-              "fields": [field],
-              "like_text": searchString
+            match: {
+              [field]: {
+                query: searchString,
+                fuzziness: 'AUTO',
+                operator:  'or'
+              }
             }
           });
         });
@@ -112,9 +118,58 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
        * Default ES client configuration.
        */
       client: {
-        host: 'localhost:9200'
-      }
+        host: 'localhost:9200',
+      },
     };
+  }
+
+  /**
+   * Put mapping according to mapping field provided when creating an EasySearch index
+   *
+   * @param {Object}   indexConfig Index configuration
+   * @param {Function} cb          callback on finished mapping
+   */
+  putMapping(indexConfig = {}, cb) {
+    const {
+      mapping: body,
+      elasticSearchClient,
+    } = indexConfig;
+
+    if (!body) {
+      return cb();
+    }
+
+    const { indexName } = this.config
+    const type = this.getIndexType(indexConfig)
+
+    elasticSearchClient.indices.create({
+      updateAllTypes: false,
+      index: indexName,
+    }, Meteor.bindEnvironment(() => {
+      elasticSearchClient.indices.getMapping({
+        index: indexName,
+        type
+      }, Meteor.bindEnvironment((err, res) => {
+        const isEmpty = Object.keys(res).length === 0 && res.constructor === Object;
+        if (!isEmpty) {
+          return cb();
+        }
+
+        elasticSearchClient.indices.putMapping({
+          updateAllTypes: false,
+          index: indexName,
+          type,
+          body
+        }, cb);
+      }));
+    }));
+  }
+
+  /**
+   * @returns {String}
+   */
+  getIndexType(indexConfig) {
+    return this.config.indexType || indexConfig.name;
   }
 
   /**
@@ -127,13 +182,15 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
 
     if (Meteor.isServer) {
       indexConfig.elasticSearchClient = new elasticsearch.Client(this.config.client);
-      indexConfig.elasticSearchSyncer = new ElasticSearchDataSyncer({
-        indexName: 'easysearch',
-        indexType: indexConfig.name,
-        collection: indexConfig.collection,
-        client: indexConfig.elasticSearchClient,
-        beforeIndex: (doc) => this.callConfigMethod('getElasticSearchDoc', doc, this.callConfigMethod('fieldsToIndex', indexConfig))
-      });
+      this.putMapping(indexConfig, Meteor.bindEnvironment(() => {
+        indexConfig.elasticSearchSyncer = new ElasticSearchDataSyncer({
+          indexName: this.config.indexName,
+          indexType: this.getIndexType(indexConfig),
+          collection: indexConfig.collection,
+          client: indexConfig.elasticSearchClient,
+          beforeIndex: (doc) => this.callConfigMethod('getElasticSearchDoc', doc, this.callConfigMethod('fieldsToIndex', indexConfig))
+        });
+      }));
     }
   }
 
@@ -153,11 +210,11 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
     body.sort = this.callConfigMethod('sort', searchDefinition, options);
     body.fields = ['_id'];
 
-    body = this.callConfigMethod('body', body);
+    body = this.callConfigMethod('body', body, options);
 
     options.index.elasticSearchClient.search({
-      index: 'easysearch',
-      type: options.index.name,
+      index: this.config.indexName,
+      type: this.getIndexType(options.index),
       body: body,
       size: options.search.limit,
       from: options.search.skip
@@ -200,4 +257,8 @@ EasySearch.ElasticSearch = class ElasticSearchEngine extends EasySearch.Reactive
       total: data.hits.total
     };
   }
-};
+}
+
+EasySearch.ElasticSearch = ElasticSearchEngine
+
+export default ElasticSearchEngine

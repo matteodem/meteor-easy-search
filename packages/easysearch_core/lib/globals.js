@@ -1,3 +1,13 @@
+import {
+  Index,
+  Engine,
+  ReactiveEngine,
+  Cursor,
+  MongoDBEngine,
+  MinimongoEngine,
+  MongoTextIndexEngine
+} from './main';
+
 EasySearch = {
   // Core
   Index,
