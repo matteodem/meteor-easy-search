@@ -306,7 +306,7 @@ If you want to use custom pagination, use the `customRenderPagination` parameter
   <ul class="pagination">
     {{#each page}} 
       <li class="page {{pageClasses this}}"> {{content}} </li>
-     {{/each}}
+   {{/each}}
   </ul>
 </template>
 {% endraw %}
@@ -394,6 +394,8 @@ If you're dealing with more complex data it might be better to create a read mod
 ## Usage with collection-helpers
 
 You need to call the hidden transform method if you want to use easy search with collection helpers.
+
+The transform function is only used for **reading data**! `fullName` is a field on the mongo document.
 
 ```js
 import { Index, MongoDBEngine } from 'easy:search'
