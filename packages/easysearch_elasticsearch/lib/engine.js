@@ -233,7 +233,7 @@ if (Meteor.isServer) {
           $or: _.map(ids, (_id) => {
             return { _id };
           })
-        }, { limit: options.search.limit });
+        }, { limit: options.search.limit, sort: options.search.sort || {} });
       } else {
         cursor = EasySearch.Cursor.emptyCursor;
       }

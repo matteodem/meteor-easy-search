@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
-if [ -d "packages/easy:search" ]; then
-    cd packages/easysearch:core
+if [ -d "packages/easy_search" ]; then
+    cd packages/easysearch_core
     meteor publish
-    cd ../easysearch:components
+    cd ../easysearch_components
     meteor publish
     cd ../easy:search
     meteor publish
-    cd ../easysearch:autosuggest
+    cd ../easysearch_autosuggest
     meteor publish
-    cd ../easysearch:elasticsearch
+    cd ../easysearch_elasticsearch
     meteor publish
     cd ..
 else
