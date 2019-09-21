@@ -1,7 +1,7 @@
 Package.describe({
   name: 'easysearch:autosuggest',
   summary: "Selectize Autosuggest Component for EasySearch",
-  version: "2.2.1",
+  version: "2.2.2",
   git: "https://github.com/matteodem/meteor-easy-search.git",
   documentation: 'README.md'
 });
@@ -12,8 +12,8 @@ Package.onUse(function(api) {
   // Dependencies
   api.use(['check', 'ecmascript', 'templating@1.2.15', 'blaze@2.2.0']);
   api.use([
-    'easysearch:core@2.2.0',
-    'easysearch:components@2.2.0',
+    'easysearch:core@2.2.2',
+    'easysearch:components@2.2.2',
     'jeremy:selectize@0.12.1_4',
   ]);
 

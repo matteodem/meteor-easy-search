@@ -1,5 +1,4 @@
 import { Template } from 'meteor/templating'
-import { Cursor } from 'meteor/easy:search'
 import { SingleIndexComponent } from 'meteor/easysearch:components'
 
 const getDataValue = (scope, val, defaultVal) => scope.getData()[val] || defaultVal
@@ -13,11 +12,11 @@ class AutosuggestComponent extends SingleIndexComponent
    * @returns {Cursor}
    */
   search(str) {
-    if (!this.shouldShowDocuments(str)) return Cursor.emptyCursor
+    const methods = this.index.getComponentMethods(this.name)
 
-    super.search(str)
+    methods.search(str)
 
-    return this.index.getComponentMethods(this.name).getCursor()
+    return methods.getCursor()
   }
 
   /**
