@@ -39,7 +39,7 @@ const index = new Index({
     selector(searchDefinition, options, aggregation) {
       // retrieve the default selector
       const selector = this.defaultConfiguration()
-        .selector(searchObject, options, aggregation)
+        .selector(searchDefinition, options, aggregation)
 
       // options.search.userId contains the userId of the logged in user
       selector.owner = options.search.userId
