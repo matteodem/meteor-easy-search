@@ -198,6 +198,7 @@ class SearchCollection {
         );
       }
 
+      let resultsHandle;
       this.onStop(function () {
         intervalID && Meteor.clearInterval(intervalID);
         resultsHandle && resultsHandle.stop();
@@ -213,7 +214,8 @@ class SearchCollection {
           searchOptions: optionsString,
         });
 
-      let resultsHandle = cursor.mongoCursor.observe({
+      
+      resultsHandle = cursor.mongoCursor.observe({
         addedAt: (doc, atIndex, before) => {
           doc = collectionScope.engine.config.beforePublish('addedAt', doc, atIndex, before);
           doc = updateDocWithCustomFields(doc, atIndex);
